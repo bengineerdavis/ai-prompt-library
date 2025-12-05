@@ -1,0 +1,164 @@
+# seed-prompting-strategies.jsonl - Living Registry of Prompting Strategies
+
+**This is a living, continuously-updated registry of prompting strategies available to Seed factories.**
+
+Each line is a JSON object representing one strategy. Factories reference this registry dynamically in Phase 0.
+
+---
+
+## Format
+
+```json
+{
+  "name": "Strategy Name",
+  "version": "1.0",
+  "enabled": true,
+  "description": "What this strategy does and when to use it",
+  "implementation": "Detailed execution steps or reference",
+  "effectiveness": 0.85,
+  "best_for": ["use case 1", "use case 2"],
+  "requires_multiple_runs": false,
+  "computational_cost": "low|medium|high",
+  "model_compatibility": ["perplexity", "qwen", "claude"],
+  "added": "2025-01-01",
+  "updated": "2025-12-05",
+  "research_ref": "Paper, blog, or source where this was validated",
+  "tags": ["reasoning", "optimization", "validation"]
+}
+```
+
+---
+
+## Current Strategies (Starter Set)
+
+**Copy these lines into your `seed-prompting-strategies.jsonl` file as starting point:**
+
+```json
+{"name":"Decomposition","version":"1.0","enabled":true,"description":"Break complex goal into subgoals/phases. Each sub-problem solved independently then aggregated.","implementation":"Phase 1 step: Parse goal → identify major sub-phases → execute each → synthesize results","effectiveness":0.89,"best_for":["multi-week planning","complex research","system design"],"requires_multiple_runs":false,"computational_cost":"low","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Wei et al., Chain-of-Thought Prompting","tags":["reasoning","structuring","optimization"]}
+
+{"name":"Chain-of-Thought","version":"1.0","enabled":true,"description":"Make reasoning process explicit with step-by-step thinking. Improves accuracy on complex tasks.","implementation":"Phase 1 step: 'Let's think step by step:' prefix → trace reasoning → show work → conclusion","effectiveness":0.87,"best_for":["problem solving","research","technical reasoning"],"requires_multiple_runs":false,"computational_cost":"low","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Wei et al., Chain-of-Thought Prompting","tags":["reasoning","transparency","validation"]}
+
+{"name":"Meta-Prompting","version":"1.0","enabled":true,"description":"Reflect on the problem itself. 'What does this problem require?' Inject domain wisdom.","implementation":"Phase 1 step: Ask meta-questions → research community patterns → synthesize domain knowledge → guide solution","effectiveness":0.82,"best_for":["product research","market analysis","domain-specific queries"],"requires_multiple_runs":false,"computational_cost":"medium","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Community patterns + Reddit analysis","tags":["reasoning","context","optimization"]}
+
+{"name":"Few-Shot","version":"1.0","enabled":true,"description":"Use prior examples as anchors. Compare new problem to prior successes. Learn from continuity baseline.","implementation":"Phase 1 step: Load continuity_baseline → Extract key features → Compare to new problem → Note improvements/tradeoffs","effectiveness":0.88,"best_for":["product upgrades","repeated domains","career decisions"],"requires_multiple_runs":false,"computational_cost":"low","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Brown et al., Few-shot Learning","tags":["learning","comparison","optimization"]}
+
+{"name":"Self-Consistency","version":"1.0","enabled":true,"description":"Run strategy multiple times independently, aggregate votes/average. Improves robustness on uncertain tasks.","implementation":"Phase 1 step: Execute strategy 3x independently → collect results → vote/average → select consensus or flag disagreements","effectiveness":0.85,"best_for":["high-uncertainty decisions","benchmark scoring","validation"],"requires_multiple_runs":true,"computational_cost":"high","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Wang et al., Self-Consistency","tags":["validation","robustness","uncertainty"]}
+
+{"name":"Self-Critique","version":"1.0","enabled":true,"description":"LLM scores own output against rubric. Identify gaps. Suggest improvements. Iterate until satisfied.","implementation":"Phase 2 step: Score output vs rubric (1-10 per criterion) → identify failures → suggest patches → optionally re-run Phase 1","effectiveness":0.84,"best_for":["quality assurance","optimization","refinement"],"requires_multiple_runs":false,"computational_cost":"medium","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Self-evaluation patterns","tags":["validation","optimization","feedback"]}
+
+{"name":"Perspective-Taking","version":"1.0","enabled":true,"description":"Solve problem from multiple viewpoints/roles. Angel's advocate + Devil's advocate + Domain expert.","implementation":"Phase 1 step: Generate 3 independent perspectives → reason from each → synthesize → identify blindspots","effectiveness":0.80,"best_for":["strategy decisions","risk analysis","bias detection"],"requires_multiple_runs":false,"computational_cost":"medium","model_compatibility":["perplexity","qwen","claude"],"added":"2025-12-05","updated":"2025-12-05","research_ref":"Decision theory + cognitive bias research","tags":["reasoning","validation","bias-checking"]}
+
+{"name":"Community-Wisdom-Injection","version":"1.0","enabled":true,"description":"Research community consensus (Reddit, Twitter, forums). Weight by source credibility. Inject into reasoning.","implementation":"Phase 1 step: Search subreddits/forums → aggregate sentiment → extract patterns → cite sources → integrate","effectiveness":0.78,"best_for":["product research","buying decisions","trend analysis"],"requires_multiple_runs":false,"computational_cost":"medium","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Market research + community analysis","tags":["research","social-proof","validation"]}
+
+{"name":"Constraint-Based-Reasoning","version":"1.0","enabled":true,"description":"Identify hard constraints first. Eliminate invalid options. Optimize within feasible region.","implementation":"Phase 1 step: List constraints (budget, timeline, requirements) → filter candidates → score remaining → rank","effectiveness":0.86,"best_for":["budget decisions","technical choices","vendor selection"],"requires_multiple_runs":false,"computational_cost":"low","model_compatibility":["perplexity","qwen","claude"],"added":"2025-12-05","updated":"2025-12-05","research_ref":"Operations research + constraint satisfaction","tags":["optimization","filtering","decision-making"]}
+
+{"name":"Rubric-Based-Scoring","version":"1.0","enabled":true,"description":"Define weighted criteria. Score each option per criterion. Compute composite scores.","implementation":"Phase 2 step: Define rubric (criteria + weights) → score each option 1-10 → multiply by weight → sum → rank","effectiveness":0.87,"best_for":["product comparison","vendor selection","hiring decisions"],"requires_multiple_runs":false,"computational_cost":"low","model_compatibility":["perplexity","qwen","claude"],"added":"2025-01-01","updated":"2025-12-05","research_ref":"Multi-criteria decision analysis","tags":["evaluation","scoring","comparison"]}
+```
+
+---
+
+## How to Use This Registry
+
+### For Factory Developers
+
+In Phase 0 of your factory, reference this registry:
+
+```
+# Load available strategies
+grep "enabled.*true" seed-prompting-strategies.jsonl | jq '.name'
+
+# Filter by use case
+grep "product research" seed-prompting-strategies.jsonl | jq '.name'
+
+# Check effectiveness
+grep "effectiveness" seed-prompting-strategies.jsonl | jq '.effectiveness' | sort -rn
+```
+
+### For Orchestrator
+
+When passing input to factory, include available strategies:
+
+```json
+{
+  "strategies_allowed": [
+    "Few-Shot",
+    "Meta-Prompting",
+    "Self-Critique"
+  ],
+  "strategy_registry_url": "seed-prompting-strategies.jsonl"
+}
+```
+
+### For Researchers
+
+Add new strategies by appending JSON lines:
+
+```bash
+# New strategy discovered!
+echo '{"name":"New-Strategy-Name","version":"1.0","enabled":true,...}' >> seed-prompting-strategies.jsonl
+```
+
+---
+
+## Adding New Strategies
+
+When you discover/research a new strategy:
+
+1. **Test it**: Validate effectiveness across 3+ domains
+2. **Document**: Write implementation steps + use cases
+3. **Append**: Add JSON line to this file
+4. **Broadcast**: Notify Seed system (factory-builder will auto-discover)
+
+**Template for new strategy**:
+
+```json
+{
+  "name": "Strategy-Name-Here",
+  "version": "1.0",
+  "enabled": true,
+  "description": "What this does, when to use, why it works",
+  "implementation": "Step-by-step execution instructions",
+  "effectiveness": 0.0,
+  "best_for": ["use case 1", "use case 2"],
+  "requires_multiple_runs": false,
+  "computational_cost": "low|medium|high",
+  "model_compatibility": ["perplexity", "qwen", "claude"],
+  "added": "YYYY-MM-DD",
+  "updated": "YYYY-MM-DD",
+  "research_ref": "Paper/blog/source",
+  "tags": ["tag1", "tag2"]
+}
+```
+
+---
+
+## Version History
+
+- **v1.0 (2025-12-05)**: Initial starter set (10 core strategies)
+- Future: Strategies added as discovered/validated
+
+---
+
+## Strategy Retirement
+
+Strategies can be disabled (not deleted) if they underperform:
+
+```
+"enabled": false  # Factory will skip disabled strategies
+```
+
+History preserved for research.
+
+---
+
+## Continuous Integration
+
+This file should be:
+- **Versioned** in git (track all strategy additions)
+- **Shared** across all Seed instances
+- **Updated regularly** (monthly at minimum for new research)
+- **Monitored** for effectiveness (track which strategies used + scored)
+
+---
+
+**This is a living registry. Factories adapt automatically as strategies evolve.** 🚀

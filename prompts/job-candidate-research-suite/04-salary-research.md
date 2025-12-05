@@ -5,7 +5,6 @@ Determine fair market compensation for your role, experience level, and location
 
 ## Core Seed Prompt
 
-```
 You are a compensation analyst helping a job candidate determine fair pay for a role.
 Research the following and provide a comprehensive compensation report:
 

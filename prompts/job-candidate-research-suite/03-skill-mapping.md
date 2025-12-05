@@ -1,6 +1,7 @@
 # Skill & Experience Mapping Seed Prompt
 
 ## Purpose
+
 Map your unique experience to job requirements, identify critical skill gaps, and develop a mitigation strategy for each gap before the interview.
 
 ## Core Seed Prompt
@@ -124,6 +125,7 @@ Provide findings in a clear, scannable format:
 **Severity**: Learnable (Infrastructure-as-Code concepts transfer from other tools)
 
 **Mitigation Tactic**:
+
 - Spend 4 hours Friday learning Terraform basics (HashiCorp tutorials)
 - Deploy a small AWS infrastructure (e.g., EC2 + S3 bucket) using Terraform on Saturday
 - Document the experience: "Why I chose Terraform for this" + learnings
@@ -133,6 +135,7 @@ Provide findings in a clear, scannable format:
 "I haven't used Terraform in production, but I've managed CloudFormation templates at [Previous Company]. I understand the Infrastructure-as-Code principles—state files, modules, dependency graphs. Over the weekend, I deployed a small AWS infrastructure using Terraform to get comfortable with the syntax. Here's what I learned..."
 
 **Why this works**:
+
 - Shows initiative and learning ability
 - Proves you can pick up tools quickly
 - Demonstrates understanding of the *why* (IaC principles), not just the *what* (Terraform syntax)
@@ -145,6 +148,7 @@ Provide findings in a clear, scannable format:
 ### "I haven't used [Tool], but..."
 
 Template:
+
 ```
 "I haven't used [Tool] in production, but I have [Related Experience].
 Here's how the concepts transfer:
@@ -158,6 +162,7 @@ Here's what I've built/learned so far: [Artifact or insight]."
 ### "This is exactly why I'm interested in this role"
 
 Template:
+
 ```
 "I've realized in my last role that [Gap/Weakness/Challenge].
 This role is a perfect opportunity to deepen [Skill] because [Reason].
@@ -168,6 +173,7 @@ Here's my 90-day learning plan: [Outline]."
 ### "My background might look different, but here's why I'm a fit"
 
 Template:
+
 ```
 "My experience in [Previous Domain] might not look like [Expected Path], but here's why it's valuable:
 - I've learned [Transferable Skill 1]
@@ -180,6 +186,7 @@ Here's how that applies to this role: [Specific examples]."
 ---
 
 ## Related Documents
+
 - See `recruiter-research.md` for hiring manager research
 - See `salary-research.md` for compensation benchmarking
 - See `critical-questions.md` for pre-screen call preparation

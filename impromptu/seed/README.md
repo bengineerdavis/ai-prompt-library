@@ -1,11 +1,20 @@
 # seed
 
-The seed subsystem is the generative core of the impromptu library. It is responsible for producing, routing, and refining the raw material that factories consume to build specialized prompt packages. Where `factories/` contains finished prompt products, `seed/` contains the machinery that generates and improves them.
+The seed subsystem is the generative core of the impromptu library. Where `factories/` contains finished prompt packages, `seed/` contains the machinery that generates, routes, and refines them.
 
 ## Architecture
 
-The subsystem is organized around four distinct roles — **orchestrator**, **factory-builder**, **specializer**, and **optimizer** — plus a **profile** that supplies context throughout the pipeline. Each role is a self-contained module with its own prompt and README.
+The subsystem has five modules, each with a distinct role in the generation pipeline:
 
+- **profile** — captures user and project context for use across the pipeline
+- **orchestrator** — routes context to the appropriate module and sequences operations
+- **factory-builder** — generates new factory scaffolds from seed inputs
+- **specializer** — adapts a factory to a specific role, domain, or use case
+- **optimizer** — refines seed prompts for quality, coherence, and coverage
+
+Each role is a self-contained module with its own prompt and (optional) README.
+
+Prior iterations and archived specs can be saved in `seed/versions/`.
 
 ```bash
 seed/
@@ -61,12 +70,14 @@ The seed subsystem reads from but does not own the registries. See `../registrie
 ## Typical workflow
 
 **Generating a new factory:**
+
 1. Fill out or update `profile/profile.md` with current user context.
 2. Run the orchestrator against your goal to get a strategy match.
 3. If no factory exists, the factory-builder generates a new one using the specializer.
 4. Run the optimizer over the factory's core prompt before committing.
 
 **Adapting an existing factory:**
+
 1. Run the specializer with updated context against the target factory.
 2. Optionally pass the output through the optimizer.
 3. Commit the revised prompt file to the appropriate factory package.

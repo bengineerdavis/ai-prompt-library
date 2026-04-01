@@ -34,19 +34,8 @@ Holds strategy-level metadata:
 - tags
 - update timestamps
 
-## Rule of thumb
+## As A General Rule
 
 - Machine-readable metadata lives in `.jsonl`
 - Human-readable comments and guidance live in `.md`
 
-## Suggested layout
-
-```text
-seed-system/
-├── factories-registry-v3.3.jsonl
-├── seed-prompting-strategies-v3.3.jsonl
-├── seed-prompting-strategies-v3.3.md
-├── README-seed-metadata.md
-├── orchestrator-v3.3.py
-└── build_bootstrap.py
-```

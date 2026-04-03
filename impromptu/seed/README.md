@@ -1,83 +1,78 @@
-# seed
+# Seed
 
-The seed subsystem is the generative core of the impromptu library. Where `factories/` contains finished prompt packages, `seed/` contains the machinery that generates, routes, and refines them.
+Seed is a modular, self-improving meta-prompting system for users of LLMs, agents,
+and AI services who want better prompts, better workflows, and better decisions across
+tools (Perplexity, Gemini, local LLMs, etc.).
 
-## Architecture
+Seed is neutral by default and becomes personalized through feedback, preferences,
+and logged history.
 
-The subsystem has five modules, each with a distinct role in the generation pipeline:
+---
 
-- **profile** — captures user and project context for use across the pipeline
-- **orchestrator** — routes context to the appropriate module and sequences operations
-- **factory-builder** — generates new factory scaffolds from seed inputs
-- **specializer** — adapts a factory to a specific role, domain, or use case
-- **optimizer** — refines seed prompts for quality, coherence, and coverage
+## What Seed Is
 
-Each role is a self-contained module with its own prompt and (optional) README.
+Seed is not a single prompt. It is a set of prompts and JSONL conventions that work
+together:
 
-Prior iterations and archived specs can be saved in `seed/versions/`.
+- **Seed Profile** — global defaults: tone, epistemic norms, strategies, evaluation criteria
+- **Seed Orchestrator** — the front door for any task; routes queries to the right factory and creates new ones over time
+- **Seed Optimizer** — runs at end of sessions to evaluate outputs, propose improvements, and update preferences
+- **Factory Patterns** — reusable, task-specific meta-prompts that do the actual work (e.g., Strategy Builder, Technical Tutor, Wealth Advisor)
+- **Role Specializer** — refines personas when you need a tailored assistant
+- **Strategy Registry** — a living JSONL file of prompting strategies available to all factories (CoT, Few-Shot, Meta-Prompting, etc.)
 
-```bash
-seed/
-├── orchestrator/ # Routes seeds to the right factory
-├── factory-builder/ # Builds new factories from seed inputs
-├── specializer/ # Adapts roles and personas to context
-├── optimizer/ # Refines and scores seed prompt quality
-├── profile/ # User/context data consumed by all modules
-└── versions/ # Archived prior orchestrator configs
-```
+---
 
-Seed data (JSONL registries and strategy docs) lives in `../registries/` rather than here, keeping machine-readable assets separate from operational logic.
+## Mental Model
 
-## How the logic flows
+- **Seed Profile + Orchestrator + Optimizer** = Operating System
+- **Factories** = Apps following a standard interface
+- **Strategy Registry** = System-wide library of reasoning tools any factory can call
 
-[profile]
+You boot the OS once per session, pick or auto-create the right factory, and the
+system handles routing, evaluation, and continuous improvement.
+
+---
+
+## Directory Map
+
+seed-system/
+├── README.md ← you are here
+├── QUICKSTART.md ← fastest path to a working session
 │
-▼
-[orchestrator] ──── matches ──── [registries: seed-prompting-strategies]
+├── docs/
+│ └── setup.md ← full setup, registry reference, directory layout
 │
-├── route: generate ──▶ [factory-builder]
-│ │
-│ uses ▼
-│ [specializer] ← adapts role/persona
-│ │
-│ uses ▼
-│ [optimizer] ← scores and refines output
+├── seed/
+│ ├── README.md ← seed subsystem overview + all components
+│ ├── seed-profile.md
+│ ├── seed-orchestrator-v3.2-hybrid.md
+│ ├── seed-optimizer.md
+│ ├── role-specializer.md
+│ ├── seed-prompting-strategies.jsonl
+│ ├── factory-template-v1.1.md
+│ ├── factories-registry.jsonl
+│ └── orchestrator/
+│ └── README.md ← orchestrator-specific usage
 │
-└── route: select ──▶ [factories registry] ──▶ existing factory
+└── factories/
+├── sentry-support-tutor/
+├── technical-tutor-for-self-learning/
+└── wealth-advisor-and-builder/
 
-1. **profile** — supplies persistent context: user goals, background, constraints, and preferences. All other modules can pull from it to personalize their behavior.
+text
 
-2. **orchestrator** — the entry point. Given a request, it matches against the seed prompting strategies registry (`../registries/seed-prompting-strategies-v1.1.jsonl`) to decide whether to route to an existing factory or trigger the factory-builder to create a new one. The shell script (`orchestrator-match.sh`) handles quick local matching; the Python implementation (`orchestrator.py`) handles richer logic.
+---
 
-3. **factory-builder** — builds new factory prompt packages from scratch using seed inputs. It follows the factory template convention and is informed by the specializer to correctly configure the role and persona.
+## Where to Go Next
 
-4. **specializer** — narrows a generic role definition into a specific, context-sensitive one. Used by the factory-builder and can also be invoked standalone to adapt an existing factory's persona without rebuilding it.
+| Goal | Go here |
+|------|---------|
+| Start using Seed right now | `QUICKSTART.md` |
+| Understand the seed subsystem and its components | `seed/README.md` |
+| Set up registry, add a factory, configure layout | `docs/setup.md` |
+| Use or build a specific factory | `factories/{name}/README.md` |
 
-5. **optimizer** — evaluates and improves seed prompts before they are committed to a factory. It scores against the seed prompting strategies and suggests rewrites that better match target use cases.
+---
 
-## Registries
-
-The seed subsystem reads from but does not own the registries. See `../registries/` for:
-
-- `factories-registry-v3.3.jsonl` — index of available factories
-- `seed-prompting-strategies-v1.1.jsonl` — JSONL strategy data consumed by the orchestrator
-- `seed-prompting-strategies-v3.3.md` — human-readable companion to the strategies JSONL
-
-## Versions
-
-`versions/` holds prior orchestrator configurations that are no longer the active implementation but may be useful as reference. The `v3.2-hybrid` orchestrator is there as a historical snapshot of the approach before the current Python implementation.
-
-## Typical workflow
-
-**Generating a new factory:**
-
-1. Fill out or update `profile/profile.md` with current user context.
-2. Run the orchestrator against your goal to get a strategy match.
-3. If no factory exists, the factory-builder generates a new one using the specializer.
-4. Run the optimizer over the factory's core prompt before committing.
-
-**Adapting an existing factory:**
-
-1. Run the specializer with updated context against the target factory.
-2. Optionally pass the output through the optimizer.
-3. Commit the revised prompt file to the appropriate factory package.
+**Version**: 4.1 · **Orchestrator**: v3.2+

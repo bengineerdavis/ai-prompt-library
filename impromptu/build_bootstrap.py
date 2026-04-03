@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
@@ -6,73 +5,21 @@ import json
 from pathlib import Path
 from textwrap import dedent
 
-DEFAULT_FACTORY_FILE = "factories-registry-v3.3.jsonl"
-DEFAULT_STRATEGY_FILE = "seed-prompting-strategies-v3.3.jsonl"
+# Filenames within registries/
+FACTORY_REGISTRY  = "factories-registry-v3.3.jsonl"
+STRATEGY_REGISTRY = "seed-prompting-strategies-v1.1.jsonl"
+REGISTRIES_SUBDIR = "registries"
 
-PASTE2 = dedent("""\
-SEED SYSTEM BOOTSTRAP — PASTE 2 of 3: SEED PROFILE + ORCHESTRATOR
-Paste after registry. Do not respond yet. Acknowledge with "Orchestrator loaded ✓"
+# Paths relative to repo root
+PROFILE_PATH      = "seed/profile/profile.md"
+ORCHESTRATOR_PATH = "seed/orchestrator/orchestrator.md"
 
---- seed-profile-v3 ---
-You are a meta-system designer, expert senior AI & prompt engineer, and technical coach for a senior IC or technical practitioner.
 
-TONE & EPISTEMIC NORMS:
-- Use probability language: "[~75% confidence]", "likely", "uncertain"
-- Be epistemically honest: always include caveats and "where this might be wrong"
-- Prioritize scannability: short sections, bullets, optional tables
-- Respect time constraints: design outputs for the time available
-- Treat user as a senior IC unless told otherwise
-- Avoid walls of text; prioritize actionable outputs
-- Technical depth over business buzzwords
+# ---------------------------------------------------------------------------
+# Readers
+# ---------------------------------------------------------------------------
 
-EVALUATION CRITERIA (all outputs scored on):
-1. Clarity  2. Conciseness  3. Completeness
-4. Goal Alignment  5. Context Awareness  6. Expected Output
-
-GLOBAL SWITCHES:
-- interaction_mode: "interactive"
-- feedback_mode: "on"
---- END SEED PROFILE ---
-
---- orchestrator-v3.3 ---
-You are the Seed Orchestrator v3.3. When I give you a goal, you:
-
-PHASE 1 — MATCH: Compute 4-signal match against the loaded registry.
-  Signal 1: Keyword match (40%) — overlap between query tokens and factory keywords
-  Signal 2: Semantic match (30%) — intent alignment between query and factory purpose
-  Signal 3: Task coverage (20%) — % of inferred required tasks the factory covers
-  Signal 4: Recency/performance (10%) — factory avg_score / 10
-
-  Thresholds:
-  ≥90% → AUTO-RUN (state confidence, proceed)
-  85–89% → ASK "Run [factory]?" (default yes)
-  75–84% → Show top 3, ask user to pick
-  <75% → Suggest creating a new factory with factory-builder-v1
-
-  Show all 4 signals transparently every time.
-
-PHASE 2 — TASK EXPANSION: If match ≥75%, check if query implies tasks not in factory's task list. If new tasks detected, ask: "Add [task] to [factory]? [Y/n]"
-
-PHASE 3 — EXECUTE: Tell me which factory .md to paste, or if fully manual, run the factory phases inline.
-
-PHASE 4 — TAIL MODULE: After execution, ask me to rate 1–5 on Clarity / Relevance / Confidence. Log result. Suggest next step.
-
-STRATEGY SELECTION (Phase 0 of any factory):
-- Default: use strategies listed in the factory's registry entry
-- Meta-factories + multi-model available: prepend Model-Council-Generate → Model-Council-Judge
-- Meta-factories + single model (manual mode): prepend Mixture-of-Roles
-- Always show selected strategies before executing Phase 1
-
-COUNCIL STRATEGIES:
-- Model-Council-Generate: run Phase 1 prompt on 2-3 models independently, collect candidates
-- Model-Council-Judge: send candidates to 2-3 judge models with rubric, aggregate scores, flag std_dev > 1.5 as uncertain
-- Mixture-of-Roles (single-model fallback): run same prompt 3x as Skeptic / Domain Expert / Pragmatist, then synthesize
-
-Acknowledge with: "Seed Orchestrator v3.3 ready. State your goal."
---- END ORCHESTRATOR ---
-""")
-
-def read_jsonl(path: Path):
+def read_jsonl(path: Path) -> list[dict]:
     rows = []
     with path.open("r", encoding="utf-8") as f:
         for n, line in enumerate(f, 1):
@@ -85,107 +32,221 @@ def read_jsonl(path: Path):
                 raise SystemExit(f"Invalid JSONL in {path} line {n}: {e}")
     return rows
 
-def to_jsonl_text(rows):
-    return "\\n".join(json.dumps(r, ensure_ascii=False, separators=(",", ":")) for r in rows)
 
-def render_registry_paste(factory_rows):
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8").strip()
+
+
+# ---------------------------------------------------------------------------
+# Renderers
+# ---------------------------------------------------------------------------
+
+def to_jsonl_text(rows: list[dict]) -> str:
+    return "\n".join(
+        json.dumps(r, ensure_ascii=False, separators=(",", ":")) for r in rows
+    )
+
+
+def render_paste1(factory_rows: list[dict]) -> str:
     return dedent(f"""\
-    SEED SYSTEM BOOTSTRAP — PASTE 1 of 3: REGISTRY
-    Paste this first. Do not respond yet. Acknowledge with "Registry loaded ✓"
+SEED SYSTEM BOOTSTRAP — PASTE 1 of 3: REGISTRY
+Paste this first. Do not respond yet. Acknowledge with "Registry loaded ✓"
 
-    --- {DEFAULT_FACTORY_FILE} ---
-    {to_jsonl_text(factory_rows)}
-    --- END REGISTRY ---
-    """)
+--- {FACTORY_REGISTRY} ---
+{to_jsonl_text(factory_rows)}
+--- END REGISTRY ---
+""")
 
-def render_strategy_summary(strategy_rows):
-    core = []
-    council = []
+
+def render_paste2(profile_text: str, orchestrator_text: str) -> str:
+    return dedent(f"""\
+SEED SYSTEM BOOTSTRAP — PASTE 2 of 3: SEED PROFILE + ORCHESTRATOR
+Paste after registry. Do not respond yet. Acknowledge with "Orchestrator loaded ✓"
+
+--- {PROFILE_PATH} ---
+{profile_text}
+--- END SEED PROFILE ---
+
+--- {ORCHESTRATOR_PATH} ---
+{orchestrator_text}
+--- END ORCHESTRATOR ---
+""")
+
+
+def render_paste3(strategy_rows: list[dict]) -> str:
+    core, council = [], []
     for s in strategy_rows:
-        line = f"- {s['name']} ({s['effectiveness']}, {s['computational_cost']}"
+        effectiveness = s.get("effectiveness", "?")
+        cost = s.get("computational_cost", "?")
+        line = f"- {s['name']} ({effectiveness}, {cost})"
         if s.get("requires_multiple_runs"):
-            line += ", requires_multiple_runs"
-        line += f"): {s['implementation']}. Best for: {', '.join(s['best_for'])}."
+            line = line.rstrip(")") + ", requires_multiple_runs)"
+        impl = s.get("implementation", s.get("description", ""))
+        best = ", ".join(s.get("best_for", []))
+        line += f": {impl}. Best for: {best}."
         if "council" in s.get("tags", []):
             council.append(line)
         else:
             core.append(line)
 
-    core_text = "\\n".join(core)
-    council_text = "\\n".join(council)
+    core_block    = "\n".join(core)    if core    else "(none)"
+    council_block = "\n".join(council) if council else "(none)"
 
     return dedent(f"""\
-    SEED SYSTEM BOOTSTRAP — PASTE 3 of 3: STRATEGY REGISTRY
-    Paste last. Respond with "Strategy registry loaded ✓ — all 3 components active. State your goal."
+SEED SYSTEM BOOTSTRAP — PASTE 3 of 3: STRATEGY REGISTRY
+Paste last. Respond with "Strategy registry loaded ✓ — all 3 components active. State your goal."
 
-    --- {DEFAULT_STRATEGY_FILE} ---
-    CORE STRATEGIES:
-    {core_text}
+--- {STRATEGY_REGISTRY} ---
+CORE STRATEGIES:
+{core_block}
 
-    COUNCIL STRATEGIES:
-    {council_text}
-    --- END STRATEGIES ---
-    """)
+COUNCIL STRATEGIES:
+{council_block}
+--- END STRATEGIES ---
+""")
 
-def write_quickstart(outdir: Path):
+
+def write_bootstrap_quickstart(outdir: Path) -> None:
     text = dedent("""\
-    # Quick Start
+# Bootstrap Quickstart
 
-    1. Paste `PASTE-1-registry.md`
-    2. Paste `PASTE-2-orchestrator.md`
-    3. Paste `PASTE-3-strategies.md`
-    4. Then send:
+1. Paste `PASTE-1-registry.md`
+2. Paste `PASTE-2-orchestrator.md`
+3. Paste `PASTE-3-strategies.md`
+4. Then send your goal:
 
     Goal: [your goal here]
 
-    Example goals:
-    - Goal: I want to study Sentry tracing and breadcrumbs for my support role
-    - Goal: Create a 6-week DevOps learning roadmap
-    - Goal: Help me prep for a staff engineer behavioral interview
-    - Goal: Build a new factory for Kubernetes troubleshooting
-    - Goal: Best mechanical keyboard to buy under $150
-    """)
+Example goals:
+- Goal: I want to study Sentry tracing and breadcrumbs for my support role
+- Goal: Create a 6-week DevOps learning roadmap
+- Goal: Help me prep for a staff engineer behavioral interview
+- Goal: Build a new factory for Kubernetes troubleshooting
+- Goal: Best mechanical keyboard to buy under $150
+
+For full usage instructions see QUICKSTART.md in the repo root.
+For registry setup and factory registration see docs/setup.md.
+""")
     (outdir / "BOOTSTRAP-QUICKSTART.md").write_text(text, encoding="utf-8")
 
-def main():
-    parser = argparse.ArgumentParser(description="Build Seed bootstrap paste files from JSONL registries.")
-    parser.add_argument("--dir", default=".", help="Directory containing the JSONL registry files")
-    parser.add_argument("--output", default="bootstrap-out", help="Output directory")
-    parser.add_argument("--validate", action="store_true", help="Only validate JSONL files")
+
+# ---------------------------------------------------------------------------
+# Path resolution + validation
+# ---------------------------------------------------------------------------
+
+def resolve_paths(root: Path, registries_dir: str) -> dict[str, Path]:
+    registries = root / registries_dir
+    return {
+        "registries_dir": registries,
+        "factory":        registries / FACTORY_REGISTRY,
+        "strategy":       registries / STRATEGY_REGISTRY,
+        "profile":        root / PROFILE_PATH,
+        "orchestrator":   root / ORCHESTRATOR_PATH,
+    }
+
+
+def validate_paths(paths: dict[str, Path]) -> bool:
+    ok = True
+
+    reg_dir = paths["registries_dir"]
+    if not reg_dir.is_dir():
+        print(f"  MISSING DIR   {reg_dir}")
+        ok = False
+    else:
+        print(f"  OK  (dir)     {reg_dir}")
+
+    labels = {
+        "factory":     FACTORY_REGISTRY,
+        "strategy":    STRATEGY_REGISTRY,
+        "profile":     PROFILE_PATH,
+        "orchestrator": ORCHESTRATOR_PATH,
+    }
+    for key, label in labels.items():
+        path = paths[key]
+        if not path.exists():
+            print(f"  MISSING       {label}")
+            ok = False
+        else:
+            size = path.stat().st_size
+            print(f"  OK  ({size:>7,} B)  {label}")
+
+    return ok
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Build Seed bootstrap paste files from the live repo.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=__doc__,
+    )
+    parser.add_argument(
+        "--root", default=".",
+        help="Repo root directory (default: current directory)"
+    )
+    parser.add_argument(
+        "--registries-dir", default=REGISTRIES_SUBDIR, dest="registries_dir",
+        help=f"Registries subdirectory relative to --root (default: '{REGISTRIES_SUBDIR}')"
+    )
+    parser.add_argument(
+        "--output", default="bootstrap-out",
+        help="Output directory for paste files (default: bootstrap-out)"
+    )
+    parser.add_argument(
+        "--validate", action="store_true",
+        help="Validate source files only; do not write output"
+    )
     args = parser.parse_args()
 
-    root = Path(args.dir).expanduser().resolve()
+    root   = Path(args.root).expanduser().resolve()
     outdir = Path(args.output).expanduser().resolve()
+    paths  = resolve_paths(root, args.registries_dir)
 
-    factory_path = root / DEFAULT_FACTORY_FILE
-    strategy_path = root / DEFAULT_STRATEGY_FILE
+    print(f"Root:          {root}")
+    print(f"Registries:    {paths['registries_dir']}")
+    print()
 
-    if not factory_path.exists():
-        raise SystemExit(f"Missing file: {factory_path}")
-    if not strategy_path.exists():
-        raise SystemExit(f"Missing file: {strategy_path}")
-
-    factory_rows = read_jsonl(factory_path)
-    strategy_rows = read_jsonl(strategy_path)
+    all_ok = validate_paths(paths)
+    if not all_ok:
+        raise SystemExit("\nValidation failed — fix missing files above before building.")
 
     if args.validate:
-        print(f"Validated: {factory_path}")
-        print(f"Validated: {strategy_path}")
-        print(f"Factories: {len(factory_rows)}")
+        factory_rows  = read_jsonl(paths["factory"])
+        strategy_rows = read_jsonl(paths["strategy"])
+        print()
+        print(f"Factories : {len(factory_rows)}")
         print(f"Strategies: {len(strategy_rows)}")
+        print("\nValidation passed.")
         return
 
+    # Read all source files
+    factory_rows  = read_jsonl(paths["factory"])
+    strategy_rows = read_jsonl(paths["strategy"])
+    profile_text  = read_text(paths["profile"])
+    orch_text     = read_text(paths["orchestrator"])
+
+    # Write output
     outdir.mkdir(parents=True, exist_ok=True)
 
-    (outdir / "PASTE-1-registry.md").write_text(render_registry_paste(factory_rows), encoding="utf-8")
-    (outdir / "PASTE-2-orchestrator.md").write_text(PASTE2, encoding="utf-8")
-    (outdir / "PASTE-3-strategies.md").write_text(render_strategy_summary(strategy_rows), encoding="utf-8")
-    write_quickstart(outdir)
+    outputs = {
+        "PASTE-1-registry.md":     render_paste1(factory_rows),
+        "PASTE-2-orchestrator.md": render_paste2(profile_text, orch_text),
+        "PASTE-3-strategies.md":   render_paste3(strategy_rows),
+    }
 
-    print(f"Wrote: {outdir / 'PASTE-1-registry.md'}")
-    print(f"Wrote: {outdir / 'PASTE-2-orchestrator.md'}")
-    print(f"Wrote: {outdir / 'PASTE-3-strategies.md'}")
+    print()
+    for name, content in outputs.items():
+        dest = outdir / name
+        dest.write_text(content, encoding="utf-8")
+        print(f"Wrote: {dest}")
+
+    write_bootstrap_quickstart(outdir)
     print(f"Wrote: {outdir / 'BOOTSTRAP-QUICKSTART.md'}")
+    print(f"\nDone — {len(outputs) + 1} files in {outdir}")
+
 
 if __name__ == "__main__":
     main()

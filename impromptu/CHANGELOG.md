@@ -15,6 +15,23 @@ and give every remaining doc a single clear scope.
 
 ***
 
+## Session 3 — 2026-04-02 · build_bootstrap.py refactor
+
+Code-quality pass on `build_bootstrap.py`. No behavior change.
+
+### Changed
+
+- `build_bootstrap.py`
+  - Removed `read_text()` one-liner wrapper; replaced with inline `.read_text(encoding="utf-8").strip()` at the two call sites in `main()`
+  - Removed `write_bootstrap_quickstart()`; content promoted to a module-level `QUICKSTART` constant and merged into the `outputs` dict — one less function, one fewer file write call
+  - Removed `resolve_paths()`; path construction inlined directly in `main()` — the dict abstraction added indirection without reuse benefit
+  - Merged `resolve_paths` + `validate_paths` into a single `validate_paths(root, reg)` — check list is a flat `list[tuple[Path, str]]`, no separate labels dict
+  - Fixed bug: `factory_rows` / `strategy_rows` were read twice when `--validate` was passed (once for the count printout, once unconditionally before the output block); now read once before the `args.validate` branch
+  - Renderer functions: switched from `dedent(f"""...""")` to plain f-string concatenation — `dedent` only helps when literals are indented inside a function body; these are not
+  - `render_paste3`: collapsed council/core sort into a single ternary append — `(council if "council" in s.get("tags", []) else core).append(line)`
+
+***
+
 ## Session 2 — 2026-04-01 / 2026-04-02 · factories/ and seed/
 
 ### Added

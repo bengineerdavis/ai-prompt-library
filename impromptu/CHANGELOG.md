@@ -15,6 +15,23 @@ and give every remaining doc a single clear scope.
 
 ***
 
+## Session 5 — 2026-04-03 · changelog workflow standardization
+
+### Added
+
+- `docs/changelog-workflow-policy.md` — new policy establishing changelog handling as a standard workflow requirement for Seed prompts, factory prompts, impromptu prompt trees, and direct-use library prompts
+
+### Changed
+
+- Changelog handling policy standardized across prompt/factory work:
+  - Always ask whether the relevant `CHANGELOG.md` should be updated when prompts or factories are created, modified, renamed, moved, or deleted
+  - Treat changelog updates as the default expectation, not an optional afterthought
+  - For `prompts/impromptu/`, use the nearest governing `CHANGELOG.md`; if none exists, ask the user to provide one or approve creating it
+  - For direct-use library prompts, also update the library-level changelog when the prompt is intended for user-facing reuse
+  - Factory-builder / prompt-builder workflows must include a final review step that identifies changed files, identifies governing changelog files, asks for confirmation if needed, and returns the changelog draft with the changed artifacts
+
+***
+
 ## Session 4 — 2026-04-03 · build_bootstrap.py — factory discovery + changelog injection
 
 ### Added

@@ -7,7 +7,7 @@ tools (Perplexity, Gemini, local LLMs, etc.).
 Seed is neutral by default and becomes personalized through feedback, preferences,
 and logged history.
 
----
+***
 
 ## Mental Model
 
@@ -18,7 +18,7 @@ and logged history.
 You boot the OS once per session, pick or auto-create the right factory, and the
 system handles routing, evaluation, and continuous improvement.
 
----
+***
 
 ## Components
 
@@ -32,7 +32,7 @@ inherit from this unless explicitly overridden.
 - **Strategy catalog**: Decomposition, CoT, Self-Critique, Meta-Prompting, Few-Shot, Self-Consistency
 - **Global switches**: `interaction_mode` (interactive / non_interactive), `feedback_mode` (on / off / auto)
 
----
+***
 
 ### seed-orchestrator-v3.2-hybrid.md
 
@@ -43,11 +43,12 @@ factory using 4-signal scoring, and routes you to what to run or paste next.
 - **Matching**: Keyword (40%) + Semantic (30%) + Task coverage (20%) + Recency (10%)
 - **Thresholds**: ≥90% auto-run, 85–89% confirm, 75–84% show top 3, <75% suggest new factory
 - **Companions**: `orchestrator.py` (Python), `orchestrator-match.sh` (Bash)
+- **Change-aware workflow**: When a session creates or modifies prompt or factory artifacts, the orchestrator may also route follow-through for the relevant `CHANGELOG.md`
 
 See [`orchestrator/README.md`](orchestrator/README.md) for inputs, outputs, and which
 file to run.
 
----
+***
 
 ### seed-optimizer.md
 
@@ -59,7 +60,7 @@ prompt patches, and surface preference updates.
 - **vNext patches**: Proposes small improvements to the factory or profile based on this session's outcome
 - **Preference evolution**: Suggests updates to user preferences as patterns emerge across sessions
 
----
+***
 
 ### factory-template-v1.1.md
 
@@ -69,7 +70,7 @@ template are not guaranteed to be discoverable or executable by the orchestrator
 Required sections: TITLE, Role & Purpose, Input Schema, Output Schema, Phase 0, Phase 1,
 Phase 2, Tail Module, Metadata JSON.
 
----
+***
 
 ### factory-builder-v1.md
 
@@ -81,7 +82,7 @@ needs to be split.
 - **Output**: A complete factory `.md` file compliant with `factory-template-v1.1`, ready to register
 - **Triggered by**: Orchestrator when match confidence < 0.75, or explicit "Create factory for X"
 
----
+***
 
 ### role-specializer.md
 
@@ -92,7 +93,7 @@ and up to two complementary roles, with rationale and prompt patches.
 - **Output**: Refined base role, optional complementary roles, recommended patches
 - **Use when**: A factory's default role feels too generic for your specific job context
 
----
+***
 
 ### seed-prompting-strategies.jsonl
 
@@ -105,7 +106,7 @@ added by appending a JSON line — factories auto-discover them on the next sess
 Ships with: Decomposition, Chain-of-Thought, Meta-Prompting, Few-Shot, Self-Consistency,
 Self-Critique, Community-Wisdom, Constraint-Based Reasoning, Rubric-Based Scoring.
 
----
+***
 
 ### factories-registry.jsonl
 
@@ -116,7 +117,7 @@ and recent scores.
 Append a new line to register a factory. See `docs/setup.md` for the full entry schema
 and append commands.
 
----
+***
 
 ## Directory Map
 
@@ -134,6 +135,6 @@ seed/
     └── README.md                      ← orchestrator-specific usage
 ```
 
----
+***
 
 **Version**: 4.1 · **Orchestrator**: v3.2+

@@ -1,12 +1,17 @@
-# Setup Guide
+# Setup guide
 
 Complete configuration and registry reference for the Seed Factory System (v4.1+).
 
+For an overview of global controls and behavior, see:
+
+- [`docs/modes-and-settings.md`](./modes-and-settings.md)
+- [`seed/README.md`](../seed/README.md)
+
 ***
 
-## Directory Layout
+## Directory layout
 
-```
+```text
 ~/Documents/seed-system/
 ├── seed-profile.md
 ├── seed-orchestrator-v3.2-hybrid.md
@@ -40,10 +45,9 @@ Complete configuration and registry reference for the Seed Factory System (v4.1+
 
 ***
 
-## Adding a Factory to the Registry
+## Adding a factory to the registry
 
-Append a new entry to `factories-registry.jsonl` at the seed root. Each entry must be
-a single-line JSON object. The required fields are:
+Append a new entry to `factories-registry.jsonl` at the seed root. Each entry must be a single-line JSON object. The required fields are:
 
 ```json
 {
@@ -57,10 +61,11 @@ a single-line JSON object. The required fields are:
   "keywords": ["keyword1", "keyword2"],
   "rubric": {
     "clarity": 0.2,
-    "feasibility": 0.25,
-    "goal_alignment": 0.25,
-    "risk_awareness": 0.2,
-    "context_awareness": 0.1
+    "conciseness": 0.15,
+    "completeness": 0.2,
+    "goal_alignment": 0.2,
+    "context_awareness": 0.15,
+    "expected_output": 0.1
   },
   "strategies": ["Decomposition", "Chain-of-Thought"],
   "recent_scores": [],
@@ -81,31 +86,33 @@ Verify the entry was added:
 jq 'select(.name == "your-factory-name")' factories-registry.jsonl
 ```
 
+The `rubric` weights should sum to 1.0 and use the same dimensions defined in [`docs/scoring-model.md`](./scoring-model.md). You can adjust weights per factory (for example, emphasize completeness for research-heavy factories).
+
 ***
 
-## Registry Entries — Current Factories
+## Registry entries — current factories
 
 ### sentry-support-tutor
 
 ```json
-{"name":"sentry-support-tutor","version":"1.0","type":"factory","description":"Co-pilot, failure review, and study guide factory for a Senior Support Engineer accelerating Sentry.io mastery.","parent":"technical-tutor-for-self-learning","enabled":true,"tasks":["co_pilot","failure_review","study_session","pattern_tracking","question_discipline"],"keywords":["sentry","support","tutor","copilot","study","triage","tickets","SDK","failure-review","breadcrumbs","DSN","tracing","issues","events","escalation"],"rubric":{"clarity":0.2,"feasibility":0.25,"goal_alignment":0.25,"risk_awareness":0.2,"context_awareness":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"],"recent_scores":[8.8],"avg_score":8.80,"last_updated":"2026-03-21"}
+{"name":"sentry-support-tutor","version":"1.0","type":"factory","description":"Co-pilot, failure review, and study guide factory for a Senior Support Engineer accelerating Sentry.io mastery.","parent":"technical-tutor-for-self-learning","enabled":true,"tasks":["co_pilot","failure_review","study_session","pattern_tracking","question_discipline"],"keywords":["sentry","support","tutor","copilot","study","triage","tickets","SDK","failure-review","breadcrumbs","DSN","tracing","issues","events","escalation"],"rubric":{"clarity":0.2,"conciseness":0.15,"completeness":0.2,"goal_alignment":0.2,"context_awareness":0.15,"expected_output":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"],"recent_scores":[8.8],"avg_score":8.80,"last_updated":"2026-03-21"}
 ```
 
 ### technical-tutor-for-self-learning
 
 ```json
-{"name":"technical-tutor-for-self-learning","version":"1.0","type":"meta-factory","description":"Meta-factory that generates and deploys domain-specific technical tutors for any software, hardware, or foundational technical topic. All generated tutors follow Co-Pilot + Failure Review + Study Session pattern.","parent":"strategy-builder","enabled":true,"tasks":["factory_generation","tutor_deployment","study_plan_design","learner_profiling"],"keywords":["tutor","self-learning","technical","study","co-pilot","failure-review","mastery","accelerator","mentor","learning"],"rubric":{"domain_coverage":0.25,"job_relevance":0.25,"pedagogical_soundness":0.25,"cognitive_load_management":0.15,"constraint_fit":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique","Constraint-Based-Reasoning"],"generates":"{domain-slug}-tutor-v1.md","recent_scores":[8.7],"avg_score":8.70,"last_updated":"2026-03-21"}
+{"name":"technical-tutor-for-self-learning","version":"1.0","type":"meta-factory","description":"Meta-factory that generates and deploys domain-specific technical tutors for any software, hardware, or foundational technical topic. All generated tutors follow Co-Pilot + Failure Review + Study Session pattern.","parent":"strategy-builder","enabled":true,"tasks":["factory_generation","tutor_deployment","study_plan_design","learner_profiling"],"keywords":["tutor","self-learning","technical","study","co-pilot","failure-review","mastery","accelerator","mentor","learning"],"rubric":{"clarity":0.15,"conciseness":0.1,"completeness":0.2,"goal_alignment":0.2,"context_awareness":0.15,"expected_output":0.2},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique","Constraint-Based-Reasoning"],"generates":"{domain-slug}-tutor-v1.md","recent_scores":[8.7],"avg_score":8.70,"last_updated":"2026-03-21"}
 ```
 
 ### wealth-advisor-and-builder
 
 ```json
-{"name":"wealth-advisor-and-builder","version":"1.0","type":"factory","description":"Wealth planning for mid-career catch-up with employment risk, Boglehead-style.","parent":"strategy-builder","enabled":true,"tasks":["wealth","catchup","swr","runway","boglehead"],"keywords":["wealth","finance","boglehead","swr","runway","late_start","retirement"],"rubric":{"clarity":0.2,"feasibility":0.25,"goal_alignment":0.25,"risk_awareness":0.2,"context_awareness":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"],"recent_scores":[8.7,8.9,8.6],"avg_score":8.73,"last_updated":"2025-12-08"}
+{"name":"wealth-advisor-and-builder","version":"1.0","type":"factory","description":"Wealth planning for mid-career catch-up with employment risk, Boglehead-style.","parent":"strategy-builder","enabled":true,"tasks":["wealth","catchup","swr","runway","boglehead"],"keywords":["wealth","finance","boglehead","swr","runway","late_start","retirement"],"rubric":{"clarity":0.2,"conciseness":0.15,"completeness":0.2,"goal_alignment":0.2,"context_awareness":0.15,"expected_output":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"],"recent_scores":[8.7,8.9,8.6],"avg_score":8.73,"last_updated":"2025-12-08"}
 ```
 
 ***
 
-## Testing Orchestrator Match
+## Testing orchestrator match
 
 Use `orchestrator-match.sh` to verify a factory will be discovered for a given query:
 
@@ -116,9 +123,11 @@ Use `orchestrator-match.sh` to verify a factory will be discovered for a given q
 
 Match confidence thresholds:
 
-- **≥85%** — auto-loads factory
+- **≥ 85%** — auto-loads factory
 - **75–84%** — prompts user to confirm
-- **<75%** — no match; refine query keywords or expand registry keywords array
+- **< 75%** — no match; refine query keywords or expand registry keywords array
+
+These thresholds are part of the orchestrator’s matching logic and are separate from the quality thresholds used inside individual factory runs.
 
 ***
 
@@ -126,7 +135,7 @@ Match confidence thresholds:
 
 | Issue | Fix |
 |-------|-----|
-| Match score < 75% | Add query keywords to the factory's `keywords` array in registry |
+| Match score < 75% | Add query keywords to the factory’s `keywords` array in the registry |
 | Phase 0 fails | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` entries |
 | Tail module not writing | Check write permissions on `factories-registry.jsonl` and `logs/execution-log.jsonl` |
 | Wrong factory loads | Make keyword arrays more specific; avoid generic terms shared across factories |

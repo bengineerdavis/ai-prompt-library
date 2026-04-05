@@ -1,285 +1,78 @@
-# Modes and Settings
+# Modes and settings
 
-This document explains the three main control classes for Impromptu in plain language.
+Impromptu and Seed share three main control classes. These are the only knobs most users need to think about.
 
-## Overview
+- **cost** – how much work the system is allowed to do
+- **complexity** – how conservative vs exploratory the strategy is
+- **verbosity** – how much process detail you see
 
-Impromptu uses three top-level settings to shape how much work it does, how sophisticated the strategy is, and how much of that process you see.
+Most of the internal machinery (scoring, thresholds, risk profiles, strategies) exists to make these three controls behave well.
 
-- `cost = auto | low | medium | high | unlimited`
-- `complexity = auto | simple | layered | exploratory | deep search`
-- `verbosity = quiet | info | debug`
+## cost
 
-These settings are designed to work together.
+`cost` controls how much work the system is allowed to do: how many calls, candidates, judges, and iterations.
 
-- **Cost** controls how much time, compute, and token budget Impromptu is allowed to spend while building or refining a prompt.
-- **Complexity** controls how sophisticated the strategy is allowed to be, including how many stages, alternatives, judges, and refinement rounds are permitted.
-- **Verbosity** controls how much of that internal process is shown to the user.
+Allowed values:
 
-In most cases, users should start with:
+- `auto` – let the system pick based on task type and learned preferences
+- `low` – minimal work, cheap and fast
+- `medium` – balanced cost vs quality
+- `high` – more work allowed, especially for important or reusable prompts
+- `unlimited` – experimentation mode; the system may do a lot of work
 
-- `cost = auto`
-- `complexity = auto`
-- `verbosity = info`
+Interpretation:
 
-That default is meant to be conservative and cost-conscious, especially for SaaS users, while still flexible enough to take advantage of higher limits when the environment supports it.
+- Moving cost **up** lets the system try more options, run more evaluations, and iterate more before stopping.
+- Moving cost **down** encourages the system to stop earlier, even if further improvements might be possible.
 
-## Cost
+## complexity
 
-`cost` answers the question:
+`complexity` controls how conservative vs exploratory the strategy is.
 
-> How much budget is Impromptu allowed to spend on this task?
+Allowed values:
 
-That budget can include:
+- `auto` – let the system choose a strategy based on the task and past behavior
+- `simple` – straightforward, conservative strategies; low exploration
+- `layered` – a few sequential steps (e.g., draft → refine → brief evaluation)
+- `exploratory` – more branching and experimentation with different strategies
+- `deep search` – broad search over many candidates and strategies, with heavy evaluation
 
-- token usage
-- compute usage
-- latency / time spent
-- number of retries or optimization rounds
-- how much model orchestration is allowed
+Interpretation:
 
-### Cost levels
+- Lower complexity (simple, layered) favors predictable, low-variance behavior. Good for minor refinements or production runs.
+- Higher complexity (exploratory, deep search) favors broad exploration. Good for designing new prompts, factories, or workflows where novel structure matters.
 
-#### `auto`
-Use a conservative default based on the environment and the task.
+In practice, **complexity** is the intuitive “conservative vs adventurous” knob. It does not have to correlate with task stakes; users can choose high exploration even for low-stakes tasks if they want to play with ideas.
 
-This should:
-- prefer efficient execution,
-- avoid surprising costs,
-- respect SaaS constraints,
-- and scale up only when the expected gain is worth it.
+## verbosity
 
-This should be the default for most people.
+`verbosity` controls how much process you see.
 
-#### `low`
-Use a small budget.
+Allowed values:
 
-Good for:
-- quick drafts,
-- lightweight transformations,
-- experimentation,
-- low-stakes work.
+- `quiet` – minimal process commentary, mostly final answers
+- `info` – answers plus lightweight reasoning and explanations
+- `debug` – detailed traces of what strategies were tried and why
 
-Tradeoff:
-- cheaper and faster,
-- but may miss better alternatives or deeper refinements.
+Interpretation:
 
-#### `medium`
-Use a moderate budget.
+- `quiet` is ideal when you just want results.
+- `info` is the default: enough transparency to understand what happened.
+- `debug` is useful when you are tuning prompts, factories, or the system itself.
 
-Good for:
-- most normal prompt work,
-- reusable prompts,
-- tasks where quality matters but cost still matters too.
+## How these controls interact
 
-#### `high`
-Use a large budget with clear caps.
+Internally, Impromptu uses a scoring and threshold system to decide when to stop, when to do more work, and when to recommend changes.
 
-Good for:
-- important prompts,
-- factory or seed design,
-- prompts intended for repeated reuse,
-- tasks where additional optimization is likely worthwhile.
+As a user, you do not need to think in scores. Instead:
 
-#### `unlimited`
-Do not optimize around cost as a primary constraint.
+- `cost` says how much work is acceptable.
+- `complexity` says how adventurous vs conservative the strategy may be.
+- `verbosity` says how much of that process you want to see.
 
-Good for:
-- local models,
-- flat-rate plans where the user does not care about per-run cost,
-- deep experimentation.
+The rest of the system adapts to these settings.
 
-Warning:
-- this can still be bounded by hardware, latency, or practical stop conditions.
-- `unlimited` should not mean infinite loops.
+For how scores and thresholds work, see:
 
-## Complexity
-
-`complexity` answers the question:
-
-> How sophisticated is the strategy allowed to be?
-
-This controls things like:
-- whether the system uses a simple or multi-stage process,
-- how many candidates are allowed,
-- whether multiple judges or evaluators are used,
-- whether tournament or survival-style rounds are allowed,
-- whether deep search is permitted.
-
-### Complexity levels
-
-#### `auto`
-Let the system choose the simplest strategy that is likely to work well.
-
-The default behavior should be conservative.
-
-That means:
-- start simple,
-- only escalate when uncertainty is high,
-- only increase complexity when the expected gain is meaningful.
-
-#### `simple`
-Use the most direct path.
-
-Typical behavior:
-- 1 candidate,
-- minimal branching,
-- limited optimization,
-- no deep comparisons.
-
-#### `layered`
-Use a small number of structured stages.
-
-Typical behavior:
-- a normal build pipeline,
-- limited refinement,
-- occasional second candidate,
-- modest comparison.
-
-This is a strong general-purpose setting.
-
-#### `exploratory`
-Allow broader search.
-
-Typical behavior:
-- multiple candidates,
-- stronger comparison,
-- more willingness to try materially different strategies,
-- more refinement rounds when justified.
-
-#### `deep search`
-Allow the heaviest search process.
-
-Typical behavior:
-- many candidates,
-- multiple evaluators or judges,
-- tournament or survival-style selection,
-- hybrid or iterative refinement rounds,
-- a strong bias toward exploring the space before stopping.
-
-This mode is best for:
-- research,
-- prompt factories,
-- difficult prompt optimization,
-- users who explicitly want heavy experimentation.
-
-This mode should still use stop conditions and guardrails.
-
-## Verbosity
-
-`verbosity` answers the question:
-
-> How much of the internal process should be visible?
-
-### Verbosity levels
-
-#### `quiet`
-Show the result with minimal process detail.
-
-#### `info`
-Show short summaries of important decisions and settings.
-
-This is the recommended default for most users.
-
-#### `debug`
-Show detailed stage-by-stage information, including reasoning summaries, settings, and why the system escalated or stopped.
-
-## How cost and complexity work together
-
-These two settings work together to determine the tradeoff between speed, cost, and quality.
-
-### Example 1: low cost + simple complexity
-- Fast and cheap.
-- Good for drafts and low-stakes work.
-- More likely to miss edge cases or stronger alternatives.
-
-### Example 2: medium cost + layered complexity
-- Good default for everyday use.
-- Balanced quality and speed.
-- Usually enough for most reusable prompts.
-
-### Example 3: high cost + exploratory complexity
-- Broader search and stronger optimization.
-- Good for important prompts or factory design.
-- Slower and more expensive.
-
-### Example 4: unlimited cost + deep search
-- Strongest exploration and optimization.
-- Best for local models, flat-rate plans, or research workflows.
-- Can be slow, compute-heavy, and unnecessary for simple tasks.
-
-## Why auto should be the default
-
-Most users should not have to manually tune these settings every time.
-
-`auto` should:
-- infer the likely best settings from the task,
-- stay conservative by default,
-- be cost-conscious for SaaS environments,
-- and only escalate when the expected gains justify the additional expense or latency.
-
-The guiding principle is:
-
-> It is better to under-spend by default and let users ask for more, than to surprise users with runaway cost or excessive compute.
-
-## Safe default behavior
-
-A good default starting point is:
-
-- `cost = auto`
-- `complexity = auto`
-- `verbosity = info`
-
-And the auto policy should generally:
-- start from a cheap and simple strategy,
-- measure whether quality is already good enough,
-- escalate only when the task appears important, uncertain, or reusable,
-- stop when additional work is unlikely to pay off.
-
-## Short examples
-
-### Quick rewrite
-User goal:
-> Rewrite this prompt to be shorter.
-
-Recommended settings:
-- `cost = low`
-- `complexity = simple`
-- `verbosity = quiet`
-
-### Reusable note-taking prompt
-User goal:
-> Improve this prompt so I can reuse it for research and non-technical topics.
-
-Recommended settings:
-- `cost = medium`
-- `complexity = layered`
-- `verbosity = info`
-
-### Prompt factory design
-User goal:
-> Create a prompt-generation framework with evaluation and preference tracking.
-
-Recommended settings:
-- `cost = high`
-- `complexity = exploratory`
-- `verbosity = info` or `debug`
-
-### Deep experiment
-User goal:
-> Generate many prompt candidates, compare them with multiple judges, and keep refining the best parts.
-
-Recommended settings:
-- `cost = unlimited`
-- `complexity = deep search`
-- `verbosity = debug`
-
-## Final guidance
-
-Use these settings as broad control knobs, not as rigid rules.
-
-- Use **cost** to control budget.
-- Use **complexity** to control strategy sophistication.
-- Use **verbosity** to control transparency.
-
-When in doubt, start with auto modes and let the system stay conservative.
+- [Scoring model](./scoring-model.md)
+- [Thresholds and recommendations](./thresholds-and-recommendations.md)

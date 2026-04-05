@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "dimensions": [
+    "clarity",
+    "conciseness",
+    "completeness",
+    "goal_alignment",
+    "context_awareness",
+    "expected_output"
+  ],
+  "default_weights": {
+    "clarity": 0.2,
+    "conciseness": 0.15,
+    "completeness": 0.2,
+    "goal_alignment": 0.2,
+    "context_awareness": 0.15,
+    "expected_output": 0.1
+  },
+  "signals": [
+    "quality_score",
+    "confidence",
+    "disagreement",
+    "improvement_delta",
+    "budget_ratio"
+  ],
+  "profiles": {
+    "Speed": {
+      "quality_min": 3.5,
+      "confidence_min": 0.6,
+      "disagreement": "moderate"
+    },
+    "Balanced": {
+      "quality_min": 4.0,
+      "confidence_min": 0.7,
+      "disagreement": "low"
+    },
+    "Thorough": {
+      "quality_min": 4.5,
+      "confidence_min": 0.8,
+      "disagreement": "very_low"
+    }
+  }
+}

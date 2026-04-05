@@ -1,4 +1,4 @@
-# Pipeline and Stages
+# Pipeline and stages
 
 This document explains the internal prompt-building pipeline.
 
@@ -8,10 +8,10 @@ For the user-facing controls that influence this pipeline, see [Modes and settin
 
 Impromptu uses a universal internal pipeline:
 
-1. Build
-2. Specializer
-3. Optimizer
-4. Profile
+1. Build  
+2. Specializer  
+3. Optimizer  
+4. Profile  
 
 These stages are always conceptually present, but they do not always run with the same intensity.
 
@@ -27,28 +27,32 @@ This means the pipeline stays structurally consistent while still allowing fast 
 ## What each stage does
 
 ### Build
+
 Creates the main prompt or initial candidate.
 
 ### Specializer
+
 Adapts the prompt to the domain, user intent, or task shape when useful.
 
 ### Optimizer
+
 Improves, compares, critiques, or evaluates prompt candidates.
 
 This is also the natural place for judge-style evaluation when multiple candidates or stronger validation are needed.
 
 ### Profile
+
 Applies reusable user preferences, standing constraints, and other persistent defaults.
 
 ## How modes affect the pipeline
 
-- **Cost** affects how much budget each stage is allowed to consume.
-- **Complexity** affects how many branches, strategies, and evaluation paths are permitted.
-- **Verbosity** affects how much of this is shown to the user.
+- **cost** affects how much budget each stage is allowed to consume.
+- **complexity** affects how many branches, strategies, and evaluation paths are permitted.
+- **verbosity** affects how much of this is shown to the user.
 
 For example:
-- low cost + simple complexity may produce one candidate with light optimization.
-- high cost + exploratory complexity may allow multiple candidates, judges, and refinement rounds.
+- `cost = low` and `complexity = simple` may produce one candidate with light optimization.
+- `cost = high` and `complexity = exploratory` may allow multiple candidates, judges, and refinement rounds.
 
 ## Why the pipeline should remain universal
 

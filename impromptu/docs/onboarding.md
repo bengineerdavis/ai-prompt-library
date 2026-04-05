@@ -32,7 +32,7 @@ These defaults should work well for most newcomers.
 
 A short explanation might say:
 
-> Impromptu can automatically adapt how much work it does, how sophisticated its strategy is, and how much process detail you see. By default, it stays conservative and cost-conscious, and it will only ask a few setup questions when needed.
+> Impromptu can automatically adapt how much work it does, how conservative or adventurous its strategy is, and how much process detail you see. By default, it stays conservative and cost-conscious, and it will only ask a few setup questions when needed.
 
 ## Suggested 5 onboarding questions
 
@@ -50,10 +50,10 @@ A helper assistant should be available by default in chat.
 
 Its job is to:
 
-- explain the settings,
-- recommend likely defaults,
-- help users decide when to change cost or complexity,
-- and update saved preferences when confirmed.
+- explain the settings
+- recommend likely defaults
+- help users decide when to change cost or complexity
+- update saved preferences when confirmed
 
 ## Re-checks
 
@@ -61,8 +61,8 @@ The system should avoid repeatedly asking the same questions.
 
 Instead, it should re-check preferences only when:
 
-- a preference is new,
-- a preference appears stale,
-- or recent behavior suggests that a saved default may no longer fit.
+- a preference is new
+- a preference appears stale
+- recent behavior suggests that a saved default may no longer fit
 
 For more, see [User preferences and memory](./user-preferences-and-memory.md).

@@ -7,6 +7,7 @@ For definitions of the controls, see [Modes and settings](./modes-and-settings.m
 ## Quick rewrite
 
 User goal:
+
 > Shorten this prompt and make it clearer.
 
 Recommended settings:
@@ -15,13 +16,14 @@ Recommended settings:
 - `verbosity = quiet`
 
 Why:
-- low stakes,
-- low ambiguity,
-- and little need for multiple branches.
+- low stakes
+- low ambiguity
+- little need for multiple branches
 
 ## Reusable prompt cleanup
 
 User goal:
+
 > Improve this prompt so I can reuse it for several related tasks.
 
 Recommended settings:
@@ -30,12 +32,13 @@ Recommended settings:
 - `verbosity = info`
 
 Why:
-- some optimization is worthwhile,
-- but deep exploration is probably unnecessary.
+- some optimization is worthwhile
+- deep exploration is probably unnecessary
 
 ## Important prompt design
 
 User goal:
+
 > Create a prompt I will reuse in my workflow every day.
 
 Recommended settings:
@@ -44,12 +47,13 @@ Recommended settings:
 - `verbosity = info`
 
 Why:
-- the prompt has long-term value,
-- so broader search and stronger evaluation may pay off.
+- the prompt has long-term value
+- broader search and stronger evaluation may pay off
 
 ## Deep experiment
 
 User goal:
+
 > I want to try many candidates, use more judges, and keep iterating on the best ones.
 
 Recommended settings:
@@ -58,12 +62,13 @@ Recommended settings:
 - `verbosity = debug`
 
 Why:
-- the user explicitly wants exploration,
-- and is likely willing to tolerate higher cost and runtime.
+- the user explicitly wants exploration
+- they are likely willing to tolerate higher cost and runtime
 
 ## New user default
 
 User goal:
+
 > I just want it to work well without a bunch of setup.
 
 Recommended settings:
@@ -72,4 +77,4 @@ Recommended settings:
 - `verbosity = info`
 
 Why:
-- it gives good default behavior while staying conservative.
+- it gives good default behavior while staying conservative

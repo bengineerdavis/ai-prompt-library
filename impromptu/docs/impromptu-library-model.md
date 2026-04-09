@@ -1,121 +1,285 @@
 # Impromptu Prompt Library Model
 
-Status: Draft for `refactor/shared-schemas-and-doc-alignment`
+Status: Canonical v1 model  
+Scope: Prompt library structure, discovery contract, and schema-alignment baseline
 
-## Purpose
+## Goal
 
-This document defines the canonical v1 model for how Impromptu discovers and reasons about prompt-library content.
+Define the canonical v1 model for how Impromptu organizes prompt libraries on disk so documentation, schema, discovery, drift detection, and validation all follow the same contract.
 
-The goal is to replace ad hoc prompt detection and denylist-heavy behavior with a small, opinionated, convention-based ruleset that is easy to document, validate, and enforce.
+## Core model
 
-## Design goals
+Impromptu models a prompt library as a repo-bound container with one explicit prompts root and one or more declared collections beneath it.
 
-- Prefer convention over per-file registration.
-- Make prompt discovery deterministic.
-- Keep prompt namespaces portable and human-readable.
-- Avoid endless denylist maintenance for file exclusions.
-- Reserve more advanced composition features for later phases.
+The canonical hierarchy is:
 
-## Terms
+- repository
+- library
+- prompts root
+- collections
+- namespaces
+- canonical prompt files
+- supporting files
+
+## Definitions
+
+### Repository
+
+A repository is the source-control boundary assigned to a library.
+
+In v1:
+
+- one library belongs to exactly one repository
+- one repository may contain one library
+- multi-library tooling is roadmap work, not part of the v1 runtime model
 
 ### Library
-A prompt library is a repository or filesystem root managed by Impromptu.
 
-### Collection
-A collection is a declared root-relative directory under which prompt namespaces may be discovered recursively.
+A library is the top-level prompt organization unit managed by Impromptu.
+
+A library must declare:
+
+- library identity metadata
+- repository assignment
+- one explicit prompts root
+- one or more collections
+
+A library is not itself a collection.
+
+### Prompts root
+
+The prompts root is the single directory inside the repository under which all managed prompt collections live.
 
 Examples:
 
 - `prompts/`
-- `prompts/direct-use/`
-- `prompts/factories/`
+- `.impromptu/prompts/`
+
+In v1:
+
+- each library has exactly one prompts root
+- all declared collections must live under that prompts root
+- prompt discovery only considers paths under the prompts root
+
+### Collection
+
+A collection is an explicit discovery scope under the prompts root.
+
+Collections exist to let a library separate prompts by context, such as:
+
+- personal
+- work
+- repo-specific
+- team-specific
+- environment-specific
+
+Examples:
+
+- `personal/`
+- `work-repo-a/`
+- `work-repo-b/`
+
+In v1:
+
+- collections are explicitly declared
+- collection names must be unique within a library
+- collection paths must be unique within a library
+- collection paths must be un-nested and non-overlapping
+- no collection path may be the parent or child of another collection path
+- collection paths are relative to the library prompts root
+
+This means a library may organize prompt directories inside one or more collections, but collections themselves do not form a hierarchy.
+
+### Groups
+
+Groups are a future organizational concept for activating or searching multiple collections together without selecting the entire library.
+
+Examples:
+
+- `work-default` → `work-repo-a`, `work-repo-b`
+- `personal-cli` → `personal-shell`, `personal-dotfiles`
+
+In v1:
+
+- groups are not required for discovery
+- groups do not affect filesystem ownership
+- groups are the preferred future mechanism for multi-collection search scope
+- groups are separate from collections and do not imply parent-child collection relationships
 
 ### Namespace
-A namespace is a directory reserved for exactly one prompt and its supporting files.
 
-A namespace is the basic unit of organization inside a collection.
+A namespace is a prompt directory inside a declared collection.
 
-### Canonical prompt file
-The canonical prompt file is the one file in a namespace that Impromptu treats as the prompt.
-
-### Supporting file
-A supporting file is any non-canonical file inside the namespace directory. Supporting files may be text or binary and are not themselves treated as prompts.
-
-## V1 rules
-
-### Collection rules
-
-- Prompt discovery happens only inside declared collections.
-- Discovery is recursive within each collection.
-- Files outside declared collections are never prompts.
-
-### Namespace rules
-
-- A prompt namespace is a directory.
-- A namespace reserves one prompt and its supporting files.
-- There is exactly one prompt per namespace directory.
-- Namespace directory names must be unique within a collection.
-- Library-wide uniqueness is preferred, but collection-level uniqueness is the minimum v1 requirement.
-
-### Canonical filename rules
-
-- The canonical prompt filename must match its parent directory basename.
-- The canonical prompt filename must use an allowed text extension.
-- The preferred v1 extension is `.md`.
+A namespace owns one canonical prompt file and may also include supporting files.
 
 Example:
 
 ```text
 prompts/
-  sentry-triage/
-    sentry-triage.md
-    notes.md
-    examples/
+  personal/
+    shell-tools/
+      shell-tools.md
+      examples.md
+      notes.md
 ```
 
-In this example, `sentry-triage/` is the namespace and `sentry-triage.md` is the canonical prompt file.
+Here:
 
-### File eligibility rules
+- collection = `personal`
+- namespace = `shell-tools`
+- canonical prompt file = `shell-tools.md`
 
-A prompt candidate must be:
+Namespace identity is collection-scoped.
 
-- a regular file
-- non-hidden
-- inside a non-hidden namespace path
-- text-decodable
-- named according to the canonical filename rule
+In v1:
 
-A prompt candidate must not be:
+- namespace uniqueness is enforced within a collection
+- identical namespace directory names may exist in different collections
+- namespace discovery is based on directory structure, not manually declared namespace records
 
-- a directory
-- a hidden file
-- a file under a hidden directory
-- a non-text file
+### Canonical prompt file
 
-## Discovery model
+Each namespace must contain exactly one canonical prompt file.
 
-A file is a prompt if and only if all of the following are true:
+The canonical prompt file must:
 
-1. The file is under a declared collection path.
-2. The file is a regular file.
-3. The file is not hidden, and no parent segment under the collection is hidden.
-4. The file basename matches its parent directory basename.
-5. The file extension is in the collection allowlist.
-6. The file passes the text-file check.
-7. The parent namespace directory has no conflicting canonical prompt candidate.
+- be a text file
+- use an allowed prompt extension
+- have a basename that exactly matches the namespace directory name
 
-Everything else in the namespace is a supporting file.
+Examples:
 
-## Suggested schema shape
+- `shell-tools/shell-tools.md`
+- `deploy-debug/deploy-debug.md`
 
-The shared schema should be able to express at least:
+This is the canonical filename rule for v1.
+
+### Supporting files
+
+A namespace may contain additional text support files that help author, explain, or extend the prompt.
+
+Examples:
+
+- examples
+- notes
+- rubrics
+- references
+- implementation notes
+
+Supporting files are not discovered as canonical prompts unless they independently satisfy the canonical prompt file rule inside their own namespace directory.
+
+## Discovery contract
+
+In v1, prompt discovery works like this:
+
+1. Start from the declared library prompts root.
+2. Limit traversal to declared collection paths.
+3. Discover namespace directories inside collections.
+4. Accept a namespace only if it contains exactly one canonical prompt file matching the namespace directory basename.
+5. Treat sibling non-canonical files as supporting files.
+6. Reject hidden, non-text, or invalid prompt candidates during validation.
+
+Discovery is collection-scoped, not library-global by filename alone.
+
+## Uniqueness rules
+
+The uniqueness rules for v1 are:
+
+- library identity is unique at the library level
+- collection names are unique within a library
+- collection paths are unique within a library
+- collection paths may not overlap
+- namespace paths are unique within a collection
+- canonical prompt filenames are unique within a namespace because only one canonical prompt file is allowed there
+
+A prompt name does not need to be globally unique across the entire library if it appears in different collections.
+
+Example:
+
+```text
+prompts/
+  personal/
+    shell-tools/
+      shell-tools.md
+  work-repo-a/
+    shell-tools/
+      shell-tools.md
+```
+
+This is valid because namespace uniqueness is collection-scoped.
+
+## Explicitly out of scope
+
+The following are out of scope for the canonical v1 model:
+
+- one library spanning multiple repositories
+- multiple prompts roots inside one library
+- nested or overlapping collections
+- collection parent-child ownership rules
+- prompt composition through include files
+- inherited collection configuration
+- groups affecting prompt ownership or discovery precedence
+- multi-library management tooling
+- cross-library prompt resolution
+
+## Why this model
+
+This model is intentionally strict so that docs, schema, discovery, validation, and drift detection all share the same assumptions.
+
+The design favors:
+
+- explicit ownership
+- one filesystem interpretation
+- low ambiguity
+- easy validation
+- future compatibility with multi-library tooling
+
+Groups can be added later for convenience without changing the core ownership model.
+
+## Schema alignment expectations
+
+The schema aligned to this model should be able to express:
+
+- library metadata
+- repository assignment
+- prompts root
+- explicit collections
+- allowed prompt extensions
+- canonical filename policy
+
+The schema should not expose collection-overlap resolution as a user-editable option in v1 because overlapping collections are invalid.
+
+## Example shape
+
+Illustrative example:
 
 ```json
 {
+  "library_name": "impromptu-main",
+  "library_id": "impromptu-main",
+  "repository": {
+    "provider": "github",
+    "owner": "example",
+    "name": "impromptu",
+    "url": "https://github.com/example/impromptu"
+  },
+  "prompts_root": "prompts/",
   "collections": [
     {
-      "name": "default",
-      "path": "prompts/",
+      "name": "personal",
+      "path": "personal/",
+      "prompt_extensions": [".md"],
+      "prompt_filename_policy": "match-directory"
+    },
+    {
+      "name": "work-repo-a",
+      "path": "work-repo-a/",
+      "prompt_extensions": [".md"],
+      "prompt_filename_policy": "match-directory"
+    },
+    {
+      "name": "work-repo-b",
+      "path": "work-repo-b/",
       "prompt_extensions": [".md"],
       "prompt_filename_policy": "match-directory"
     }
@@ -123,34 +287,12 @@ The shared schema should be able to express at least:
 }
 ```
 
-This document defines the contract. Exact schema field names may be adjusted during implementation, but the behavior described here is the source of truth.
+## Follow-on work
 
-## Drift detection scope
+The next implementation steps after this doc are:
 
-Drift detection should be able to flag at least:
-
-- namespace directory with no canonical prompt file
-- multiple canonical candidates in one namespace
-- canonical filename mismatch
-- hidden candidate paths
-- non-text prompt candidates
-- prompt-like files outside collections
-- duplicate namespace names within a collection
-- schema declarations that no longer match on-disk layout
-
-## Out of scope for v1
-
-The following are explicitly not part of the initial contract:
-
-- include-file composition for prompts
-- inheritance between prompts
-- cross-namespace prompt composition
-- multi-file prompt assembly as a required behavior
-- global library-wide uniqueness as a hard failure
-- structured prompt specs beyond simple text files
-
-## Roadmap notes
-
-Future phases may add an explicit include mechanism for scoped prompt composition, but the canonical prompt file must remain understandable and portable on its own.
-
-Migration or export of the stabilized implementation to the official Impromptu app repository is a post-branch follow-up, not part of this document.
+- align the manifest schema to this model
+- align discovery behavior to the schema
+- add drift detection for schema/filesystem mismatch
+- add validation guardrails
+- add fixtures and tests

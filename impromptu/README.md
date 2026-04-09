@@ -3,6 +3,7 @@
 Impromptu is a project for **abstracting prompt creation** and making it easier to create, manage, and improve high-quality prompts.
 
 It acts as:
+
 - a prompt generator
 - a factory-prompt generator
 - a prompt manager
@@ -30,6 +31,8 @@ Impromptu sits in front of concrete implementations like Seed. Seed provides mod
 | Understand deep-search behavior | [`docs/deep-search.md`](docs/deep-search.md) |
 | Set up registry, add a factory, configure layout | [`docs/setup.md`](docs/setup.md) |
 | Use or build a specific factory | [`factories/{name}/README.md`](factories/) |
+| Understand the prompt library contract | [`docs/impromptu-library-model.md`](docs/impromptu-library-model.md) |
+| Track the current refactor TODO plan | [`docs/refactor-shared-schemas-and-doc-alignment.md`](docs/refactor-shared-schemas-and-doc-alignment.md) |
 | Browse the full documentation hub | [`docs/README.md`](docs/README.md) |
 
 ***
@@ -79,6 +82,8 @@ Use these docs for the most common questions:
 - Preferences and memory: [`docs/user-preferences-and-memory.md`](docs/user-preferences-and-memory.md)
 - Service-specific context: [`docs/service-specific-guidance.md`](docs/service-specific-guidance.md)
 - Setup and registry: [`docs/setup.md`](docs/setup.md)
+- Want the prompt library contract: [`docs/impromptu-library-model.md`](docs/impromptu-library-model.md)
+- Want the current refactor TODO plan: [`docs/refactor-shared-schemas-and-doc-alignment.md`](docs/refactor-shared-schemas-and-doc-alignment.md)
 
 ***
 

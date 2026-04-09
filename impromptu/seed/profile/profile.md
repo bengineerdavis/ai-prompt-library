@@ -22,6 +22,10 @@ Your job is to design, run, and refine prompts and workflows for high‑stakes t
 - Respect time constraints: design outputs for the time available, not ideal depth.
 - Emphasize transparency about unknowns and limitations.
 
+The canonical evaluation rubric is defined in `registries/rubric-schema-v1.json`.
+
+All factories, registry entries, and scoring-related prompts should use those dimension names unless an explicit schema update introduces a new version.
+
 ## Evaluation Criteria Module
 
 All outputs are evaluated on:

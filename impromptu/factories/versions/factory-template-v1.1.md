@@ -63,15 +63,13 @@ You are a shopping strategy factory for consumer product research and buying dec
 **Use when**: Queries about product purchasing, timing, deal-hunting, retailer comparison.
 
 **Strategies Available**:
+
 Check `seed-prompting-strategies.jsonl` for current list.
 Phase 1 likely uses: Few-Shot (prior purchases), Meta-Prompting (community), Self-Critique (rubric scoring)
-```
 
----
 
 ## 3. Input Schema (REQUIRED)
 
-```markdown
 ## Input Schema
 
 Factories receive structured input from orchestrator:
@@ -91,14 +89,14 @@ Factories receive structured input from orchestrator:
 ```
 
 **Factory must handle**:
+
 - Some fields may be missing (provide sensible defaults)
 - `feedback_history` guides strategy selection
 - `new_tasks` enable task-aware execution
 - `strategies_allowed` respects user/context constraints
-```
 
 Example for shopping-builder:
-```markdown
+
 ## Input Schema
 
 ```json
@@ -114,13 +112,9 @@ Example for shopping-builder:
   "strategies_allowed": ["Few-Shot", "Meta-Prompting", "Self-Critique"]
 }
 ```
-```
-
----
 
 ## 4. Output Schema (REQUIRED)
 
-```markdown
 ## Output Schema
 
 All factories MUST return JSON-compatible structure:
@@ -151,17 +145,15 @@ All factories MUST return JSON-compatible structure:
 ```
 
 **Tail Module must append**:
+
 ```json
 {"factory": "name", "execution": {...}, "score": 8.8, "timestamp": "...", "strategies_used": [...]}
 ```
-to `factories-registry.jsonl`
-```
 
----
+to `factories-registry.jsonl`
 
 ## 5. Phase 0: Context Capture & Strategy Selection (FLEXIBLE)
 
-```markdown
 ## Phase 0: Context Capture & Strategy Selection
 
 **Input**: Structured input from orchestrator (see Input Schema)
@@ -187,15 +179,17 @@ to `factories-registry.jsonl`
 ### Strategy Selection (Dynamic from Registry)
 
 Strategies are NOT hard-coded. Load from:
-```
+
+```bash
 grep "enabled: true" seed-prompting-strategies.jsonl | jq '.name'
 ```
 
 **Example Phase 0 Output**:
-```
+
 Goal: "Best time to buy RTX 5090 during shortages"
 
 Context Analysis:
+
 - Category: GPU hardware
 - User: Technical, AI training use case
 - Feedback history: "semantic match 4/5, need VRAM info"
@@ -203,17 +197,13 @@ Context Analysis:
 - Available strategies: Few-Shot, CoT, Meta-Prompting, Self-Critique
 
 **Selected Strategies** (from seed-prompting-strategies.jsonl):
+
 1. Few-Shot (leverage prior RTX 4070 research)
 2. Meta-Prompting (GPU shortage patterns + community)
 3. Self-Critique (score recommendation vs rubric)
-```
-```
-
----
 
 ## 6. Phase 1: Strategy Execution (FLEXIBLE - YOUR CHOICE)
 
-```markdown
 ## Phase 1: Strategy Execution
 
 **Input**: Strategies selected in Phase 0 + structured input
@@ -241,13 +231,9 @@ Combine outputs from strategies into coherent narrative
 - Each sub-phase produces intermediate output
 - Compare across strategies (do they agree?)
 - Flag conflicts/uncertainty
-```
-
----
 
 ## 7. Phase 2: Structured Output & Formatting (FLEXIBLE CONTENT)
 
-```markdown
 ## Phase 2: Structured Output
 
 **Input**: Results from Phase 1 strategies
@@ -272,40 +258,41 @@ Combine outputs from strategies into coherent narrative
 [How did strategies guide this? Any disagreements?]
 
 **Example for shopping-builder**:
-```
+
 ## Main Recommendation
+
 **RTX 5090** (89% confidence, $1800)
+
 - 15% quieter than 4070 (Perplexity Deep Research)
 - Q1 2026 suggested (mining crash cycle)
 - Amazon + 10% coupon (r/hardwareswap pattern)
 
 ## Alternatives
+
 | Model | Score | Price | ΔvsPrior |
 |-------|-------|-------|----------|
 | RTX5090 | 9.1 | $1800 | +1.2 |
 | RTX4090 | 8.7 | $1300 | +0.5 |
 
 ## Risks
+
 - 18% stock uncertainty (retailer dependent)
 - VRAM may be overkill (80% confidence on use case)
 
 ## Strategies Used
+
 - Few-Shot: Compared to prior RTX 4070 research (8.2/10)
 - Meta-Prompting: Researched GPU shortage cycles
 - Self-Critique: Scored vs rubric (9.1/10 on alignment)
-```
-```
-
----
 
 ## 8. Tail Module: Feedback Loop & Persistence (REQUIRED)
 
-```markdown
 ## Tail Module: Feedback Loop & Persistence
 
 **Input**: Phase 2 output + user feedback (if feedbackmode=on)
 
 **Task**:
+
 1. Score output against Seed criteria
 2. Solicit feedback (if enabled)
 3. Append execution record to registry
@@ -313,7 +300,9 @@ Combine outputs from strategies into coherent narrative
 5. Update factory metadata
 
 ### Step 1: Criteria Scoring (LLM-as-Judge)
+
 Score your output 1-10 on:
+
 - Clarity (easy to understand?)
 - Conciseness (wasted words?)
 - Completeness (all major points covered?)
@@ -322,7 +311,8 @@ Score your output 1-10 on:
 - Expected Output (matches output schema?)
 
 ### Step 2: Feedback Solicitation (if feedbackmode=on)
-```
+
+```bash
 Rate each criterion 1-5:
 ├── Clarity: [1-5]?
 ├── Goal Alignment: [1-5]?
@@ -330,6 +320,7 @@ Rate each criterion 1-5:
 ```
 
 ### Step 3: Registry Append
+
 ```json
 {"timestamp":"2025-12-05T16:00","factory":"shopping-builder",
  "goal":"RTX 5090 timing","score":8.8,"strategies_used":["Few-Shot","Meta","Critique"],
@@ -338,8 +329,10 @@ Rate each criterion 1-5:
 ```
 
 ### Step 4: Evolution Triggers
+
 If score <7.5 OR new patterns detected:
-```
+
+```bash
 Suggestion: Add "VRAM_analysis" task to factory?
 (Recommended by 3 recent queries)
 
@@ -348,6 +341,7 @@ Consider adding to Phase 1 options.
 ```
 
 ### Step 5: Update Factory Metadata
+
 ```json
 // Auto-update factories-registry.jsonl entry
 {"name":"shopping-builder",
@@ -357,7 +351,8 @@ Consider adding to Phase 1 options.
 ```
 
 **Example Tail Module Output**:
-```
+
+```bash
 ✅ EXECUTION COMPLETE
 Factory: shopping-builder
 Score: 8.8/10 (Clarity 5, Alignment 4, Context 5)
@@ -368,13 +363,9 @@ Registry appended ✓
 Task suggestions: Add "VRAM_analysis" [Y/n]?
 Strategy updates: Check seed-prompting-strategies.jsonl for new options
 ```
-```
-
----
 
 ## 9. CLI Integration Hooks (OPTIONAL)
 
-```markdown
 ## CLI Integration (Optional)
 
 Factories may expose CLI-friendly outputs:
@@ -392,13 +383,9 @@ Factories may expose CLI-friendly outputs:
 # Check available strategies
 ./shopping-builder.md --list-strategies
 ```
-```
-
----
 
 ## 10. Metadata Section (REQUIRED at file end)
 
-```markdown
 ## Factory Metadata
 
 ```json
@@ -410,9 +397,12 @@ Factories may expose CLI-friendly outputs:
   "keywords": ["buy", "timing", "shopping", "strategy"],
   "tasks": ["buy", "timing", "deal_hunting"],
   "rubric_hints": {
-    "value": 0.25,
-    "durability": 0.20,
-    "fit": 0.20
+    "clarity": 0.2,
+    "conciseness": 0.15,
+    "completeness": 0.2,
+    "goal_alignment": 0.2,
+    "context_awareness": 0.15,
+    "expected_output": 0.1
   },
   "strategies_available": ["Few-Shot", "Meta-Prompting", "Self-Critique"],
   "strategies_registry_link": "seed-prompting-strategies.jsonl",
@@ -426,13 +416,13 @@ Factories may expose CLI-friendly outputs:
   }
 }
 ```
-```
 
 ---
 
 ## ✅ Factory Template Checklist
 
 Every factory MUST have:
+
 - [ ] TITLE (line 1) following convention
 - [ ] Role & Purpose section (with note about dynamic strategies)
 - [ ] Input Schema (JSON example)
@@ -444,17 +434,16 @@ Every factory MUST have:
 - [ ] Metadata section (JSON, with strategies_registry_link)
 
 **Optional**:
+
 - [ ] CLI hooks
 - [ ] Specific sub-phases per factory type
 - [ ] Example outputs
-
----
 
 ## 📝 Factory Variations (How to Customize)
 
 Each factory adapts the template:
 
-```
+```bash
 strategy-builder.md
 ├── Phase 0: Goal → strategy selection (decomposition)
 ├── Phase 1: Multi-week planning (mix of available strategies)
@@ -474,8 +463,6 @@ interview-prep.md
 └── Tail Module: Performance scoring
 ```
 
----
-
 ## 🚀 How Orchestrator Uses This
 
 1. **Discovers factories**: Scans for `TITLE.*Factory/Builder`
@@ -485,8 +472,6 @@ interview-prep.md
 5. **Executes**: Loads Phase 0 → Factory loads current strategies → User selects → Runs Phase 1-2
 6. **Logs**: Appends Tail Module output to `factories-registry.jsonl` (including strategies_used)
 7. **Evolves**: Detects if factory should split/patch based on feedback + new strategies
-
----
 
 ## 🔗 Living Strategy Registry
 
@@ -508,6 +493,4 @@ Factories reference strategies from **`seed-prompting-strategies.jsonl`** (conti
 
 When new strategies are discovered/invented, they're added to this registry. Factories automatically have access without code changes.
 
----
-
-**98% confidence**: This template covers all factories while remaining completely flexible on strategies. Every factory is discoverable, executable, persistent, and strategy-agnostic. [file:1][file:3]
+**98% confidence**: This template covers all factories while remaining completely flexible on strategies. Every factory is discoverable, executable, persistent, and strategy-agnostic.

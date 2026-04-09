@@ -269,13 +269,22 @@ Each line is valid JSON. Common fields:
   "enabled": true,
   "tasks": ["buy", "timing", "deal_hunting", "comparison"],
   "keywords": ["product", "shopping", "timing", "deal"],
-  "rubric": {"value": 0.25, "durability": 0.20, "fit": 0.20},
+  "rubric": {
+    "clarity": 0.2,
+    "conciseness": 0.15,
+    "completeness": 0.2,
+    "goal_alignment": 0.2,
+    "context_awareness": 0.15,
+    "expected_output": 0.1
+  },
   "strategies": ["Few-Shot", "Meta-Prompting", "Self-Critique"],
   "recent_scores": [9.1, 8.7, 9.2, 8.9, 9.0],
   "avg_score": 8.98,
   "last_updated": "2025-12-05"
 }
 ```
+
+Rubric keys must follow `registries/rubric-schema-v1.json`; factories may vary weights but should not invent alternate rubric field names without a schema update.
 
 **To query in scripts:**
 ```bash

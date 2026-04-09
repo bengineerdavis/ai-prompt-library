@@ -1,0 +1,33 @@
+{
+  "library": {
+    "id": "impromptu-main",
+    "name": "impromptu-main",
+    "repository": {
+      "provider": "github",
+      "owner": "example",
+      "name": "impromptu",
+      "url": "https://github.com/example/impromptu"
+    },
+    "prompts_root": "prompts/"
+  },
+  "collections": [
+    {
+      "name": "personal",
+      "path": "personal/",
+      "prompt_extensions": [".md"],
+      "prompt_filename_policy": "match-directory"
+    },
+    {
+      "name": "work-repo-a",
+      "path": "work-repo-a/",
+      "prompt_extensions": [".md"],
+      "prompt_filename_policy": "match-directory"
+    },
+    {
+      "name": "work-repo-b",
+      "path": "work-repo-b/",
+      "prompt_extensions": [".md"],
+      "prompt_filename_policy": "match-directory"
+    }
+  ]
+}

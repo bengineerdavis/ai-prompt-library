@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/prompt-library.schema.json",
+  "title": "Impromptu Prompt Library",
+  "description": "Schema for a single repo-bound Impromptu prompt library definition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["library", "collections"],
+  "properties": {
+    "library": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "repository", "prompts_root"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "Stable library identifier."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable library name."
+        },
+        "repository": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "owner", "name"],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Repository provider, such as github."
+            },
+            "owner": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Repository owner or organization."
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Repository name."
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Optional canonical repository URL."
+            }
+          }
+        },
+        "prompts_root": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?/).+/$",
+          "description": "Root directory for prompt collections, relative to the repository root and ending with a slash."
+        }
+      }
+    },
+    "collections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/collection"
+      },
+      "description": "Declared prompt collections relative to library.prompts_root."
+    }
+  },
+  "$defs": {
+    "collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "prompt_extensions", "prompt_filename_policy"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "Collection identifier unique within the library."
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?/).+/$",
+          "description": "Collection path relative to library.prompts_root and ending with a slash."
+        },
+        "prompt_extensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^\\.[a-z0-9]+$"
+          },
+          "description": "Allowed prompt file extensions for canonical prompt files."
+        },
+        "prompt_filename_policy": {
+          "type": "string",
+          "enum": ["match-directory"],
+          "description": "Canonical prompt filename policy."
+        }
+      }
+    }
+  }
+}

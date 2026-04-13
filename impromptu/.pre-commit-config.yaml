@@ -32,7 +32,7 @@ repos:
       - id: mdformat
         additional_dependencies:
           - mdformat-gfm
-          - mdformat-front-matter
+          - mdformat-frontmatter
           - mdformat-ruff
         files: '\.(md|markdown)$'
 

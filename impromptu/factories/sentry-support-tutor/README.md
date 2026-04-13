@@ -10,11 +10,11 @@ Dependencies: `seed-profile.md`, `seed-orchestrator-v3.2-hybrid.md`, `factories-
 
 Three modes, one factory — triggered by a simple phrase:
 
-| Mode               | Trigger Phrase                                  | What Happens                                                              |
+| Mode | Trigger Phrase | What Happens |
 | ------------------ | ----------------------------------------------- | ------------------------------------------------------------------------- |
-| **Co-Pilot**       | `"co-pilot mode"` or `"I'm working a ticket"`   | Real-time ticket guidance; enforces question-first rule before any answer |
-| **Failure Review** | `"failure review"` or `"let's review [ticket]"` | Structured debrief with rubric scoring and pattern tagging                |
-| **Study Session**  | `"study session"` or `"let's study [topic]"`    | Concept → application → check question flow                               |
+| **Co-Pilot** | `"co-pilot mode"` or `"I'm working a ticket"` | Real-time ticket guidance; enforces question-first rule before any answer |
+| **Failure Review** | `"failure review"` or `"let's review [ticket]"` | Structured debrief with rubric scoring and pattern tagging |
+| **Study Session** | `"study session"` or `"let's study [topic]"` | Concept → application → check question flow |
 
 The core discipline this factory enforces:
 
@@ -55,30 +55,30 @@ ______________________________________________________________________
 
 ### Phase 1 — Foundation (Weeks 1–4)
 
-| Week | Topic                                                    | Focus                             |
+| Week | Topic | Focus |
 | ---- | -------------------------------------------------------- | --------------------------------- |
-| 1    | Sentry data model: Events, Issues, Projects, DSN         | How Sentry thinks about data      |
-| 2    | SDK fundamentals: init, breadcrumbs, contexts, tags      | What customers misconfigure       |
-| 3    | Error Monitoring: stack traces, grouping, fingerprinting | Core product — most ticket volume |
-| 4    | Tracing & Performance: spans, transactions, sample rates | Second most common ticket type    |
+| 1 | Sentry data model: Events, Issues, Projects, DSN | How Sentry thinks about data |
+| 2 | SDK fundamentals: init, breadcrumbs, contexts, tags | What customers misconfigure |
+| 3 | Error Monitoring: stack traces, grouping, fingerprinting | Core product — most ticket volume |
+| 4 | Tracing & Performance: spans, transactions, sample rates | Second most common ticket type |
 
 ### Phase 2 — Support Craft (Weeks 5–8)
 
-| Week | Topic                                                   |
+| Week | Topic |
 | ---- | ------------------------------------------------------- |
-| 5    | The clarifying question framework                       |
-| 6    | Reproduction methodology: bug vs. config issue          |
-| 7    | Escalation judgment: push vs. pass vs. close            |
-| 8    | Response writing: confident, clear, non-over-committing |
+| 5 | The clarifying question framework |
+| 6 | Reproduction methodology: bug vs. config issue |
+| 7 | Escalation judgment: push vs. pass vs. close |
+| 8 | Response writing: confident, clear, non-over-committing |
 
 ### Phase 3 — Edge Cases & Mastery (Weeks 9–12)
 
-| Week | Topic                                                       |
+| Week | Topic |
 | ---- | ----------------------------------------------------------- |
-| 9    | Session Replay & User Feedback                              |
-| 10   | Source Maps & Release Tracking                              |
-| 11   | Crons, Alerts, and Notification rules                       |
-| 12   | Multi-project orgs, SDK version conflicts, AI agent context |
+| 9 | Session Replay & User Feedback |
+| 10 | Source Maps & Release Tracking |
+| 11 | Crons, Alerts, and Notification rules |
+| 12 | Multi-project orgs, SDK version conflicts, AI agent context |
 
 ______________________________________________________________________
 
@@ -123,23 +123,23 @@ ______________________________________________________________________
 
 ## Troubleshooting
 
-| Problem                               | Fix                                                          |
+| Problem | Fix |
 | ------------------------------------- | ------------------------------------------------------------ |
-| Orchestrator matches wrong factory    | Add more Sentry-specific keywords to your query              |
-| Factory skips the clarifying question | Remind it: "question-first rule is non-negotiable"           |
-| Study plan feels too fast             | Tell the factory: "slow down, I need more depth on week N"   |
-| Pattern tags not tracking             | Paste prior session summary into `continuity_baseline` field |
+| Orchestrator matches wrong factory | Add more Sentry-specific keywords to your query |
+| Factory skips the clarifying question | Remind it: "question-first rule is non-negotiable" |
+| Study plan feels too fast | Tell the factory: "slow down, I need more depth on week N" |
+| Pattern tags not tracking | Paste prior session summary into `continuity_baseline` field |
 
 ______________________________________________________________________
 
 ## Related Files
 
-| File                                      | Purpose                                              |
+| File | Purpose |
 | ----------------------------------------- | ---------------------------------------------------- |
 | `technical-tutor-for-self-learning-v1.md` | Parent meta-factory — generates tutors like this one |
-| `seed-profile.md`                         | Global tone and behavior norms                       |
-| `seed-prompting-strategies.jsonl`         | Strategy registry referenced in Phase 0              |
-| `factories-registry.jsonl`                | Master registry — must include this factory's entry  |
+| `seed-profile.md` | Global tone and behavior norms |
+| `seed-prompting-strategies.jsonl` | Strategy registry referenced in Phase 0 |
+| `factories-registry.jsonl` | Master registry — must include this factory's entry |
 
 ______________________________________________________________________
 

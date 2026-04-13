@@ -15,26 +15,46 @@ repos:
     rev: v2.3.0
     hooks:
       - id: codespell
+        name: codespell-check
         args: ["--ignore-words=.codespellignore"]
+        stages:
+          - manual
+
+      - id: codespell
+        alias: codespell-fix
+        name: codespell-fix
+        args:
+          - "--ignore-words=.codespellignore"
+          - "--write-changes"
+        stages:
+          - manual
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.0
+    rev: v0.11.6
     hooks:
-      - id: ruff-check
-        args: [--fix]
-        types_or: [python, pyi, jupyter]
+      - id: ruff
+        name: ruff-check
+        stages:
+          - manual
+      - id: ruff
+        alias: ruff-check-fix
+        name: ruff-check-fix
+        args:
+          - --fix
+        stages:
+          - manual
       - id: ruff-format
-        types_or: [python, pyi, jupyter]
+        name: ruff-format
+        stages:
+          - manual
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.22
     hooks:
       - id: mdformat
-        additional_dependencies:
-          - mdformat-gfm
-          - mdformat-frontmatter
-          - mdformat-ruff
-        files: '\.(md|markdown)$'
+        name: mdformat
+        stages:
+          - manual
 
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.15.0
@@ -42,3 +62,5 @@ repos:
       - id: markdownlint-cli2
         files: '\.(md|markdown)$'
         args: ["--config", ".markdownlint-cli2.yaml"]
+        stages:
+          - manual

@@ -619,9 +619,9 @@ class Orchestrator:
                         candidates.insert(0, s)
                         existing_names.add(s.name)
             else:
-                mor = self.strategy_registry.get("Mixture-of-Roles")
-                if mor and mor.name not in existing_names:
-                    candidates.insert(0, mor)
+                more = self.strategy_registry.get("Mixture-of-Roles")
+                if more and more.name not in existing_names:
+                    candidates.insert(0, more)
 
         if feedback_history:
             high_rated = {

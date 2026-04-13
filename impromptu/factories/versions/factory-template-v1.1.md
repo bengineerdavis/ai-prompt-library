@@ -281,10 +281,10 @@ Combine outputs from strategies into coherent narrative
 
 ## Alternatives
 
-| Model   | Score | Price | ΔvsPrior |
+| Model | Score | Price | ΔvsPrior |
 | ------- | ----- | ----- | -------- |
-| RTX5090 | 9.1   | $1800 | +1.2     |
-| RTX4090 | 8.7   | $1300 | +0.5     |
+| RTX5090 | 9.1 | $1800 | +1.2 |
+| RTX4090 | 8.7 | $1300 | +0.5 |
 
 ## Risks
 

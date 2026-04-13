@@ -9,6 +9,7 @@ Draft v1 model.
 Define the v1 model for how Impromptu organizes prompt libraries on disk so docs, discovery, validation, and future tooling use the same structure.
 
 This version is intentionally simple and optimized for:
+
 - repo-backed libraries,
 - reuse across many projects,
 - human-readable prompt storage,
@@ -19,6 +20,7 @@ This version is intentionally simple and optimized for:
 A library is a prompt storage unit.
 
 In v1:
+
 - a library is repo-backed,
 - a library has one prompts root,
 - a library declares one or more collections,
@@ -43,6 +45,7 @@ The main hierarchy is:
 A repository is the source-control boundary for a library.
 
 In v1:
+
 - one library belongs to one repository
 - one repository contains one library definition
 
@@ -51,6 +54,7 @@ In v1:
 A library is the top-level prompt storage unit used by Impromptu.
 
 A library declares:
+
 - library identity metadata
 - repository metadata
 - one prompts root
@@ -63,10 +67,12 @@ A library is not a project and is not a workspace.
 The prompts root is the single directory under which all managed prompt collections live.
 
 Examples:
+
 - `prompts/`
 - `.impromptu/prompts/`
 
 In v1:
+
 - each library has exactly one prompts root
 - all declared collections live under that prompts root
 - discovery only scans under the prompts root
@@ -76,6 +82,7 @@ In v1:
 A collection is a lateral discovery partition inside a library.
 
 Collections exist to separate prompts by context, such as:
+
 - personal
 - scripts
 - writing
@@ -84,6 +91,7 @@ Collections exist to separate prompts by context, such as:
 - repo-specific
 
 In v1:
+
 - collections are explicitly declared
 - collection names are unique within a library
 - collection paths are unique within a library
@@ -106,6 +114,7 @@ prompts/
 ```
 
 Here:
+
 - collection: `scripts`
 - prompt alias: `jq-helper`
 - primary prompt file: `prompt.md`
@@ -125,6 +134,7 @@ This is simpler and easier to work with than repeating the directory name in the
 ### Support files
 
 A prompt directory may contain additional support files, such as:
+
 - `notes.md`
 - `examples.md`
 - `rubric.md`
@@ -138,11 +148,11 @@ Support files help authoring and maintenance but are not themselves primary prom
 In v1, prompt discovery works like this:
 
 1. Start from the declared prompts root.
-2. Limit traversal to declared collection paths.
-3. Discover prompt directories inside collections.
-4. Accept a prompt directory only if it contains exactly one primary prompt file.
-5. Treat sibling non-primary text files as support files.
-6. Reject hidden, invalid, or non-text prompt candidates during validation.
+1. Limit traversal to declared collection paths.
+1. Discover prompt directories inside collections.
+1. Accept a prompt directory only if it contains exactly one primary prompt file.
+1. Treat sibling non-primary text files as support files.
+1. Reject hidden, invalid, or non-text prompt candidates during validation.
 
 Discovery is collection-scoped, not library-global by filename alone.
 
@@ -179,6 +189,7 @@ If additional prompt metadata is needed, store it in a support file such as:
 - `meta.toml`
 
 Examples of metadata that may belong there:
+
 - description
 - tags
 - owner
@@ -210,10 +221,12 @@ library-root/
 ## Example library uses
 
 A single library may be used by:
+
 - the user’s `local-default` project
 - one or more repo-backed projects
 
 A single project may bind:
+
 - one personal library
 - one team library
 - one project-specific shared library

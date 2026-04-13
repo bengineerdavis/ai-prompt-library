@@ -1,33 +1,100 @@
 {
-  "library": {
-    "id": "impromptu-main",
-    "name": "impromptu-main",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/prompt-library.schema.json",
+  "title": "Impromptu Prompt Library",
+  "description": "Schema for a single repo-backed Impromptu prompt library definition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["library", "repository", "collections"],
+  "properties": {
+    "library": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "mode", "prompts_root"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "Stable library identifier."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable library name."
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["repo"],
+          "description": "Backing mode for the library in v1."
+        },
+        "prompts_root": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Root directory for prompt collections, relative to the repository root."
+        }
+      }
+    },
     "repository": {
-      "provider": "github",
-      "owner": "example",
-      "name": "impromptu",
-      "url": "https://github.com/example/impromptu"
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "owner", "name"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
     },
-    "prompts_root": "prompts/"
-  },
-  "collections": [
-    {
-      "name": "personal",
-      "path": "personal/",
-      "prompt_extensions": [".md"],
-      "prompt_filename_policy": "match-directory"
-    },
-    {
-      "name": "work-repo-a",
-      "path": "work-repo-a/",
-      "prompt_extensions": [".md"],
-      "prompt_filename_policy": "match-directory"
-    },
-    {
-      "name": "work-repo-b",
-      "path": "work-repo-b/",
-      "prompt_extensions": [".md"],
-      "prompt_filename_policy": "match-directory"
+    "collections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/collection"
+      }
     }
-  ]
+  },
+  "$defs": {
+    "collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "primary_file", "extensions"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primary_file": {
+          "type": "string",
+          "const": "prompt.md"
+        },
+        "extensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^\\.[a-z0-9]+$"
+          }
+        }
+      }
+    }
+  }
 }

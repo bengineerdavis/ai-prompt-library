@@ -95,3 +95,10 @@
 - [ ] Remove outdated sandbox-first wording where it conflicts with the new model.
 - [ ] Align root docs, architecture docs, and examples around TOML config and SQLite
   runtime state.
+
+## Schema and docs alignment follow-up
+
+- [ ] Audit the repo for references that still imply JSON-first library config.
+- [ ] Update lingering references to point to TOML-first config and examples.
+- [ ] Add a repeatable way to detect cross-doc terminology drift and outdated config references.
+- [ ] Evaluate using local LLM assistance for doc alignment and consistency review during future refactors.

@@ -1,0 +1,16 @@
+impromptu
+seed
+jsonl
+llm
+llms
+pyproject
+mdformat
+markdownlint
+precommit
+sqlite
+toml
+ruff
+vale
+github
+gitlab
+worktree

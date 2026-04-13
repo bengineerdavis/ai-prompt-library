@@ -12,30 +12,30 @@ for LLMs, agents, and AI services.
 
 Impromptu sits in front of concrete implementations like Seed. Seed provides modular, self-improving meta-prompts and factories, while Impromptu provides the shared controls, policies, and documentation that make those prompts easier to create, tune, and reuse.
 
-***
+______________________________________________________________________
 
 ## Where to start
 
-| Goal | Go here |
-|------|---------|
-| Use Seed right now | [`QUICKSTART.md`](QUICKSTART.md) |
-| Understand how Seed works | [`seed/README.md`](seed/README.md) |
-| Understand Impromptu controls and defaults | [`docs/modes-and-settings.md`](docs/modes-and-settings.md) |
-| Learn how auto behavior works | [`docs/auto-mode-policy.md`](docs/auto-mode-policy.md) |
-| Learn the first-run experience | [`docs/onboarding.md`](docs/onboarding.md) |
-| See practical examples | [`docs/examples.md`](docs/examples.md) |
-| Understand the internal pipeline | [`docs/pipeline-and-stages.md`](docs/pipeline-and-stages.md) |
-| Understand scoring and thresholds | [`docs/scoring-model.md`](docs/scoring-model.md), [`docs/thresholds-and-recommendations.md`](docs/thresholds-and-recommendations.md) |
-| Learn how preferences and memory work | [`docs/user-preferences-and-memory.md`](docs/user-preferences-and-memory.md) |
-| See SaaS and service-specific context guidance | [`docs/service-specific-guidance.md`](docs/service-specific-guidance.md) |
-| Understand deep-search behavior | [`docs/deep-search.md`](docs/deep-search.md) |
-| Set up registry, add a factory, configure layout | [`docs/setup.md`](docs/setup.md) |
-| Use or build a specific factory | [`factories/{name}/README.md`](factories/) |
-| Understand the prompt library contract | [`docs/impromptu-library-model.md`](docs/impromptu-library-model.md) |
-| Track the current refactor TODO plan | [`docs/refactor-shared-schemas-and-doc-alignment.md`](docs/refactor-shared-schemas-and-doc-alignment.md) |
-| Browse the full documentation hub | [`docs/README.md`](docs/README.md) |
+| Goal                                             | Go here                                                                                                                              |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Use Seed right now                               | [`QUICKSTART.md`](QUICKSTART.md)                                                                                                     |
+| Understand how Seed works                        | [`seed/README.md`](seed/README.md)                                                                                                   |
+| Understand Impromptu controls and defaults       | [`docs/modes-and-settings.md`](docs/modes-and-settings.md)                                                                           |
+| Learn how auto behavior works                    | [`docs/auto-mode-policy.md`](docs/auto-mode-policy.md)                                                                               |
+| Learn the first-run experience                   | [`docs/onboarding.md`](docs/onboarding.md)                                                                                           |
+| See practical examples                           | [`docs/examples.md`](docs/examples.md)                                                                                               |
+| Understand the internal pipeline                 | [`docs/pipeline-and-stages.md`](docs/pipeline-and-stages.md)                                                                         |
+| Understand scoring and thresholds                | [`docs/scoring-model.md`](docs/scoring-model.md), [`docs/thresholds-and-recommendations.md`](docs/thresholds-and-recommendations.md) |
+| Learn how preferences and memory work            | [`docs/user-preferences-and-memory.md`](docs/user-preferences-and-memory.md)                                                         |
+| See SaaS and service-specific context guidance   | [`docs/service-specific-guidance.md`](docs/service-specific-guidance.md)                                                             |
+| Understand deep-search behavior                  | [`docs/deep-search.md`](docs/deep-search.md)                                                                                         |
+| Set up registry, add a factory, configure layout | [`docs/setup.md`](docs/setup.md)                                                                                                     |
+| Use or build a specific factory                  | [`factories/{name}/README.md`](factories/)                                                                                           |
+| Understand the prompt library contract           | [`docs/impromptu-library-model.md`](docs/impromptu-library-model.md)                                                                 |
+| Track the current refactor TODO plan             | [`docs/refactor-shared-schemas-and-doc-alignment.md`](docs/refactor-shared-schemas-and-doc-alignment.md)                             |
+| Browse the full documentation hub                | [`docs/README.md`](docs/README.md)                                                                                                   |
 
-***
+______________________________________________________________________
 
 ## What Impromptu does in practice
 
@@ -65,7 +65,7 @@ Recommended default starting point:
 - `complexity = auto`
 - `verbosity = info`
 
-***
+______________________________________________________________________
 
 ## Documentation map
 
@@ -85,7 +85,7 @@ Use these docs for the most common questions:
 - Want the prompt library contract: [`docs/impromptu-library-model.md`](docs/impromptu-library-model.md)
 - Want the current refactor TODO plan: [`docs/refactor-shared-schemas-and-doc-alignment.md`](docs/refactor-shared-schemas-and-doc-alignment.md)
 
-***
+______________________________________________________________________
 
 ## Seed system
 
@@ -95,6 +95,6 @@ Seed lives inside the Impromptu project and provides concrete factories and meta
 
 See [`seed/README.md`](seed/README.md) for details on Seed’s components.
 
-***
+______________________________________________________________________
 
 **Version**: 4.1 · **Orchestrator**: v3.2+

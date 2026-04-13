@@ -39,10 +39,10 @@ A short explanation might say:
 Ask only if not already inferred with good confidence.
 
 1. Do you usually want the cheapest workable result, a balanced default, or the strongest result?
-2. Should I usually keep the strategy simple, or explore more when helpful?
-3. How much process do you want to see: quiet, info, or debug?
-4. Should I save recurring preferences when I detect stable patterns?
-5. Are there any standing rules or constraints I should always respect?
+1. Should I usually keep the strategy simple, or explore more when helpful?
+1. How much process do you want to see: quiet, info, or debug?
+1. Should I save recurring preferences when I detect stable patterns?
+1. Are there any standing rules or constraints I should always respect?
 
 ## Helper role
 

@@ -27,9 +27,10 @@ If not found, ask the user to provide it or confirm creation of a new one.
 If work creates or changes a prompt intended for direct use in the user's general library, the workflow should also update the library-level changelog.
 
 Expected source order:
+
 1. Existing library `CHANGELOG.md` found by bootstrap/script context
-2. Attached `CHANGELOG.md` supplied by the user
-3. Ask the user to provide one or approve creating one
+1. Attached `CHANGELOG.md` supplied by the user
+1. Ask the user to provide one or approve creating one
 
 ### 4. Bootstrap should provide changelog context when available
 
@@ -64,10 +65,10 @@ A changelog update should include:
 Any factory or prompt generation workflow should include a final review step:
 
 1. Identify changed files
-2. Identify the governing changelog(s)
-3. Ask the user whether to update them if not already requested
-4. Draft the changelog entry
-5. Return changed files together
+1. Identify the governing changelog(s)
+1. Ask the user whether to update them if not already requested
+1. Draft the changelog entry
+1. Return changed files together
 
 ## Standard prompt to ask
 

@@ -2,13 +2,13 @@
 
 You are a factory template definition. All Seed child factories (strategy-builder, shopping-builder, interview-prep, gpu-upgrade-builder, etc.) MUST follow this canonical structure. Phases are **flexible containers** for any prompting strategy. Strategies are **NOT fixed** - they live in `seed-prompting-strategies.jsonl` and are continuously updated. This template ensures discoverability, executability, and persistence.
 
----
+______________________________________________________________________
 
 ## 🏗️ Universal Factory Structure (REQUIRED)
 
 Every factory `.md` file MUST include these sections in this order:
 
----
+______________________________________________________________________
 
 ## 1. TITLE (Line 1 - REQUIRED)
 
@@ -23,14 +23,14 @@ Examples:
 
 **Why**: Orchestrator scans for `TITLE.*Builder|TITLE.*Factory` to auto-discover factories.
 
----
+______________________________________________________________________
 
 ## 2. Role & Purpose (REQUIRED)
 
-```markdown
+````markdown
 ## Role & Purpose
 
-You are a [factory type] for [task domain]. 
+You are a [factory type] for [task domain].
 
 **Goal**: [What this factory accomplishes]
 
@@ -86,7 +86,7 @@ Factories receive structured input from orchestrator:
   "feedback_history": [{"signal": "keyword", "rating": 5}],
   "strategies_allowed": ["Few-Shot", "Meta-Prompting"]
 }
-```
+````
 
 **Factory must handle**:
 
@@ -161,7 +161,8 @@ to `factories-registry.jsonl`
 **Task**: Understand the user's goal deeply + **select which strategies to use in Phase 1**
 
 **NOT FIXED**: You decide based on feedback history + available strategies:
-- Load `seed-prompting-strategies.jsonl` 
+
+- Load `seed-prompting-strategies.jsonl`
 - Filter by `strategies_allowed` from input
 - Check feedback history: Which strategies worked best?
 - Select 1-3 strategies for Phase 1 execution
@@ -169,12 +170,13 @@ to `factories-registry.jsonl`
 **Output**: List of strategies + reasoning for Phase 1 selection
 
 ### Sub-tasks (adapt as needed):
+
 1. Parse goal + constraints (ask clarifying Qs if ambiguous)
-2. Load current strategies from `seed-prompting-strategies.jsonl`
-3. Scan feedback_history → Which strategies worked best?
-4. Review user_profile + category → Any special considerations?
-5. Check continuity_baseline → Upgrade/replacement context?
-6. **Decide**: Pick 1-3 strategies from available catalog
+1. Load current strategies from `seed-prompting-strategies.jsonl`
+1. Scan feedback_history → Which strategies worked best?
+1. Review user_profile + category → Any special considerations?
+1. Check continuity_baseline → Upgrade/replacement context?
+1. **Decide**: Pick 1-3 strategies from available catalog
 
 ### Strategy Selection (Dynamic from Registry)
 
@@ -199,8 +201,8 @@ Context Analysis:
 **Selected Strategies** (from seed-prompting-strategies.jsonl):
 
 1. Few-Shot (leverage prior RTX 4070 research)
-2. Meta-Prompting (GPU shortage patterns + community)
-3. Self-Critique (score recommendation vs rubric)
+1. Meta-Prompting (GPU shortage patterns + community)
+1. Self-Critique (score recommendation vs rubric)
 
 ## 6. Phase 1: Strategy Execution (FLEXIBLE - YOUR CHOICE)
 
@@ -211,6 +213,7 @@ Context Analysis:
 **Task**: Execute chosen strategies to produce research/reasoning/recommendations
 
 **NOT FIXED**: Different factories use different strategies:
+
 - strategy-builder might use: Decomposition + CoT + Self-Critique
 - shopping-builder might use: Few-Shot + Meta-Prompting + Community wisdom
 - interview-prep might use: Self-Consistency (multiple mock runs)
@@ -218,16 +221,20 @@ Context Analysis:
 **Generic Template** (adapt per strategy):
 
 ### Sub-phase 1.1: Execute Strategy A
+
 [Your chosen strategy's execution steps]
 Reference: `seed-prompting-strategies.jsonl[{strategy_name}].implementation`
 
 ### Sub-phase 1.2: Execute Strategy B (if applicable)
+
 [Next strategy]
 
 ### Sub-phase 1.3: Aggregate/Synthesize Results
+
 Combine outputs from strategies into coherent narrative
 
 **Checkpoints**:
+
 - Each sub-phase produces intermediate output
 - Compare across strategies (do they agree?)
 - Flag conflicts/uncertainty
@@ -243,18 +250,23 @@ Combine outputs from strategies into coherent narrative
 **Output structure** (adapt sections as needed):
 
 ### Main Recommendation
+
 [Top choice + confidence + rationale]
 
 ### Comparison Table (if applicable)
+
 [Alternatives ranked by criteria]
 
 ### Risks & Caveats
+
 [Unknowns, failure modes, confidence limits]
 
 ### Sources & Provenance
+
 [Where did data come from? References?]
 
 ### Transparent Reasoning
+
 [How did strategies guide this? Any disagreements?]
 
 **Example for shopping-builder**:
@@ -269,10 +281,10 @@ Combine outputs from strategies into coherent narrative
 
 ## Alternatives
 
-| Model | Score | Price | ΔvsPrior |
-|-------|-------|-------|----------|
-| RTX5090 | 9.1 | $1800 | +1.2 |
-| RTX4090 | 8.7 | $1300 | +0.5 |
+| Model   | Score | Price | ΔvsPrior |
+| ------- | ----- | ----- | -------- |
+| RTX5090 | 9.1   | $1800 | +1.2     |
+| RTX4090 | 8.7   | $1300 | +0.5     |
 
 ## Risks
 
@@ -294,10 +306,10 @@ Combine outputs from strategies into coherent narrative
 **Task**:
 
 1. Score output against Seed criteria
-2. Solicit feedback (if enabled)
-3. Append execution record to registry
-4. Suggest rubric/strategy/factory evolution
-5. Update factory metadata
+1. Solicit feedback (if enabled)
+1. Append execution record to registry
+1. Suggest rubric/strategy/factory evolution
+1. Update factory metadata
 
 ### Step 1: Criteria Scoring (LLM-as-Judge)
 
@@ -330,7 +342,7 @@ Rate each criterion 1-5:
 
 ### Step 4: Evolution Triggers
 
-If score <7.5 OR new patterns detected:
+If score \<7.5 OR new patterns detected:
 
 ```bash
 Suggestion: Add "VRAM_analysis" task to factory?
@@ -417,7 +429,7 @@ Factories may expose CLI-friendly outputs:
 }
 ```
 
----
+______________________________________________________________________
 
 ## ✅ Factory Template Checklist
 
@@ -466,12 +478,12 @@ interview-prep.md
 ## 🚀 How Orchestrator Uses This
 
 1. **Discovers factories**: Scans for `TITLE.*Factory/Builder`
-2. **Extracts metadata**: Reads JSON metadata section (including `strategies_registry_link`)
-3. **Computes match score**: Keyword/Semantic/Task/Recency
-4. **Passes strategy context**: Includes `seed-prompting-strategies.jsonl` entries in input
-5. **Executes**: Loads Phase 0 → Factory loads current strategies → User selects → Runs Phase 1-2
-6. **Logs**: Appends Tail Module output to `factories-registry.jsonl` (including strategies_used)
-7. **Evolves**: Detects if factory should split/patch based on feedback + new strategies
+1. **Extracts metadata**: Reads JSON metadata section (including `strategies_registry_link`)
+1. **Computes match score**: Keyword/Semantic/Task/Recency
+1. **Passes strategy context**: Includes `seed-prompting-strategies.jsonl` entries in input
+1. **Executes**: Loads Phase 0 → Factory loads current strategies → User selects → Runs Phase 1-2
+1. **Logs**: Appends Tail Module output to `factories-registry.jsonl` (including strategies_used)
+1. **Evolves**: Detects if factory should split/patch based on feedback + new strategies
 
 ## 🔗 Living Strategy Registry
 

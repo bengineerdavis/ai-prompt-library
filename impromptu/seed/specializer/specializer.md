@@ -28,6 +28,6 @@ You are a meta-prompt to evaluate and suggest role designs for the Seed system.
 
 - Give recommendations for base role and patches for the prompt.
 
----
+______________________________________________________________________
 
 ### Note: This is a neutral, generic version. Personalization will be added as feedback is collected

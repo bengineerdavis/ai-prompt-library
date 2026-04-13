@@ -3,7 +3,7 @@
 All notable changes to this library are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-***
+______________________________________________________________________
 
 ## [Unreleased] — Documentation Reduction Pass
 
@@ -13,7 +13,7 @@ Two-session documentation reduction pass across `impromptu/`, `factories/`, `see
 and root. Goal: eliminate redundant READMEs, consolidate scattered setup content,
 and give every remaining doc a single clear scope.
 
-***
+______________________________________________________________________
 
 ## Session 5 — 2026-04-03 · changelog workflow standardization
 
@@ -30,7 +30,7 @@ and give every remaining doc a single clear scope.
   - For direct-use library prompts, also update the library-level changelog when the prompt is intended for user-facing reuse
   - Factory-builder / prompt-builder workflows must include a final review step that identifies changed files, identifies governing changelog files, asks for confirmation if needed, and returns the changelog draft with the changed artifacts
 
-***
+______________________________________________________________________
 
 ## Session 4 — 2026-04-03 · build_bootstrap.py — factory discovery + changelog injection
 
@@ -76,7 +76,7 @@ and give every remaining doc a single clear scope.
   directory name — convention-based, no hardcoded filename lists except `readme.md`
   and the `versions/` directory rule
 
-***
+______________________________________________________________________
 
 ## Session 3 — 2026-04-02 · build_bootstrap.py refactor
 
@@ -93,7 +93,7 @@ Code-quality pass on `build_bootstrap.py`. No behavior change.
   - Renderer functions: switched from `dedent(f"""...""")` to plain f-string concatenation — `dedent` only helps when literals are indented inside a function body; these are not
   - `render_paste3`: collapsed council/core sort into a single ternary append — `(council if "council" in s.get("tags", []) else core).append(line)`
 
-***
+______________________________________________________________________
 
 ## Session 2 — 2026-04-01 / 2026-04-02 · factories/ and seed/
 
@@ -162,15 +162,15 @@ Code-quality pass on `build_bootstrap.py`. No behavior change.
 
 ### Net doc count (session 2)
 
-| Location | Before | After | Delta |
-|----------|--------|-------|-------|
-| Root | 2 | 2 | — |
-| `docs/` | 2 | 2 | — |
-| `seed/` | 6 | 2 | −4 |
-| `factories/` | 3 | 3 | — |
-| **Total** | **13** | **9** | **−4** |
+| Location     | Before | After | Delta  |
+| ------------ | ------ | ----- | ------ |
+| Root         | 2      | 2     | —      |
+| `docs/`      | 2      | 2     | —      |
+| `seed/`      | 6      | 2     | −4     |
+| `factories/` | 3      | 3     | —      |
+| **Total**    | **13** | **9** | **−4** |
 
-***
+______________________________________________________________________
 
 ## Session 1 — 2026-04-01 · impromptu/
 
@@ -182,4 +182,4 @@ Refactoring pass on the `impromptu/` prompt directory. Prompt files normalized t
 consistent naming conventions and structure; redundant documentation consolidated
 or removed; directory brought into alignment with library conventions.
 
-***
+______________________________________________________________________

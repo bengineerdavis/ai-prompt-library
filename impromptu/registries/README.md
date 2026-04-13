@@ -38,4 +38,3 @@ Holds strategy-level metadata:
 
 - Machine-readable metadata lives in `.jsonl`
 - Human-readable comments and guidance live in `.md`
-

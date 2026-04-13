@@ -7,7 +7,7 @@ For an overview of global controls and behavior, see:
 - [`docs/modes-and-settings.md`](./modes-and-settings.md)
 - [`seed/README.md`](../seed/README.md)
 
-***
+______________________________________________________________________
 
 ## Directory layout
 
@@ -43,7 +43,7 @@ For an overview of global controls and behavior, see:
     └── execution-log.jsonl           ← tail module appends here
 ```
 
-***
+______________________________________________________________________
 
 ## Adding a factory to the registry
 
@@ -88,7 +88,7 @@ jq 'select(.name == "your-factory-name")' factories-registry.jsonl
 
 The `rubric` weights should sum to 1.0 and use the same dimensions defined in [`docs/scoring-model.md`](./scoring-model.md). You can adjust weights per factory (for example, emphasize completeness for research-heavy factories).
 
-***
+______________________________________________________________________
 
 ## Registry entries — current factories
 
@@ -110,7 +110,7 @@ The `rubric` weights should sum to 1.0 and use the same dimensions defined in [`
 {"name":"wealth-advisor-and-builder","version":"1.0","type":"factory","description":"Wealth planning for mid-career catch-up with employment risk, Boglehead-style.","parent":"strategy-builder","enabled":true,"tasks":["wealth","catchup","swr","runway","boglehead"],"keywords":["wealth","finance","boglehead","swr","runway","late_start","retirement"],"rubric":{"clarity":0.2,"conciseness":0.15,"completeness":0.2,"goal_alignment":0.2,"context_awareness":0.15,"expected_output":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"],"recent_scores":[8.7,8.9,8.6],"avg_score":8.73,"last_updated":"2025-12-08"}
 ```
 
-***
+______________________________________________________________________
 
 ## Testing orchestrator match
 
@@ -129,13 +129,13 @@ Match confidence thresholds:
 
 These thresholds are part of the orchestrator’s matching logic and are separate from the quality thresholds used inside individual factory runs.
 
-***
+______________________________________________________________________
 
 ## Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| Match score < 75% | Add query keywords to the factory’s `keywords` array in the registry |
-| Phase 0 fails | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` entries |
+| Issue                   | Fix                                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------------ |
+| Match score < 75%       | Add query keywords to the factory’s `keywords` array in the registry                 |
+| Phase 0 fails           | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` entries               |
 | Tail module not writing | Check write permissions on `factories-registry.jsonl` and `logs/execution-log.jsonl` |
-| Wrong factory loads | Make keyword arrays more specific; avoid generic terms shared across factories |
+| Wrong factory loads     | Make keyword arrays more specific; avoid generic terms shared across factories       |

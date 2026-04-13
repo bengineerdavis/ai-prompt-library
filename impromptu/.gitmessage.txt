@@ -1,13 +1,13 @@
 type(scope): summary
 
 Why:
-- 
+-
 
 Changes:
-- 
+-
 
-Intent: 
-Area: 
+Intent:
+Area:
 Review-Needed: yes
 Model-Assist: no
-Follow-Up: 
+Follow-Up:

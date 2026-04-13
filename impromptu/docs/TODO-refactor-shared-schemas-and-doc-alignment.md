@@ -69,6 +69,7 @@ This branch does not cover:
 ## Commit-by-commit plan
 
 ### 1. Canonical model doc
+
 Commit:
 
 - `docs(impromptu): add canonical prompt library model`
@@ -82,6 +83,7 @@ Status:
 - [x] Done
 
 ### 2. Branch execution doc
+
 Commit:
 
 - `docs(refactor): add WIP shared schemas and drift-detection plan`
@@ -95,6 +97,7 @@ Status:
 - [x] Done
 
 ### 3. Docs entrypoint links
+
 Commit:
 
 - `docs(readme): link prompt library model and refactor plan`
@@ -108,6 +111,7 @@ Status:
 - [x] Done
 
 ### 4. Canonical model refinement
+
 Commit:
 
 - `docs(impromptu): refine library model for repo-bound roots and disjoint collections`
@@ -127,6 +131,7 @@ Status:
 - [x] Done
 
 ### 5. Shared schema alignment
+
 Commit:
 
 - `feat(schema): align manifest schema with repo-bound prompt library model`
@@ -147,6 +152,7 @@ Status:
 - [ ] Todo
 
 ### 6. Discovery alignment
+
 Commit:
 
 - `feat(discovery): enforce collection-scoped namespace discovery rules`
@@ -163,6 +169,7 @@ Status:
 - [ ] Todo
 
 ### 7. Drift detection completion
+
 Commit:
 
 - `feat(drift): detect schema and filesystem mismatches for prompt libraries`
@@ -181,6 +188,7 @@ Status:
 - [ ] Todo
 
 ### 8. Validation guardrails
+
 Commit:
 
 - `feat(validation): reject hidden, non-text, and structurally invalid prompt candidates`
@@ -197,6 +205,7 @@ Status:
 - [ ] Todo
 
 ### 9. Tests and fixtures
+
 Commit:
 
 - `test(discovery): add valid and invalid prompt library fixtures`
@@ -213,6 +222,7 @@ Status:
 - [ ] Todo
 
 ### 10. Deferred work recorded
+
 Commit:
 
 - `docs(roadmap): record future collection groups and multi-library tooling`
@@ -231,6 +241,7 @@ Status:
 - [ ] Todo
 
 ### 11. Changelog follow-through
+
 Commit:
 
 - `chore(changelog): record prompt library schema and discovery alignment changes`

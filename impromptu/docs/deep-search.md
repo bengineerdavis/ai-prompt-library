@@ -9,6 +9,7 @@ For the general control definitions, see [Modes and settings](./modes-and-settin
 `complexity = deep search` allows the system to use a much broader and more expensive search process than normal.
 
 This can include:
+
 - more candidates
 - more judges or evaluators
 - tournament-style ranking
@@ -21,6 +22,7 @@ Deep search is the far end of the “adventurous vs conservative” spectrum for
 ## When to use it
 
 Deep search is most appropriate when:
+
 - the prompt is high value or high reuse
 - the user explicitly wants exploration
 - the task is difficult or ambiguous
@@ -31,6 +33,7 @@ It is especially useful when extra structural exploration is likely to change th
 ## When not to use it
 
 Deep search is usually unnecessary for:
+
 - simple prompt rewrites
 - low-stakes one-off tasks
 - weakly benchmarkable tasks
@@ -43,6 +46,7 @@ In these cases, `simple`, `layered`, or `exploratory` complexity is normally eno
 Even deep search should not run without limits.
 
 Use guardrails such as:
+
 - stop when score improvements plateau
 - stop when evaluators largely agree
 - stop when budget or runtime limits are reached
@@ -55,6 +59,7 @@ These decisions rely on the same signals used elsewhere (quality, confidence, di
 Deep search should be rare by default.
 
 It should usually require:
+
 - `cost = high` or `unlimited`
 - strong uncertainty or explicit user request
 - a task where extra search is likely to matter

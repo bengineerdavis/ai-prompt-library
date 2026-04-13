@@ -8,16 +8,17 @@ For the user-facing controls that influence this pipeline, see [Modes and settin
 
 Impromptu uses a universal internal pipeline:
 
-1. Build  
-2. Specializer  
-3. Optimizer  
-4. Profile  
+1. Build
+1. Specializer
+1. Optimizer
+1. Profile
 
 These stages are always conceptually present, but they do not always run with the same intensity.
 
 ## Stage states
 
 Each stage can be:
+
 - `active`
 - `no-op`
 - `deferred`
@@ -51,6 +52,7 @@ Applies reusable user preferences, standing constraints, and other persistent de
 - **verbosity** affects how much of this is shown to the user.
 
 For example:
+
 - `cost = low` and `complexity = simple` may produce one candidate with light optimization.
 - `cost = high` and `complexity = exploratory` may allow multiple candidates, judges, and refinement rounds.
 

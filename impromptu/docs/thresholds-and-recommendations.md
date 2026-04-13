@@ -42,20 +42,23 @@ These profiles are influenced by `cost` and `complexity`:
 
 The exact numbers can evolve, but a reasonable starting point is:
 
-- **Speed profile** (low-stakes / exploratory)  
-  - overall quality ≥ 3.5  
-  - confidence ≥ 0.6  
-  - disagreement can be moderate  
+- **Speed profile** (low-stakes / exploratory)
 
-- **Balanced profile** (default)  
-  - overall quality ≥ 4.0  
-  - confidence ≥ 0.7  
-  - disagreement is low  
+  - overall quality ≥ 3.5
+  - confidence ≥ 0.6
+  - disagreement can be moderate
 
-- **Thorough profile** (high-effort / high-reuse)  
-  - overall quality ≥ 4.5  
-  - confidence ≥ 0.8  
-  - disagreement is very low  
+- **Balanced profile** (default)
+
+  - overall quality ≥ 4.0
+  - confidence ≥ 0.7
+  - disagreement is low
+
+- **Thorough profile** (high-effort / high-reuse)
+
+  - overall quality ≥ 4.5
+  - confidence ≥ 0.8
+  - disagreement is very low
 
 These are conceptual targets rather than hard-coded constants; implementation may map them to model-specific scales.
 
@@ -64,11 +67,13 @@ These are conceptual targets rather than hard-coded constants; implementation ma
 User settings do not set thresholds directly. Instead, they select how strict the system should be and how much work it may do to reach that standard.
 
 - Increasing **cost** allows the system to:
+
   - try more candidates
   - run more judges
   - iterate more rounds before considering the task complete
 
 - Increasing **complexity** allows the system to:
+
   - explore more diverse strategies
   - branch into different prompt structures
   - keep multiple strong alternatives before choosing
@@ -84,16 +89,19 @@ This keeps behavior intuitive: if you ask for more effort and exploration, the s
 
 Thresholds should adapt based on:
 
-- **Task type and stakes**  
-  - One-off, low-stakes tasks (for example quick rewrites) can stop earlier.  
+- **Task type and stakes**
+
+  - One-off, low-stakes tasks (for example quick rewrites) can stop earlier.
   - Reusable prompts, factories, or long-lived research should aim higher.
 
-- **How benchmarkable the task is**  
-  - Clear, checkable tasks (for example format adherence, explicit constraints) can justify stricter rules.  
+- **How benchmarkable the task is**
+
+  - Clear, checkable tasks (for example format adherence, explicit constraints) can justify stricter rules.
   - Ambiguous or taste-driven tasks may tolerate more disagreement.
 
-- **User preferences and history**  
-  - If a user often increases cost/complexity and reviews multiple options, the system can lean toward stricter thresholds.  
+- **User preferences and history**
+
+  - If a user often increases cost/complexity and reviews multiple options, the system can lean toward stricter thresholds.
   - If a user usually accepts early results, the system can learn to stop sooner.
 
 These adjustments are incremental. Thresholds should move slowly and be explainable in plain language.
@@ -103,17 +111,20 @@ These adjustments are incremental. Thresholds should move slowly and be explaina
 Given current signals, Impromptu can:
 
 - **Accept / stop** when:
+
   - quality is above the relevant profile threshold
   - confidence is high enough
   - disagreement is low or expected for the task
   - recent improvement deltas are small
 
 - **Continue at the same level** when:
+
   - quality is close but not yet above threshold
   - confidence is moderate
   - improvement deltas are still meaningful
 
 - **Escalate** when:
+
   - quality is below threshold
   - confidence is low
   - disagreement is high

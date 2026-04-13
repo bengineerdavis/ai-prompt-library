@@ -1,6 +1,7 @@
 # seed-prompting-strategies — Living Registry of Prompting Strategies
-**Version**: v3.3  
-**Updated**: 2026-03-28  
+
+**Version**: v3.3\
+**Updated**: 2026-03-28\
 **Data file**: `seed-prompting-strategies-v3.3.jsonl`
 
 This is a living, continuously-updated registry of prompting strategies available to Seed factories.
@@ -8,10 +9,10 @@ This is a living, continuously-updated registry of prompting strategies availabl
 Each line in the `.jsonl` file is a JSON object representing one strategy.
 Factories reference this registry dynamically in Phase 0.
 
-> JSONL does not support comments.  
+> JSONL does not support comments.\
 > Keep documentation in this `.md` file and keep the `.jsonl` file pure JSONL.
 
----
+______________________________________________________________________
 
 ## Schema
 
@@ -34,11 +35,12 @@ Factories reference this registry dynamically in Phase 0.
 }
 ```
 
----
+______________________________________________________________________
 
 ## Current strategy groups
 
 ### Core strategies
+
 - Decomposition
 - Chain-of-Thought
 - Meta-Prompting
@@ -51,11 +53,12 @@ Factories reference this registry dynamically in Phase 0.
 - Rubric-Based-Scoring
 
 ### Council strategies
+
 - Model-Council-Generate
 - Model-Council-Judge
 - Mixture-of-Roles
 
----
+______________________________________________________________________
 
 ## Usage
 
@@ -90,7 +93,7 @@ jq -s 'sort_by(-.effectiveness)[] | {name, effectiveness}' seed-prompting-strate
 }
 ```
 
----
+______________________________________________________________________
 
 ## Version history
 
@@ -98,7 +101,7 @@ jq -s 'sort_by(-.effectiveness)[] | {name, effectiveness}' seed-prompting-strate
 - **v1.1 (2026-03-28)**: Added council strategies
 - **v3.3 (2026-03-28)**: Aligned to Seed v3.3 naming and companion-doc pattern
 
----
+______________________________________________________________________
 
 ## Maintenance rules
 

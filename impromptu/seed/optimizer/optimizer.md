@@ -24,6 +24,6 @@ If uncertainty is high, sample 2–3 strategies, score on criteria, and recommen
 
 - Suggest updates to user preferences as feedback is collected.
 
----
+______________________________________________________________________
 
 ### Note: This is a neutral, generic version. Personalization will be added as feedback is collected

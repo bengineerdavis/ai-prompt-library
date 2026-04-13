@@ -4,7 +4,7 @@ Seed is a modular, self-improving meta-prompting system for users of LLMs, agent
 
 Seed is neutral by default and becomes personalized through feedback, preferences, and logged history.
 
-***
+______________________________________________________________________
 
 ## Mental model
 
@@ -16,7 +16,7 @@ You boot the OS once per session, pick or auto-create the right factory, and the
 
 Impromptu’s global controls (cost, complexity, verbosity), scoring, thresholds, and preferences frame how this OS behaves.
 
-***
+______________________________________________________________________
 
 ## Components
 
@@ -86,7 +86,7 @@ Master index of all registered factories. Read by the orchestrator at session st
 
 Append a new line to register a factory. See `docs/setup.md` for the full entry schema and append commands.
 
-***
+______________________________________________________________________
 
 ## Directory map
 
@@ -104,6 +104,6 @@ seed/
     └── README.md                      ← orchestrator-specific usage
 ```
 
-***
+______________________________________________________________________
 
 **Version**: 4.1 · **Orchestrator**: v3.2+

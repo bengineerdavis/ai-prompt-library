@@ -7,11 +7,11 @@ This directory contains the working documentation for Impromptu's prompt-buildin
 Start here if you are new:
 
 1. [Modes and settings](./modes-and-settings.md)
-2. [Auto mode policy](./auto-mode-policy.md)
-3. [Pipeline and stages](./pipeline-and-stages.md)
-4. [Thresholds and recommendations](./thresholds-and-recommendations.md)
-5. [User preferences and memory](./user-preferences-and-memory.md)
-6. [Service-specific guidance](./service-specific-guidance.md)
+1. [Auto mode policy](./auto-mode-policy.md)
+1. [Pipeline and stages](./pipeline-and-stages.md)
+1. [Thresholds and recommendations](./thresholds-and-recommendations.md)
+1. [User preferences and memory](./user-preferences-and-memory.md)
+1. [Service-specific guidance](./service-specific-guidance.md)
 
 ## What each doc covers
 

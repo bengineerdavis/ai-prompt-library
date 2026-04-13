@@ -8,7 +8,7 @@ Part of the Seed Factory System (v4.1+).
 Dependencies: `seed-profile.md`, `seed-orchestrator-v3.2-hybrid.md`, `factories-registry.jsonl`
 Parents: `strategy-builder`, `shopping-builder`
 
----
+______________________________________________________________________
 
 ## What This Factory Does
 
@@ -32,17 +32,18 @@ Tail: Score: 8.7 → appended to registry
 
 text
 
----
+______________________________________________________________________
 
 ## Quick Start
 
 1. Confirm these files are in your seed root:
+
    - `seed-profile.md`
    - `seed-orchestrator-v3.2-hybrid.md`
    - `factories-registry.jsonl`
    - `seed-prompting-strategies.jsonl`
 
-2. Start a session:
+1. Start a session:
 
 Paste 1: factories-registry.jsonl
 Paste 2: seed-orchestrator-v3.2-hybrid.md
@@ -56,7 +57,7 @@ The orchestrator will match this factory at ≥85% confidence.
 
 For registry setup and directory layout, see `docs/setup.md` in the seed root.
 
----
+______________________________________________________________________
 
 ## Query Match Examples
 
@@ -79,7 +80,7 @@ text
 If match score falls below 75%, add specific keywords from the high-confidence
 examples above to your query.
 
----
+______________________________________________________________________
 
 ## Monitoring & Iteration
 
@@ -92,28 +93,28 @@ After 5+ executions, check `avg_score` in the registry:
 
 Scan `feedback_history` entries for missing task coverage (tax, RSU, health).
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| Match < 75% | Add query keywords to the `keywords` array in the registry entry |
-| Phase 0 fails | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` strategies |
-| Parents not found | Ensure `strategy-builder` and `shopping-builder` exist in registry |
-| Tail Module not writing | Check write permissions on `factories-registry.jsonl` |
+| Issue                   | Fix                                                                       |
+| ----------------------- | ------------------------------------------------------------------------- |
+| Match < 75%             | Add query keywords to the `keywords` array in the registry entry          |
+| Phase 0 fails           | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` strategies |
+| Parents not found       | Ensure `strategy-builder` and `shopping-builder` exist in registry        |
+| Tail Module not writing | Check write permissions on `factories-registry.jsonl`                     |
 
----
+______________________________________________________________________
 
 ## Related Files
 
-| File | Purpose |
-|------|---------|
-| `wealth-advisor-and-builder-v1.md` | Main factory prompt |
-| `strategy-builder.md` | Required parent factory |
-| `shopping-builder.md` | Required parent factory |
-| `factories-registry.jsonl` | Master registry — must include this factory's entry |
+| File                               | Purpose                                             |
+| ---------------------------------- | --------------------------------------------------- |
+| `wealth-advisor-and-builder-v1.md` | Main factory prompt                                 |
+| `strategy-builder.md`              | Required parent factory                             |
+| `shopping-builder.md`              | Required parent factory                             |
+| `factories-registry.jsonl`         | Master registry — must include this factory's entry |
 
----
+______________________________________________________________________
 
 **Version**: 1.0 · **Last Updated**: 2025-12-08 · **Orchestrator**: v3.2+ · **Avg Score**: 8.73

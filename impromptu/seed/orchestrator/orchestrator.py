@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-orchestrator.py - Seed Orchestrator v3.3 for scripted use
+"""orchestrator.py - Seed Orchestrator v3.3 for scripted use
 
 Usage:
     from orchestrator import Orchestrator, Registry
@@ -17,19 +16,20 @@ Usage:
 
 import json
 import re
-from typing import List, Dict, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-
+from typing import Dict, List, Optional
 
 # ---------------------------------------------------------------------------
 # Datatypes
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class Signal:
     """Represents one of the 4 matching signals used for factory scoring."""
+
     name: str
     weight: float
     score: float
@@ -42,6 +42,7 @@ class Signal:
 @dataclass
 class Match:
     """Represents a factory match result from the 4-signal algorithm."""
+
     factory: str
     composite: float
     signals: Dict[str, Signal]
@@ -56,12 +57,12 @@ class Match:
 
 @dataclass
 class StrategyEntry:
-    """
-    A single strategy from seed-prompting-strategies.jsonl.
+    """A single strategy from seed-prompting-strategies.jsonl.
 
     Mirrors the JSONL schema so factories can load, filter, and reference
     strategies dynamically rather than hard-coding them.
     """
+
     name: str
     version: str
     enabled: bool
@@ -70,7 +71,7 @@ class StrategyEntry:
     effectiveness: float
     best_for: List[str]
     requires_multiple_runs: bool
-    computational_cost: str                 # "low" | "medium" | "high"
+    computational_cost: str  # "low" | "medium" | "high"
     model_compatibility: List[str]
     added: str
     updated: str
@@ -117,12 +118,12 @@ class StrategyEntry:
 
 @dataclass
 class FactoryEntry:
-    """
-    A single factory entry from factories-registry.jsonl.
+    """A single factory entry from factories-registry.jsonl.
 
     Provides typed access to registry metadata. Orchestrator uses this
     when computing signals and selecting factories.
     """
+
     name: str
     version: str
     type: str
@@ -200,6 +201,7 @@ class FactoryEntry:
 @dataclass
 class ExecutionLog:
     """A single execution log record written back after a factory run."""
+
     timestamp: str
     query: str
     factory: str
@@ -223,6 +225,7 @@ class ExecutionLog:
 # ---------------------------------------------------------------------------
 # StrategyRegistry
 # ---------------------------------------------------------------------------
+
 
 class StrategyRegistry:
     """Load and query seed-prompting-strategies.jsonl."""
@@ -303,19 +306,27 @@ class StrategyRegistry:
 # Registry
 # ---------------------------------------------------------------------------
 
+
 class Registry:
     """Load and query factories-registry.jsonl."""
 
     def __init__(self, entries: List[Dict]):
         self._raw = entries
         self.factory_entries: List[FactoryEntry] = [
-            FactoryEntry.from_dict(e) for e in entries
-            if e.get("type") in ("factory", "meta-factory", "template", "global",
-                                  "orchestrator", "optimizer", "specializer")
+            FactoryEntry.from_dict(e)
+            for e in entries
+            if e.get("type")
+            in (
+                "factory",
+                "meta-factory",
+                "template",
+                "global",
+                "orchestrator",
+                "optimizer",
+                "specializer",
+            )
         ]
-        self.inline_strategies: List[Dict] = [
-            e for e in entries if e.get("type") == "strategy"
-        ]
+        self.inline_strategies: List[Dict] = [e for e in entries if e.get("type") == "strategy"]
 
     @property
     def factories(self) -> List[FactoryEntry]:
@@ -362,8 +373,9 @@ class Registry:
     def list_strategies(self) -> List[str]:
         return [s.get("name", "") for s in self.inline_strategies]
 
-    def update_scores(self, factory_name: str, new_score: float,
-                      filepath: Optional[str] = None) -> None:
+    def update_scores(
+        self, factory_name: str, new_score: float, filepath: Optional[str] = None
+    ) -> None:
         entry = self.get_factory(factory_name)
         if entry is None:
             return
@@ -386,22 +398,22 @@ class Registry:
 # Orchestrator
 # ---------------------------------------------------------------------------
 
+
 class Orchestrator:
     """Main orchestrator: 4-signal factory matching and execution logging."""
 
     WEIGHTS = {
-        "keyword":  0.40,
+        "keyword": 0.40,
         "semantic": 0.30,
-        "task":     0.20,
-        "recency":  0.10,
+        "task": 0.20,
+        "recency": 0.10,
     }
 
-    AUTO_RUN   = 0.90
-    ASK_USER   = 0.85
+    AUTO_RUN = 0.90
+    ASK_USER = 0.85
     SHOW_THREE = 0.75
 
-    def __init__(self, registry: Registry,
-                 strategy_registry: Optional[StrategyRegistry] = None):
+    def __init__(self, registry: Registry, strategy_registry: Optional[StrategyRegistry] = None):
         self.registry = registry
         self.strategy_registry = strategy_registry
         self.execution_log: List[ExecutionLog] = []
@@ -409,8 +421,7 @@ class Orchestrator:
     def tokenize_query(self, query: str) -> List[str]:
         return re.findall(r"\w+", query.lower())
 
-    def signal_1_keyword_match(self, query_tokens: List[str],
-                               factory: FactoryEntry) -> float:
+    def signal_1_keyword_match(self, query_tokens: List[str], factory: FactoryEntry) -> float:
         factory_keywords = set(factory.keywords)
         query_set = set(query_tokens)
         if not query_set:
@@ -430,26 +441,58 @@ class Orchestrator:
         base = min(0.60, overlap / max_possible + 0.30)
 
         domain_rules = [
-            (["buy","purchase","keyboard","headphone","monitor","laptop","product","deal"],
-             ["buy","timing","deal_hunting","comparison"], 0.50),
-            (["interview","mock","behavioral","leet","prep","practice"],
-             ["interview","mock","prep","feedback"], 0.55),
-            (["plan","roadmap","strategy","phase","timeline","week"],
-             ["planning","roadmap","multi-week","decomposition"], 0.45),
-            (["sentry","sdk","dsn","tracing","breadcrumb","issue","event","escalat"],
-             ["co_pilot","failure_review","study_session","triage"], 0.60),
-            (["wealth","retire","boglehead","swr","runway","invest","saving"],
-             ["wealth","catchup","swr","runway","boglehead"], 0.55),
-            (["factory","generate","create","meta","new factory"],
-             ["factory_generation","factory_refactoring"], 0.50),
-            (["tutor","learn","study","mastery","mentor","self-learning"],
-             ["tutor_deployment","study_plan_design","learner_profiling"], 0.50),
+            (
+                [
+                    "buy",
+                    "purchase",
+                    "keyboard",
+                    "headphone",
+                    "monitor",
+                    "laptop",
+                    "product",
+                    "deal",
+                ],
+                ["buy", "timing", "deal_hunting", "comparison"],
+                0.50,
+            ),
+            (
+                ["interview", "mock", "behavioral", "leet", "prep", "practice"],
+                ["interview", "mock", "prep", "feedback"],
+                0.55,
+            ),
+            (
+                ["plan", "roadmap", "strategy", "phase", "timeline", "week"],
+                ["planning", "roadmap", "multi-week", "decomposition"],
+                0.45,
+            ),
+            (
+                ["sentry", "sdk", "dsn", "tracing", "breadcrumb", "issue", "event", "escalat"],
+                ["co_pilot", "failure_review", "study_session", "triage"],
+                0.60,
+            ),
+            (
+                ["wealth", "retire", "boglehead", "swr", "runway", "invest", "saving"],
+                ["wealth", "catchup", "swr", "runway", "boglehead"],
+                0.55,
+            ),
+            (
+                ["factory", "generate", "create", "meta", "new factory"],
+                ["factory_generation", "factory_refactoring"],
+                0.50,
+            ),
+            (
+                ["tutor", "learn", "study", "mastery", "mentor", "self-learning"],
+                ["tutor_deployment", "study_plan_design", "learner_profiling"],
+                0.50,
+            ),
         ]
 
         q = query.lower()
         factory_task_set = set(factory.tasks)
         for query_triggers, factory_task_signals, boost in domain_rules:
-            if any(t in q for t in query_triggers) and bool(factory_task_set & set(factory_task_signals)):
+            if any(t in q for t in query_triggers) and bool(
+                factory_task_set & set(factory_task_signals)
+            ):
                 return min(1.0, base + boost)
 
         return base
@@ -460,18 +503,28 @@ class Orchestrator:
         required: set = set()
 
         task_inference = {
-            "buy":              ["buy", "purchase", "get", "acquire"],
-            "timing":           ["when", "time", "soon", "month", "year"],
-            "comparison":       ["compare", "vs", "versus", "which", "best", "difference"],
-            "planning":         ["plan", "roadmap", "phase", "week", "timeline"],
-            "interview":        ["interview", "mock", "prep", "behavioral", "technical"],
-            "study":            ["study", "learn", "understand", "practice", "tutor"],
-            "study_session":    ["study", "learn", "session", "understand", "practice"],
-            "co_pilot":         ["help", "debug", "triage", "ticket", "escalate",
-                                 "tracing", "breadcrumb", "dsn", "sdk", "sentry"],
-            "failure_review":   ["failure", "review", "incident", "postmortem", "rca"],
+            "buy": ["buy", "purchase", "get", "acquire"],
+            "timing": ["when", "time", "soon", "month", "year"],
+            "comparison": ["compare", "vs", "versus", "which", "best", "difference"],
+            "planning": ["plan", "roadmap", "phase", "week", "timeline"],
+            "interview": ["interview", "mock", "prep", "behavioral", "technical"],
+            "study": ["study", "learn", "understand", "practice", "tutor"],
+            "study_session": ["study", "learn", "session", "understand", "practice"],
+            "co_pilot": [
+                "help",
+                "debug",
+                "triage",
+                "ticket",
+                "escalate",
+                "tracing",
+                "breadcrumb",
+                "dsn",
+                "sdk",
+                "sentry",
+            ],
+            "failure_review": ["failure", "review", "incident", "postmortem", "rca"],
             "pattern_tracking": ["pattern", "track", "recurring", "log", "trend"],
-            "wealth":           ["wealth", "retire", "invest", "savings", "boglehead"],
+            "wealth": ["wealth", "retire", "invest", "savings", "boglehead"],
             "factory_generation": ["factory", "create", "generate", "new factory"],
         }
 
@@ -488,31 +541,32 @@ class Orchestrator:
     def signal_4_recency(self, factory: FactoryEntry) -> float:
         return factory.avg_score / 10.0
 
-    def _compute_match(self, query: str, query_tokens: List[str],
-                       factory: FactoryEntry) -> Match:
+    def _compute_match(self, query: str, query_tokens: List[str], factory: FactoryEntry) -> Match:
         s1 = self.signal_1_keyword_match(query_tokens, factory)
         s2 = self.signal_2_semantic_match(query, factory)
         s3 = self.signal_3_task_coverage(query, factory)
         s4 = self.signal_4_recency(factory)
         signals = {
-            "keyword":  Signal("keyword",  self.WEIGHTS["keyword"],  s1),
+            "keyword": Signal("keyword", self.WEIGHTS["keyword"], s1),
             "semantic": Signal("semantic", self.WEIGHTS["semantic"], s2),
-            "task":     Signal("task",     self.WEIGHTS["task"],     s3),
-            "recency":  Signal("recency",  self.WEIGHTS["recency"],  s4),
+            "task": Signal("task", self.WEIGHTS["task"], s3),
+            "recency": Signal("recency", self.WEIGHTS["recency"], s4),
         }
         composite = sum(s.weighted for s in signals.values())
         return Match(factory=factory.name, composite=composite, signals=signals)
 
     def match_factory(self, query: str) -> Optional[Match]:
         query_tokens = self.tokenize_query(query)
-        results = [self._compute_match(query, query_tokens, f)
-                   for f in self.registry.enabled_factories]
+        results = [
+            self._compute_match(query, query_tokens, f) for f in self.registry.enabled_factories
+        ]
         return max(results, key=lambda m: m.composite) if results else None
 
     def match_all(self, query: str) -> List[Match]:
         query_tokens = self.tokenize_query(query)
-        results = [self._compute_match(query, query_tokens, f)
-                   for f in self.registry.enabled_factories]
+        results = [
+            self._compute_match(query, query_tokens, f) for f in self.registry.enabled_factories
+        ]
         return sorted(results, key=lambda m: m.composite, reverse=True)
 
     def decide(self, match: Match) -> str:
@@ -525,13 +579,15 @@ class Orchestrator:
             return "SHOW TOP 3 — ask user to pick"
         return "LOW CONFIDENCE — suggest new factory"
 
-    def select_strategies(self, factory: FactoryEntry,
-                          allowed: Optional[List[str]] = None,
-                          feedback_history: Optional[List[Dict]] = None,
-                          max_cost: str = "high",
-                          multi_model_available: bool = False) -> List[StrategyEntry]:
-        """
-        Phase 0 helper: return ordered StrategyEntry list for a factory.
+    def select_strategies(
+        self,
+        factory: FactoryEntry,
+        allowed: Optional[List[str]] = None,
+        feedback_history: Optional[List[Dict]] = None,
+        max_cost: str = "high",
+        multi_model_available: bool = False,
+    ) -> List[StrategyEntry]:
+        """Phase 0 helper: return ordered StrategyEntry list for a factory.
 
         Priority:
         1. Respect `allowed` list from orchestrator input (if provided)
@@ -548,8 +604,9 @@ class Orchestrator:
 
         order = {"low": 0, "medium": 1, "high": 2}
         ceiling = order.get(max_cost.lower(), 2)
-        candidates = [s for s in candidates
-                      if order.get(s.computational_cost.lower(), 0) <= ceiling]
+        candidates = [
+            s for s in candidates if order.get(s.computational_cost.lower(), 0) <= ceiling
+        ]
 
         # Council injection for meta/recursive factories
         is_meta = factory.type in ("meta-factory",) or "factory_generation" in factory.tasks
@@ -568,11 +625,11 @@ class Orchestrator:
 
         if feedback_history:
             high_rated = {
-                item["strategy"] for item in feedback_history
+                item["strategy"]
+                for item in feedback_history
                 if item.get("rating", 0) >= 4 and "strategy" in item
             }
-            candidates.sort(key=lambda s: (s.name in high_rated, s.effectiveness),
-                            reverse=True)
+            candidates.sort(key=lambda s: (s.name in high_rated, s.effectiveness), reverse=True)
 
         return candidates
 
@@ -594,9 +651,15 @@ class Orchestrator:
         ]
         return "\n".join(line for line in lines if line is not None)
 
-    def log_execution(self, factory_name: str, query: str, match: Match,
-                      score: float, strategies: List[str],
-                      feedback: Optional[Dict] = None) -> ExecutionLog:
+    def log_execution(
+        self,
+        factory_name: str,
+        query: str,
+        match: Match,
+        score: float,
+        strategies: List[str],
+        feedback: Optional[Dict] = None,
+    ) -> ExecutionLog:
         log = ExecutionLog(
             timestamp=datetime.utcnow().isoformat(),
             query=query,
@@ -628,7 +691,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     query = sys.argv[1]
-    registry_file   = sys.argv[2] if len(sys.argv) > 2 else "factories-registry.jsonl"
+    registry_file = sys.argv[2] if len(sys.argv) > 2 else "factories-registry.jsonl"
     strategies_file = sys.argv[3] if len(sys.argv) > 3 else "seed-prompting-strategies.jsonl"
 
     registry = Registry.load(registry_file)
@@ -656,4 +719,6 @@ if __name__ == "__main__":
             if selected:
                 print("\n🧠 SUGGESTED STRATEGIES (Phase 0):\n")
                 for s in selected:
-                    print(f"  • {s.name} (effectiveness={s.effectiveness:.0%}, cost={s.computational_cost})")
+                    print(
+                        f"  • {s.name} (effectiveness={s.effectiveness:.0%}, cost={s.computational_cost})"
+                    )

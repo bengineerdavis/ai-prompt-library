@@ -37,7 +37,8 @@
 ### Commit automation
 
 - Add commit message validation based on Conventional Commits.[web:1503]
-- Add optional structured Git trailers for architecture intent and review metadata.[web:1513]
+- Add optional structured Git trailers for architecture intent and review
+  metadata.[web:1513]
 - Build a local-model helper that proposes commit messages from staged changes.
 - Add lightweight commit review assistance before finalizing commits.
 - Reuse the same commit standard across projects.
@@ -46,8 +47,10 @@
 
 ### Docs quality and prose linting
 
-- Add Vale as the primary prose linter with a shared style pack based on Google style.[web:1532]
-- Define a reusable project documentation standard that can be applied across repositories.
+- Add Vale as the primary prose linter with a shared style pack based on Google
+  style.[web:1532]
+- Define a reusable project documentation standard that can be applied across
+  repositories.
 - Add prompt-specific writing rules for consistency, clarity, and terminology.
 - Add docs lint guidance and shared templates that can be copied into other projects.
 - Evaluate complementary prose checks only after Vale is stable and tuned.
@@ -56,17 +59,22 @@
 
 - Adopt Semantic Versioning for releases.[web:1538][web:1544]
 - Generate release recommendations from Conventional Commit history.[web:1503]
-- Create and maintain a root `CHANGELOG.md` in a human-readable format based on Keep a Changelog.[web:1532]
+- Create and maintain a root `CHANGELOG.md` in a human-readable format based on Keep a
+  Changelog.[web:1532]
 - Automate changelog draft generation from commit history and tags.[web:1531][web:1539]
-- Automate version bump suggestions from commit history and release rules.[web:1503][web:1538]
+- Automate version bump suggestions from commit history and release
+  rules.[web:1503][web:1538]
 - Keep release review human-approved even when generation is automated.
-- Decide whether release automation should be local-first, CI-driven, or support both modes.
+- Decide whether release automation should be local-first, CI-driven, or support both
+  modes.
 
 ### Packaging and source layout
 
 - Move runtime code, Seed internals, and supporting Python modules into a `src/` layout.
-- Improve import boundaries between CLI, runtime logic, library discovery, and feedback/state code.
-- Use the post-branch refactor to prepare for packaging, tests, and cleaner tooling integration.
+- Improve import boundaries between CLI, runtime logic, library discovery, and
+  feedback/state code.
+- Use the post-branch refactor to prepare for packaging, tests, and cleaner tooling
+  integration.
 
 ## Later
 
@@ -91,5 +99,6 @@
 ### Shared standards
 
 - Extract the Impromptu docs tooling into a reusable starter template.
-- Publish a minimal shared repo standard for linting, docs quality, commit conventions, and release automation.
+- Publish a minimal shared repo standard for linting, docs quality, commit conventions,
+  and release automation.
 - Reuse the same standards across personal and team projects.

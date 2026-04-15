@@ -18,7 +18,8 @@ If uncertainty is high, sample 2–3 strategies, score on criteria, and recommen
 ## Generate & Rank Recommendations
 
 - Gather 5–10 candidate approaches.
-- Rank top 3 by confidence, with gain vs. cost explanation.
+- Rank top 3 by confidence, with gain vs.
+  cost explanation.
 
 ## Preference Evolution (Optional)
 

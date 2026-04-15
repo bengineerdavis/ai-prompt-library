@@ -4,7 +4,8 @@
 **Updated**: 2026-03-28\
 **Data file**: `seed-prompting-strategies-v3.3.jsonl`
 
-This is a living, continuously-updated registry of prompting strategies available to Seed factories.
+This is a living, continuously-updated registry of prompting strategies available to
+Seed factories.
 
 Each line in the `.jsonl` file is a JSON object representing one strategy.
 Factories reference this registry dynamically in Phase 0.

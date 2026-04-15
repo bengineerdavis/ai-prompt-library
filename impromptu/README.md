@@ -1,8 +1,10 @@
 # Impromptu
 
-Impromptu is a project for creating, managing, improving, and reusing prompts across local tools, scripts, projects, and AI services.
+Impromptu is a project for creating, managing, improving, and reusing prompts across
+local tools, scripts, projects, and AI services.
 
-It sits in front of concrete prompt systems like Seed and provides the shared controls, policies, and storage model needed to make prompt work more reusable and less ad hoc.
+It sits in front of concrete prompt systems like Seed and provides the shared controls,
+policies, and storage model needed to make prompt work more reusable and less ad hoc.
 
 ## What Impromptu does
 
@@ -23,11 +25,16 @@ The current documentation direction is:
 - **Projects** are the main operating boundary.
 - **Workspaces** live inside projects.
 - **Environments** are defined per project.
-- **Libraries** are separate prompt storage units that may be used across multiple projects.
+- **Libraries** are separate prompt storage units that may be used across multiple
+  projects.
 - **Global app config** tracks available libraries separately from project bindings.
-- **Runtime state** belongs in SQLite, while authored config belongs in TOML and prompt content stays file-based.
+- **Runtime state** belongs in SQLite, while authored config belongs in TOML and prompt
+  content stays file-based.
 
-This architecture is intentionally local-first. A built-in `local-default` project is intended to make non-git scripting and personal prompt work first-class, while still allowing the same personal library to be reused in repo-backed projects.
+This architecture is intentionally local-first.
+A built-in `local-default` project is intended to make non-git scripting and personal
+prompt work first-class, while still allowing the same personal library to be reused in
+repo-backed projects.
 
 ## Where to start
 
@@ -43,7 +50,8 @@ This architecture is intentionally local-first. A built-in `local-default` proje
 
 ## Core controls
 
-Impromptu and Seed share three main control classes that shape how much work the system does and how much process the user sees.
+Impromptu and Seed share three main control classes that shape how much work the system
+does and how much process the user sees.
 
 - `cost`: `auto | low | medium | high | unlimited`
 - `complexity`: `auto | simple | layered | exploratory | deep-search`

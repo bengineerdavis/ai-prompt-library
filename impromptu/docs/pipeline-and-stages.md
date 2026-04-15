@@ -2,7 +2,8 @@
 
 This document explains the internal prompt-building pipeline.
 
-For the user-facing controls that influence this pipeline, see [Modes and settings](./modes-and-settings.md).
+For the user-facing controls that influence this pipeline, see
+[Modes and settings](./modes-and-settings.md).
 
 ## Core pipeline
 
@@ -13,7 +14,8 @@ Impromptu uses a universal internal pipeline:
 1. Optimizer
 1. Profile
 
-These stages are always conceptually present, but they do not always run with the same intensity.
+These stages are always conceptually present, but they do not always run with the same
+intensity.
 
 ## Stage states
 
@@ -23,7 +25,8 @@ Each stage can be:
 - `no-op`
 - `deferred`
 
-This means the pipeline stays structurally consistent while still allowing fast or lightweight runs.
+This means the pipeline stays structurally consistent while still allowing fast or
+lightweight runs.
 
 ## What each stage does
 
@@ -39,7 +42,8 @@ Adapts the prompt to the domain, user intent, or task shape when useful.
 
 Improves, compares, critiques, or evaluates prompt candidates.
 
-This is also the natural place for judge-style evaluation when multiple candidates or stronger validation are needed.
+This is also the natural place for judge-style evaluation when multiple candidates or
+stronger validation are needed.
 
 ### Profile
 
@@ -48,16 +52,21 @@ Applies reusable user preferences, standing constraints, and other persistent de
 ## How modes affect the pipeline
 
 - **cost** affects how much budget each stage is allowed to consume.
-- **complexity** affects how many branches, strategies, and evaluation paths are permitted.
+- **complexity** affects how many branches, strategies, and evaluation paths are
+  permitted.
 - **verbosity** affects how much of this is shown to the user.
 
 For example:
 
-- `cost = low` and `complexity = simple` may produce one candidate with light optimization.
-- `cost = high` and `complexity = exploratory` may allow multiple candidates, judges, and refinement rounds.
+- `cost = low` and `complexity = simple` may produce one candidate with light
+  optimization.
+- `cost = high` and `complexity = exploratory` may allow multiple candidates, judges,
+  and refinement rounds.
 
 ## Why the pipeline should remain universal
 
-Keeping a universal pipeline helps maintain consistency, debugging clarity, and predictable behavior.
+Keeping a universal pipeline helps maintain consistency, debugging clarity, and
+predictable behavior.
 
-The system should adapt by changing stage intensity, not by inventing a completely different architecture for each task.
+The system should adapt by changing stage intensity, not by inventing a completely
+different architecture for each task.

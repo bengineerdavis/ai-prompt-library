@@ -47,7 +47,9 @@ ______________________________________________________________________
 
 ## Adding a factory to the registry
 
-Append a new entry to `factories-registry.jsonl` at the seed root. Each entry must be a single-line JSON object. The required fields are:
+Append a new entry to `factories-registry.jsonl` at the seed root.
+Each entry must be a single-line JSON object.
+The required fields are:
 
 ```json
 {
@@ -86,7 +88,10 @@ Verify the entry was added:
 jq 'select(.name == "your-factory-name")' factories-registry.jsonl
 ```
 
-The `rubric` weights should sum to 1.0 and use the same dimensions defined in [`docs/scoring-model.md`](./scoring-model.md). You can adjust weights per factory (for example, emphasize completeness for research-heavy factories).
+The `rubric` weights should sum to 1.0 and use the same dimensions defined in
+[`docs/scoring-model.md`](./scoring-model.md).
+You can adjust weights per factory (for example, emphasize completeness for
+research-heavy factories).
 
 ______________________________________________________________________
 
@@ -127,7 +132,8 @@ Match confidence thresholds:
 - **75–84%** — prompts user to confirm
 - **< 75%** — no match; refine query keywords or expand registry keywords array
 
-These thresholds are part of the orchestrator’s matching logic and are separate from the quality thresholds used inside individual factory runs.
+These thresholds are part of the orchestrator’s matching logic and are separate from the
+quality thresholds used inside individual factory runs.
 
 ______________________________________________________________________
 

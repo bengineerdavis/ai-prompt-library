@@ -2,13 +2,15 @@
 
 This document explains the first-run experience for Impromptu.
 
-For the main controls users may configure, see [Modes and settings](./modes-and-settings.md).
+For the main controls users may configure, see
+[Modes and settings](./modes-and-settings.md).
 
 ## Goal
 
 The first-run experience should be short, helpful, and low-friction.
 
-The system should infer as much as possible first, then ask only a small number of questions where confidence is low or important preferences are missing.
+The system should infer as much as possible first, then ask only a small number of
+questions where confidence is low or important preferences are missing.
 
 ## Default onboarding principles
 
@@ -32,13 +34,17 @@ These defaults should work well for most newcomers.
 
 A short explanation might say:
 
-> Impromptu can automatically adapt how much work it does, how conservative or adventurous its strategy is, and how much process detail you see. By default, it stays conservative and cost-conscious, and it will only ask a few setup questions when needed.
+> Impromptu can automatically adapt how much work it does, how conservative or
+> adventurous its strategy is, and how much process detail you see.
+> By default, it stays conservative and cost-conscious, and it will only ask a few setup
+> questions when needed.
 
 ## Suggested 5 onboarding questions
 
 Ask only if not already inferred with good confidence.
 
-1. Do you usually want the cheapest workable result, a balanced default, or the strongest result?
+1. Do you usually want the cheapest workable result, a balanced default, or the
+   strongest result?
 1. Should I usually keep the strategy simple, or explore more when helpful?
 1. How much process do you want to see: quiet, info, or debug?
 1. Should I save recurring preferences when I detect stable patterns?

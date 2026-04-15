@@ -1,6 +1,13 @@
 # TITLE Factory Template Pattern v1.1 - Canonical Structure - Neutral
 
-You are a factory template definition. All Seed child factories (strategy-builder, shopping-builder, interview-prep, gpu-upgrade-builder, etc.) MUST follow this canonical structure. Phases are **flexible containers** for any prompting strategy. Strategies are **NOT fixed** - they live in `seed-prompting-strategies.jsonl` and are continuously updated. This template ensures discoverability, executability, and persistence.
+You are a factory template definition.
+All Seed child factories (strategy-builder, shopping-builder, interview-prep,
+gpu-upgrade-builder, etc.)
+MUST follow this canonical structure.
+Phases are **flexible containers** for any prompting strategy.
+Strategies are **NOT fixed** - they live in `seed-prompting-strategies.jsonl` and are
+continuously updated.
+This template ensures discoverability, executability, and persistence.
 
 ______________________________________________________________________
 
@@ -21,7 +28,8 @@ Examples:
 # TITLE GPU Upgrade Builder v1 - Auto-Generated - Neutral
 ```
 
-**Why**: Orchestrator scans for `TITLE.*Builder|TITLE.*Factory` to auto-discover factories.
+**Why**: Orchestrator scans for `TITLE.*Builder|TITLE.*Factory` to auto-discover
+factories.
 
 ______________________________________________________________________
 
@@ -158,7 +166,8 @@ to `factories-registry.jsonl`
 
 **Input**: Structured input from orchestrator (see Input Schema)
 
-**Task**: Understand the user's goal deeply + **select which strategies to use in Phase 1**
+**Task**: Understand the user’s goal deeply + **select which strategies to use in Phase
+1**
 
 **NOT FIXED**: You decide based on feedback history + available strategies:
 
@@ -180,7 +189,8 @@ to `factories-registry.jsonl`
 
 ### Strategy Selection (Dynamic from Registry)
 
-Strategies are NOT hard-coded. Load from:
+Strategies are NOT hard-coded.
+Load from:
 
 ```bash
 grep "enabled: true" seed-prompting-strategies.jsonl | jq '.name'
@@ -188,13 +198,13 @@ grep "enabled: true" seed-prompting-strategies.jsonl | jq '.name'
 
 **Example Phase 0 Output**:
 
-Goal: "Best time to buy RTX 5090 during shortages"
+Goal: “Best time to buy RTX 5090 during shortages”
 
 Context Analysis:
 
 - Category: GPU hardware
 - User: Technical, AI training use case
-- Feedback history: "semantic match 4/5, need VRAM info"
+- Feedback history: “semantic match 4/5, need VRAM info”
 - Continuity: RTX 4070 (8.2/10, prior research)
 - Available strategies: Few-Shot, CoT, Meta-Prompting, Self-Critique
 
@@ -222,8 +232,8 @@ Context Analysis:
 
 ### Sub-phase 1.1: Execute Strategy A
 
-[Your chosen strategy's execution steps]
-Reference: `seed-prompting-strategies.jsonl[{strategy_name}].implementation`
+[Your chosen strategy’s execution steps] Reference:
+`seed-prompting-strategies.jsonl[{strategy_name}].implementation`
 
 ### Sub-phase 1.2: Execute Strategy B (if applicable)
 
@@ -263,11 +273,13 @@ Combine outputs from strategies into coherent narrative
 
 ### Sources & Provenance
 
-[Where did data come from? References?]
+\[Where did data come from?
+References?\]
 
 ### Transparent Reasoning
 
-[How did strategies guide this? Any disagreements?]
+\[How did strategies guide this?
+Any disagreements?\]
 
 **Example for shopping-builder**:
 
@@ -318,7 +330,7 @@ Score your output 1-10 on:
 - Clarity (easy to understand?)
 - Conciseness (wasted words?)
 - Completeness (all major points covered?)
-- Goal Alignment (did it answer the user's goal?)
+- Goal Alignment (did it answer the user’s goal?)
 - Context Awareness (used user profile + continuity?)
 - Expected Output (matches output schema?)
 
@@ -478,16 +490,21 @@ interview-prep.md
 ## 🚀 How Orchestrator Uses This
 
 1. **Discovers factories**: Scans for `TITLE.*Factory/Builder`
-1. **Extracts metadata**: Reads JSON metadata section (including `strategies_registry_link`)
+1. **Extracts metadata**: Reads JSON metadata section (including
+   `strategies_registry_link`)
 1. **Computes match score**: Keyword/Semantic/Task/Recency
-1. **Passes strategy context**: Includes `seed-prompting-strategies.jsonl` entries in input
-1. **Executes**: Loads Phase 0 → Factory loads current strategies → User selects → Runs Phase 1-2
-1. **Logs**: Appends Tail Module output to `factories-registry.jsonl` (including strategies_used)
+1. **Passes strategy context**: Includes `seed-prompting-strategies.jsonl` entries in
+   input
+1. **Executes**: Loads Phase 0 → Factory loads current strategies → User selects → Runs
+   Phase 1-2
+1. **Logs**: Appends Tail Module output to `factories-registry.jsonl` (including
+   strategies_used)
 1. **Evolves**: Detects if factory should split/patch based on feedback + new strategies
 
 ## 🔗 Living Strategy Registry
 
-Factories reference strategies from **`seed-prompting-strategies.jsonl`** (continuously updated):
+Factories reference strategies from **`seed-prompting-strategies.jsonl`** (continuously
+updated):
 
 ```json
 {
@@ -503,6 +520,9 @@ Factories reference strategies from **`seed-prompting-strategies.jsonl`** (conti
 }
 ```
 
-When new strategies are discovered/invented, they're added to this registry. Factories automatically have access without code changes.
+When new strategies are discovered/invented, they’re added to this registry.
+Factories automatically have access without code changes.
 
-**98% confidence**: This template covers all factories while remaining completely flexible on strategies. Every factory is discoverable, executable, persistent, and strategy-agnostic.
+**98% confidence**: This template covers all factories while remaining completely
+flexible on strategies.
+Every factory is discoverable, executable, persistent, and strategy-agnostic.

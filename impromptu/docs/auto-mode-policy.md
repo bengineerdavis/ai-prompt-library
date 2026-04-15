@@ -2,7 +2,8 @@
 
 This document explains how `auto` should work for both cost and complexity.
 
-For the definitions of the main controls, see [Modes and settings](./modes-and-settings.md).
+For the definitions of the main controls, see
+[Modes and settings](./modes-and-settings.md).
 
 ## Default principle
 
@@ -30,12 +31,15 @@ Default behavior should be cost-conscious.
 
 Examples:
 
-- In a SaaS environment, auto should assume cost sensitivity unless the user explicitly signals otherwise.
-- In a local environment, auto can be more flexible but should still respect hardware and runtime limits.
+- In a SaaS environment, auto should assume cost sensitivity unless the user explicitly
+  signals otherwise.
+- In a local environment, auto can be more flexible but should still respect hardware
+  and runtime limits.
 
 ## Auto complexity
 
-When `complexity = auto`, the system should prefer the simplest strategy that is likely to succeed.
+When `complexity = auto`, the system should prefer the simplest strategy that is likely
+to succeed.
 
 Typical default progression:
 
@@ -48,7 +52,8 @@ The system should not jump to `deep search` just because it is available.
 
 ## Escalation triggers
 
-Auto can increase cost and/or complexity when signals suggest the current result is not good enough.
+Auto can increase cost and/or complexity when signals suggest the current result is not
+good enough.
 
 Useful signals include:
 

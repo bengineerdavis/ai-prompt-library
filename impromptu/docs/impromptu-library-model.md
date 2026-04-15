@@ -6,7 +6,8 @@ Draft v1 model.
 
 ## Purpose
 
-Define the v1 model for how Impromptu organizes prompt libraries on disk so docs, discovery, validation, and future tooling use the same structure.
+Define the v1 model for how Impromptu organizes prompt libraries on disk so docs,
+discovery, validation, and future tooling use the same structure.
 
 This version is intentionally simple and optimized for:
 
@@ -64,7 +65,8 @@ A library is not a project and is not a workspace.
 
 ### Prompts root
 
-The prompts root is the single directory under which all managed prompt collections live.
+The prompts root is the single directory under which all managed prompt collections
+live.
 
 Examples:
 
@@ -97,7 +99,8 @@ In v1:
 - collection paths are unique within a library
 - collection paths must not overlap
 
-Collections are storage and discovery partitions. They are not the same thing as families, tags, or version groups.
+Collections are storage and discovery partitions.
+They are not the same thing as families, tags, or version groups.
 
 ### Prompt directory
 
@@ -129,7 +132,8 @@ In v1, the default filename is:
 
 - `prompt.md`
 
-This is simpler and easier to work with than repeating the directory name in the filename.
+This is simpler and easier to work with than repeating the directory name in the
+filename.
 
 ### Support files
 
@@ -141,7 +145,8 @@ A prompt directory may contain additional support files, such as:
 - `references.md`
 - `meta.toml`
 
-Support files help authoring and maintenance but are not themselves primary prompt files.
+Support files help authoring and maintenance but are not themselves primary prompt
+files.
 
 ## Discovery contract
 
@@ -166,7 +171,8 @@ The uniqueness rules for v1 are:
 - collection paths do not overlap
 - prompt aliases are unique within a collection
 
-A prompt alias does not need to be globally unique across the entire library if it appears in different collections.
+A prompt alias does not need to be globally unique across the entire library if it
+appears in different collections.
 
 Example:
 

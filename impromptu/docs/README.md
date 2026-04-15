@@ -1,6 +1,7 @@
 # Impromptu Docs
 
-This directory contains the working documentation for Impromptu's prompt-building system.
+This directory contains the working documentation for Impromptu’s prompt-building
+system.
 
 ## Reading order
 
@@ -15,14 +16,23 @@ Start here if you are new:
 
 ## What each doc covers
 
-- **Modes and settings** explains the main knobs a user can control: cost, complexity, and verbosity.
-- **Auto mode policy** explains how `auto` should behave conservatively and when it should escalate.
-- **Pipeline and stages** explains the internal build → specializer → optimizer → profile flow.
-- **Thresholds and recommendations** explains how Impromptu decides when to do more work, stop, or suggest new defaults.
-- **User preferences and memory** explains how reusable preferences are stored and refreshed over time.
-- **Service-specific guidance** explains how to think about saved context in SaaS tools versus the future Impromptu API/tooling.
-- **Impromptu prompt library model** defines the canonical v1 contract for collections, namespace directories, canonical prompt files, support files, and prompt discovery rules.
-- **WIP refactor plan: shared schemas and doc alignment** tracks the current branch TODOs for schema alignment, drift detection, validation, tests, and follow-through.
+- **Modes and settings** explains the main knobs a user can control: cost, complexity,
+  and verbosity.
+- **Auto mode policy** explains how `auto` should behave conservatively and when it
+  should escalate.
+- **Pipeline and stages** explains the internal build → specializer → optimizer →
+  profile flow.
+- **Thresholds and recommendations** explains how Impromptu decides when to do more
+  work, stop, or suggest new defaults.
+- **User preferences and memory** explains how reusable preferences are stored and
+  refreshed over time.
+- **Service-specific guidance** explains how to think about saved context in SaaS tools
+  versus the future Impromptu API/tooling.
+- **Impromptu prompt library model** defines the canonical v1 contract for collections,
+  namespace directories, canonical prompt files, support files, and prompt discovery
+  rules.
+- **WIP refactor plan: shared schemas and doc alignment** tracks the current branch
+  TODOs for schema alignment, drift detection, validation, tests, and follow-through.
 
 ## Linking guidance
 
@@ -35,7 +45,8 @@ The docs that should directly link to or refer to **Modes and settings** are:
 - `user-preferences-and-memory.md`
 - `service-specific-guidance.md`
 
-Reason: `modes-and-settings.md` defines the shared vocabulary for the rest of the system.
+Reason: `modes-and-settings.md` defines the shared vocabulary for the rest of the
+system.
 
 ## Additional docs
 
@@ -44,5 +55,4 @@ Reason: `modes-and-settings.md` defines the shared vocabulary for the rest of th
 - [Deep search](./deep-search.md)
 - [Scoring model](./scoring-model.md)
 - [Impromptu prompt library model](./impromptu-library-model.md)
-- [WIP refactor plan: shared schemas and doc
-  alignment](./refactor-shared-schemas-and-doc-alignment.md)
+- [WIP refactor plan: shared schemas and doc alignment](./refactor-shared-schemas-and-doc-alignment.md)

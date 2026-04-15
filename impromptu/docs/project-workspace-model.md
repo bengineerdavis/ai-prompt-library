@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Define a simple v1 model for how Impromptu organizes projects, workspaces, environments, libraries, and runtime state.
+Define a simple v1 model for how Impromptu organizes projects, workspaces, environments,
+libraries, and runtime state.
 
 This model is optimized for:
 
@@ -124,13 +125,15 @@ Projects may add more environments later, such as:
 - `demo`
 - `canary`
 
-Environment definitions may include branch mapping, but the environment is not the same thing as a branch.
+Environment definitions may include branch mapping, but the environment is not the same
+thing as a branch.
 
 ## Libraries
 
 Libraries are separate from projects.
 
-The app should track which libraries are available on the machine. Projects then bind one or more of those libraries for use.
+The app should track which libraries are available on the machine.
+Projects then bind one or more of those libraries for use.
 
 This split is required because:
 
@@ -215,7 +218,8 @@ Prompt versions use three states:
 
 These states apply to the prompt version artifact itself.
 
-Environment activation is resolved per project environment, not as a single global toggle.
+Environment activation is resolved per project environment, not as a single global
+toggle.
 
 ## Non-goals for v1
 

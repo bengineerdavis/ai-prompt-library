@@ -6,7 +6,8 @@ For the general control definitions, see [Modes and settings](./modes-and-settin
 
 ## What deep search means
 
-`complexity = deep search` allows the system to use a much broader and more expensive search process than normal.
+`complexity = deep search` allows the system to use a much broader and more expensive
+search process than normal.
 
 This can include:
 
@@ -17,7 +18,8 @@ This can include:
 - hybrid or mutation rounds
 - stronger willingness to explore materially different prompt structures
 
-Deep search is the far end of the “adventurous vs conservative” spectrum for **complexity**, not a separate axis.
+Deep search is the far end of the “adventurous vs conservative” spectrum for
+**complexity**, not a separate axis.
 
 ## When to use it
 
@@ -28,7 +30,8 @@ Deep search is most appropriate when:
 - the task is difficult or ambiguous
 - the user is experimenting with prompt factories, judges, or optimization workflows
 
-It is especially useful when extra structural exploration is likely to change the design of a prompt, factory, or workflow, not just polish wording.
+It is especially useful when extra structural exploration is likely to change the design
+of a prompt, factory, or workflow, not just polish wording.
 
 ## When not to use it
 
@@ -52,7 +55,9 @@ Use guardrails such as:
 - stop when budget or runtime limits are reached
 - stop when additional search is unlikely to materially improve quality
 
-These decisions rely on the same signals used elsewhere (quality, confidence, disagreement, improvement delta, and budget ratio). For how those are computed, see [Scoring model](./scoring-model.md).
+These decisions rely on the same signals used elsewhere (quality, confidence,
+disagreement, improvement delta, and budget ratio).
+For how those are computed, see [Scoring model](./scoring-model.md).
 
 ## Practical guidance
 
@@ -64,4 +69,5 @@ It should usually require:
 - strong uncertainty or explicit user request
 - a task where extra search is likely to matter
 
-For the stopping and escalation logic, see [Thresholds and recommendations](./thresholds-and-recommendations.md).
+For the stopping and escalation logic, see
+[Thresholds and recommendations](./thresholds-and-recommendations.md).

@@ -1,6 +1,8 @@
 # Orchestrator
 
-The orchestrator is the session entrypoint for Seed. It reads `factories-registry.jsonl`, matches your query to the right factory using multi-signal scoring, and tells you what to run or paste next.
+The orchestrator is the session entrypoint for Seed.
+It reads `factories-registry.jsonl`, matches your query to the right factory using
+multi-signal scoring, and tells you what to run or paste next.
 
 There are three files here with distinct roles:
 
@@ -74,7 +76,8 @@ ______________________________________________________________________
 
 ## Mode selection (hybrid prompt only)
 
-When you paste `seed-orchestrator-v3.2-hybrid.md` into an LLM, it auto-detects its context and asks you to confirm:
+When you paste `seed-orchestrator-v3.2-hybrid.md` into an LLM, it auto-detects its
+context and asks you to confirm:
 
 | Mode         | When it applies                             | What changes                                                   |
 | ------------ | ------------------------------------------- | -------------------------------------------------------------- |
@@ -93,7 +96,8 @@ ______________________________________________________________________
 | 75–84% | Shows top 3, asks you to pick   |
 | < 75%  | Suggests creating a new factory |
 
-These thresholds are part of the orchestrator’s matching logic and are separate from the Impromptu scoring and thresholds used inside individual factory runs.
+These thresholds are part of the orchestrator’s matching logic and are separate from the
+Impromptu scoring and thresholds used inside individual factory runs.
 
 ______________________________________________________________________
 

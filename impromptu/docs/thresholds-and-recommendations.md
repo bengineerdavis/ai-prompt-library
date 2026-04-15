@@ -2,7 +2,8 @@
 
 This document explains how Impromptu decides whether to stop, continue, or escalate.
 
-It uses the signals and rubric described in [Scoring model](./scoring-model.md), but you do not need to think in scores to use the system.
+It uses the signals and rubric described in [Scoring model](./scoring-model.md), but you
+do not need to think in scores to use the system.
 
 ## Purpose
 
@@ -60,11 +61,14 @@ The exact numbers can evolve, but a reasonable starting point is:
   - confidence ≥ 0.8
   - disagreement is very low
 
-These are conceptual targets rather than hard-coded constants; implementation may map them to model-specific scales.
+These are conceptual targets rather than hard-coded constants; implementation may map
+them to model-specific scales.
 
 ## How cost and complexity influence thresholds
 
-User settings do not set thresholds directly. Instead, they select how strict the system should be and how much work it may do to reach that standard.
+User settings do not set thresholds directly.
+Instead, they select how strict the system should be and how much work it may do to
+reach that standard.
 
 - Increasing **cost** allows the system to:
 
@@ -80,10 +84,13 @@ User settings do not set thresholds directly. Instead, they select how strict th
 
 In response, Impromptu:
 
-- uses stricter thresholds (closer to the **Thorough** profile) when cost and complexity are high
-- uses looser thresholds (closer to the **Speed** profile) when cost and complexity are low
+- uses stricter thresholds (closer to the **Thorough** profile) when cost and complexity
+  are high
+- uses looser thresholds (closer to the **Speed** profile) when cost and complexity are
+  low
 
-This keeps behavior intuitive: if you ask for more effort and exploration, the system expects higher quality before stopping.
+This keeps behavior intuitive: if you ask for more effort and exploration, the system
+expects higher quality before stopping.
 
 ## When thresholds adjust
 
@@ -96,15 +103,18 @@ Thresholds should adapt based on:
 
 - **How benchmarkable the task is**
 
-  - Clear, checkable tasks (for example format adherence, explicit constraints) can justify stricter rules.
+  - Clear, checkable tasks (for example format adherence, explicit constraints) can
+    justify stricter rules.
   - Ambiguous or taste-driven tasks may tolerate more disagreement.
 
 - **User preferences and history**
 
-  - If a user often increases cost/complexity and reviews multiple options, the system can lean toward stricter thresholds.
+  - If a user often increases cost/complexity and reviews multiple options, the system
+    can lean toward stricter thresholds.
   - If a user usually accepts early results, the system can learn to stop sooner.
 
-These adjustments are incremental. Thresholds should move slowly and be explainable in plain language.
+These adjustments are incremental.
+Thresholds should move slowly and be explainable in plain language.
 
 ## Escalation and recommendations
 
@@ -134,16 +144,21 @@ Typical escalations include:
 
 - suggesting a higher `cost` level
 - suggesting a higher `complexity` level
-- switching to more robust strategies (for example more judges, different evaluation rubrics)
+- switching to more robust strategies (for example more judges, different evaluation
+  rubrics)
 
 Recommendations should be phrased simply, for example:
 
-- “This looks borderline. If this prompt is important, consider raising cost to `high` and complexity to `exploratory` for one more round.”
+- “This looks borderline.
+  If this prompt is important, consider raising cost to `high` and complexity to
+  `exploratory` for one more round.”
 
 ## Guardrails
 
 - Thresholds and scores are **guidance**, not precise instruments.
-- Small numerical differences (for example 4.2 vs 4.3) should rarely change behavior on their own.
+- Small numerical differences (for example 4.2 vs 4.3) should rarely change behavior on
+  their own.
 - Users should always be able to override recommendations.
 
-The goal is to support better decisions about when to stop, when to do more work, and when to invest in deeper optimization — not to chase perfect scores.
+The goal is to support better decisions about when to stop, when to do more work, and
+when to invest in deeper optimization — not to chase perfect scores.

@@ -1,12 +1,13 @@
 # WIP Refactor Plan: Shared Schemas and Doc Alignment
 
-Branch: `refactor/shared-schemas-and-doc-alignment`
-Status: WIP temporary branch TODO
-Lifecycle: Working document for this branch; may be edited heavily, replaced, or removed before or after merge
+Branch: `refactor/shared-schemas-and-doc-alignment` Status: WIP temporary branch TODO
+Lifecycle: Working document for this branch; may be edited heavily, replaced, or removed
+before or after merge
 
 ## Goal
 
-Stabilize the canonical prompt-library contract in documentation first, then align shared schemas, discovery, drift detection, validation, and tests to that contract.
+Stabilize the canonical prompt-library contract in documentation first, then align
+shared schemas, discovery, drift detection, validation, and tests to that contract.
 
 ## Current canonical model
 
@@ -23,15 +24,18 @@ The branch now assumes the following v1 model:
 
 ## Config-location assumptions
 
-This branch should remain compatible with future user-specific library config under a path like:
+This branch should remain compatible with future user-specific library config under a
+path like:
 
 - `~/.config/impromptu/libraries/`
 
-However, this branch does not implement multi-library runtime behavior. It only ensures the docs and schema do not block that future layout.
+However, this branch does not implement multi-library runtime behavior.
+It only ensures the docs and schema do not block that future layout.
 
 ## Why this file is WIP
 
-This file is a temporary execution tracker for the branch, not a permanent design artifact.
+This file is a temporary execution tracker for the branch, not a permanent design
+artifact.
 
 It exists to:
 

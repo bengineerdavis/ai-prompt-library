@@ -40,7 +40,8 @@
 - [ ] Add Markdown linting with `markdownlint-cli2`.
 - [ ] Add spelling checks with `codespell`.
 - [ ] Add TOML, YAML, and JSON syntax validation hooks.
-- [ ] Add TOML semantic validation later through application models and validation scripts.
+- [ ] Add TOML semantic validation later through application models and validation
+  scripts.
 - [ ] Add Vale to the roadmap as the primary future prose linter.
 - [ ] Define a reusable docs style standard that can be shared across projects.
 - [ ] Add `docs/LINTING.md` later to explain the chosen tooling and standards.
@@ -48,9 +49,11 @@
 ## Commit workflow
 
 - [ ] Add a shared commit message template to the repo.
-- [ ] Standardize on Conventional Commits plus selective Git trailers for all new commits.
+- [ ] Standardize on Conventional Commits plus selective Git trailers for all new
+  commits.
 - [ ] Add local validation for commit message format.
-- [ ] Add optional local-model assistance for drafting commit messages from staged diffs.
+- [ ] Add optional local-model assistance for drafting commit messages from staged
+  diffs.
 - [ ] Keep model-suggested commit messages human-reviewed before commit.
 - [ ] Leave historical commit cleanup for later.
 
@@ -74,18 +77,22 @@
   - `perf` -> patch
   - `revert` -> patch
   - `BREAKING CHANGE` -> major
-  - `docs`, `test`, `chore`, `build`, `ci`, `refactor` -> no automatic release bump by default
+  - `docs`, `test`, `chore`, `build`, `ci`, `refactor` -> no automatic release bump by
+    default
 - [ ] Add release tagging conventions.
 - [ ] Add automated version bump planning based on commit history.
 - [ ] Add automated changelog draft generation from commits and tags.
-- [ ] Decide whether release automation should update version strings in files, tags only, or both.
+- [ ] Decide whether release automation should update version strings in files, tags
+  only, or both.
 - [ ] Keep release generation human-reviewed before publishing.
 
 ## Packaging and layout
 
-- [ ] Move Seed and internal runtime logic under `src/` after the current docs/model branch is merged.
+- [ ] Move Seed and internal runtime logic under `src/` after the current docs/model
+  branch is merged.
 - [ ] Clean up imports and package boundaries as part of the `src/` refactor.
-- [ ] Separate CLI, runtime logic, prompt discovery, config loading, and state management more clearly.
+- [ ] Separate CLI, runtime logic, prompt discovery, config loading, and state
+  management more clearly.
 - [ ] Prepare for packaging and cleaner test layout once the `src/` refactor lands.
 
 ## Docs cleanup
@@ -100,5 +107,7 @@
 
 - [ ] Audit the repo for references that still imply JSON-first library config.
 - [ ] Update lingering references to point to TOML-first config and examples.
-- [ ] Add a repeatable way to detect cross-doc terminology drift and outdated config references.
-- [ ] Evaluate using local LLM assistance for doc alignment and consistency review during future refactors.
+- [ ] Add a repeatable way to detect cross-doc terminology drift and outdated config
+  references.
+- [ ] Evaluate using local LLM assistance for doc alignment and consistency review
+  during future refactors.

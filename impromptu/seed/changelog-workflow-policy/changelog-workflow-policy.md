@@ -2,13 +2,16 @@
 
 ## Purpose
 
-Standardize changelog handling across Seed prompt work, factory work, impromptu work, and direct-use library prompts.
+Standardize changelog handling across Seed prompt work, factory work, impromptu work,
+and direct-use library prompts.
 
 ## Rules
 
 ### 1. Always ask before changelog updates are omitted
 
-Whenever a Seed prompt, factory prompt, direct-use prompt, or related library file is created, modified, renamed, moved, or deleted, the workflow must ask whether the relevant changelog should also be updated.
+Whenever a Seed prompt, factory prompt, direct-use prompt, or related library file is
+created, modified, renamed, moved, or deleted, the workflow must ask whether the
+relevant changelog should also be updated.
 
 Default expectation: **yes, update the changelog**.
 
@@ -24,7 +27,8 @@ If not found, ask the user to provide it or confirm creation of a new one.
 
 ### 3. Library changelog is required for direct-use prompts
 
-If work creates or changes a prompt intended for direct use in the user's general library, the workflow should also update the library-level changelog.
+If work creates or changes a prompt intended for direct use in the user’s general
+library, the workflow should also update the library-level changelog.
 
 Expected source order:
 
@@ -34,8 +38,9 @@ Expected source order:
 
 ### 4. Bootstrap should provide changelog context when available
 
-Bootstrap context loading should include the repo root `CHANGELOG.md` by default when available.
-If nested prompt/factory changelogs are later added to bootstrap, they should also be injected when relevant to the selected prompt/factory scope.
+Bootstrap context loading should include the repo root `CHANGELOG.md` by default when
+available. If nested prompt/factory changelogs are later added to bootstrap, they should
+also be injected when relevant to the selected prompt/factory scope.
 
 ### 5. Required trigger events
 
@@ -74,10 +79,14 @@ Any factory or prompt generation workflow should include a final review step:
 
 Use this question whenever triggered:
 
-> This change affects prompt/library behavior. Do you want me to update the relevant `CHANGELOG.md` file(s) too? If you already have one, attach it or point me to it; otherwise I can draft one.
+> This change affects prompt/library behavior.
+> Do you want me to update the relevant `CHANGELOG.md` file(s) too?
+> If you already have one, attach it or point me to it; otherwise I can draft one.
 
 ## Notes
 
 - README files are not a substitute for changelog history.
-- If the user declines changelog updates, proceed but note that the history was intentionally left unchanged.
-- For direct-use prompt work, both the prompt artifact and the library changelog should be treated as deliverables when the user approves the update.
+- If the user declines changelog updates, proceed but note that the history was
+  intentionally left unchanged.
+- For direct-use prompt work, both the prompt artifact and the library changelog should
+  be treated as deliverables when the user approves the update.

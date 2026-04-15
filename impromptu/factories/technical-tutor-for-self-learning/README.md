@@ -3,8 +3,9 @@
 A meta-factory that generates and deploys domain-specific technical tutors for any
 software, hardware, developer tool, or foundational concept.
 
-Part of the Seed Factory System (v4.1+).
-Dependencies: `seed-profile.md`, `seed-orchestrator-v3.2-hybrid.md`, `factories-registry.jsonl`, `factory-template-v1.1.md`
+Part of the Seed Factory System (v4.1+). Dependencies: `seed-profile.md`,
+`seed-orchestrator-v3.2-hybrid.md`, `factories-registry.jsonl`,
+`factory-template-v1.1.md`
 
 ______________________________________________________________________
 
@@ -15,7 +16,8 @@ factories that do. Given any technical domain and a learner profile, it:
 
 1. **Profiles the learner** — role, skill level, failure modes, available time
 1. **Architects a study plan** — 3 phases × 4 weeks, scoped to job-critical topics first
-1. **Generates a tutor factory** — a complete `.md` file following `factory-template-v1.1`
+1. **Generates a tutor factory** — a complete `.md` file following
+   `factory-template-v1.1`
 1. **Deploys immediately** — starts tutoring in the same session without extra setup
 
 Every tutor it generates follows the same 3-mode pattern:
@@ -63,13 +65,13 @@ ______________________________________________________________________
    Type:    "Goal: I need a tutor to help me learn [domain]"
    ```
 
-   The orchestrator will match this factory at ≥85% confidence for any query
-   mentioning: `tutor`, `self-learning`, `accelerate`, `mastery`, `study plan`, `mentor`, `learning`
+   The orchestrator will match this factory at ≥85% confidence for any query mentioning:
+   `tutor`, `self-learning`, `accelerate`, `mastery`, `study plan`, `mentor`, `learning`
 
 1. Paste `technical-tutor-for-self-learning-v1.md`.
 
-1. Answer the intake questions (≤3 rounds, ≤4 questions each), then save the
-   generated `.md` output to `factories/{domain-slug}-tutor/`.
+1. Answer the intake questions (≤3 rounds, ≤4 questions each), then save the generated
+   `.md` output to `factories/{domain-slug}-tutor/`.
 
 For registry setup and directory layout, see `docs/setup.md` in the seed root.
 
@@ -90,15 +92,15 @@ ______________________________________________________________________
 
 ## Failure Mode → Countermeasure Mapping
 
-The factory detects your failure mode and wires the appropriate countermeasure into
-the generated tutor:
+The factory detects your failure mode and wires the appropriate countermeasure into the
+generated tutor:
 
 | Failure Mode            | What It Looks Like                             | Countermeasure                                                |
 | ----------------------- | ---------------------------------------------- | ------------------------------------------------------------- |
 | `jumps_to_conclusions`  | Answers before understanding                   | Question-first rule in Co-Pilot; Meta-Prompting SLA check     |
-| `paralysis_by_analysis` | Can't decide when to act                       | Time-box steps; explicit "good enough to proceed" threshold   |
+| `paralysis_by_analysis` | Can’t decide when to act                       | Time-box steps; explicit “good enough to proceed” threshold   |
 | `skips_fundamentals`    | Uses things without understanding them         | Phase 1 lock — must pass quiz gate before Phase 2             |
-| `cognitive_overload`    | Overwhelmed by learning + doing simultaneously | Separate "learn concept" and "solve task" into distinct steps |
+| `cognitive_overload`    | Overwhelmed by learning + doing simultaneously | Separate “learn concept” and “solve task” into distinct steps |
 | `imposter_syndrome`     | Undermines own correct instincts               | Probability language; normalize uncertainty explicitly        |
 
 ______________________________________________________________________
@@ -142,11 +144,11 @@ ______________________________________________________________________
 
 | Problem                                        | Fix                                                 |
 | ---------------------------------------------- | --------------------------------------------------- |
-| Orchestrator matches `factory-builder` instead | Add "tutor" or "study plan" to your query           |
-| Intake questions don't stop                    | Say "enough questions, generate the tutor"          |
+| Orchestrator matches `factory-builder` instead | Add “tutor” or “study plan” to your query           |
+| Intake questions don’t stop                    | Say “enough questions, generate the tutor”          |
 | Generated tutor is too generic                 | Re-run with more specific job context in Phase 0    |
-| Study plan doesn't fit your time               | Tell it: "compress to X hours/week"                 |
-| Generated factory is missing sections          | Remind it: "follow factory-template-v1.1 structure" |
+| Study plan doesn’t fit your time               | Tell it: “compress to X hours/week”                 |
+| Generated factory is missing sections          | Remind it: “follow factory-template-v1.1 structure” |
 
 ______________________________________________________________________
 
@@ -161,4 +163,5 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
-**Version**: 1.0 · **Created**: 2026-03-21 · **Type**: `meta-factory` · **Parent**: `strategy-builder` · **Orchestrator**: v3.2+
+**Version**: 1.0 · **Created**: 2026-03-21 · **Type**: `meta-factory` · **Parent**:
+`strategy-builder` · **Orchestrator**: v3.2+

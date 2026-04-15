@@ -2,11 +2,13 @@
 
 This document explains the scoring model in plain language.
 
-For the related escalation logic, see [Thresholds and recommendations](./thresholds-and-recommendations.md).
+For the related escalation logic, see
+[Thresholds and recommendations](./thresholds-and-recommendations.md).
 
 ## Goal
 
-The scoring model helps Impromptu decide whether the current result is already good enough or whether more work is justified.
+The scoring model helps Impromptu decide whether the current result is already good
+enough or whether more work is justified.
 
 ## Core signals
 
@@ -20,16 +22,20 @@ Useful signals include:
 
 ## Rubric and grading scale
 
-Impromptu relies on a simple analytic rubric: each quality dimension is scored separately, then combined into one quality score.
+Impromptu relies on a simple analytic rubric: each quality dimension is scored
+separately, then combined into one quality score.
 
 Default rubric dimensions (matching the Seed profile) are:
 
 - **Clarity** – Is the answer easy to follow, unambiguous, and well-structured?
-- **Conciseness** – Does the answer avoid unnecessary repetition and filler while still being complete?
+- **Conciseness** – Does the answer avoid unnecessary repetition and filler while still
+  being complete?
 - **Completeness** – Does the answer cover all important parts of the request?
 - **Goal alignment** – Does the answer actually solve the user’s stated goal?
-- **Context awareness** – Does the answer respect the provided context, constraints, and prior information?
-- **Expected output** – Does the answer match the requested format, style, and level of detail?
+- **Context awareness** – Does the answer respect the provided context, constraints, and
+  prior information?
+- **Expected output** – Does the answer match the requested format, style, and level of
+  detail?
 
 Each dimension is graded on a **1–5 scale**:
 
@@ -39,7 +45,9 @@ Each dimension is graded on a **1–5 scale**:
 - **2 – Weak**: Significant problems; user would likely need to revise or re-run.
 - **1 – Poor**: Fails the criterion; answer is unusable for this dimension.
 
-In normal grading, scores range from **1–5**. A score of **0** can be reserved for hard failures, such as off-topic answers, refusals when a safe answer is possible, or hallucinated content that clearly contradicts provided context.
+In normal grading, scores range from **1–5**. A score of **0** can be reserved for hard
+failures, such as off-topic answers, refusals when a safe answer is possible, or
+hallucinated content that clearly contradicts provided context.
 
 Judge prompts should:
 
@@ -49,13 +57,15 @@ Judge prompts should:
 
 ## From rubric to quality score
 
-Given per-dimension scores, Impromptu computes an overall **quality score** as a weighted average:
+Given per-dimension scores, Impromptu computes an overall **quality score** as a
+weighted average:
 
 - Each rubric dimension has a weight (default: equal weights).
 - The overall quality score is the weighted mean on the same 1–5 scale.
 - This can be rescaled to 0–1 or 0–100 internally if needed.
 
-Different tasks or factories can override weights. For example:
+Different tasks or factories can override weights.
+For example:
 
 - For **prompt-style work**, Clarity and Expected output might be weighted higher.
 - For **factual research**, Completeness and Context awareness might be weighted higher.
@@ -69,7 +79,8 @@ The **confidence score** can come from:
 The **disagreement score** measures how far apart multiple judges are:
 
 - low disagreement → judges broadly agree on quality
-- high disagreement → judges give very different scores, which may justify more search or a human review
+- high disagreement → judges give very different scores, which may justify more search
+  or a human review
 
 ## Plain-language idea of a threshold
 
@@ -86,10 +97,14 @@ For example, a default threshold might require:
 - confidence ≥ 0.7
 - disagreement below a moderate level
 
-Thresholds turn these scores into “stop vs continue vs escalate” decisions. The exact thresholds depend on task type, stakes, and user preferences; see [Thresholds and recommendations](./thresholds-and-recommendations.md) for details.
+Thresholds turn these scores into “stop vs continue vs escalate” decisions.
+The exact thresholds depend on task type, stakes, and user preferences; see
+[Thresholds and recommendations](./thresholds-and-recommendations.md) for details.
 
 ## Important guardrail
 
 The scoring model should guide decisions, not create false precision.
 
-These scores are meant to support better choices about stopping, escalation, and recommendations. Small differences, such as 4.2 vs 4.3, should rarely matter on their own.
+These scores are meant to support better choices about stopping, escalation, and
+recommendations. Small differences, such as 4.2 vs 4.3, should rarely matter on their
+own.

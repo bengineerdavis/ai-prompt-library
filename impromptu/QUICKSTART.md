@@ -31,8 +31,8 @@ Result:  Intake questions → study plan → tutor deployed
 ./orchestrator-match.sh "your query here" factories-registry.jsonl
 ```
 
-Returns the top factory match and confidence score. Paste the matched factory into
-your LLM session to run it.
+Returns the top factory match and confidence score.
+Paste the matched factory into your LLM session to run it.
 
 ______________________________________________________________________
 
@@ -61,9 +61,10 @@ print(f"Match: {match.factory} ({match.confidence:.1%})")
 | Problem                | Fix                                                                                |
 | ---------------------- | ---------------------------------------------------------------------------------- |
 | No factory match       | Rephrase query with more specific keywords                                         |
-| Wrong factory selected | Add domain-specific terms (e.g. "sentry", "boglehead", "tutor")                    |
+| Wrong factory selected | Add domain-specific terms (e.g. “sentry”, “boglehead”, “tutor”)                    |
 | Python ImportError     | Confirm `orchestrator.py` and `factories-registry.jsonl` are in the same directory |
 | Bash permission denied | `chmod +x orchestrator-match.sh`                                                   |
 | Perplexity paste error | Paste registry first, then orchestrator                                            |
 
-For registry setup, adding new factories, and full directory layout, see `docs/setup.md`.
+For registry setup, adding new factories, and full directory layout, see
+`docs/setup.md`.

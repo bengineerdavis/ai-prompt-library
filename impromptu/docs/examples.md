@@ -1,6 +1,7 @@
 # Examples
 
-This document provides simple examples of how cost, complexity, and verbosity can be combined.
+This document provides simple examples of how cost, complexity, and verbosity can be
+combined.
 
 For definitions of the controls, see [Modes and settings](./modes-and-settings.md).
 

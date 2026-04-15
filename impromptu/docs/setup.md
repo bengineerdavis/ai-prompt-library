@@ -133,9 +133,9 @@ ______________________________________________________________________
 
 ## Troubleshooting
 
-| Issue | Fix |
+| Issue                   | Fix                                                                                  |
 | ----------------------- | ------------------------------------------------------------------------------------ |
-| Match score < 75% | Add query keywords to the factory’s `keywords` array in the registry |
-| Phase 0 fails | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` entries |
+| Match score < 75%       | Add query keywords to the factory’s `keywords` array in the registry                 |
+| Phase 0 fails           | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` entries               |
 | Tail module not writing | Check write permissions on `factories-registry.jsonl` and `logs/execution-log.jsonl` |
-| Wrong factory loads | Make keyword arrays more specific; avoid generic terms shared across factories |
+| Wrong factory loads     | Make keyword arrays more specific; avoid generic terms shared across factories       |

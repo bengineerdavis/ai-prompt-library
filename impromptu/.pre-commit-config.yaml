@@ -17,8 +17,6 @@ repos:
       - id: codespell
         name: codespell-check
         args: ["--ignore-words=.codespellignore"]
-        stages:
-          - manual
 
       - id: codespell
         alias: codespell-fix
@@ -36,6 +34,7 @@ repos:
         name: ruff-check
         stages:
           - manual
+
       - id: ruff
         alias: ruff-check-fix
         name: ruff-check-fix
@@ -43,16 +42,20 @@ repos:
           - --fix
         stages:
           - manual
+
       - id: ruff-format
         name: ruff-format
-        stages:
-          - manual
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.22
     hooks:
       - id: mdformat
         name: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-frontmatter
+          - mdformat-footnote
+          - mdformat-gfm-alerts
         stages:
           - manual
 
@@ -60,7 +63,48 @@ repos:
     rev: v0.15.0
     hooks:
       - id: markdownlint-cli2
-        files: '\.(md|markdown)$'
-        args: ["--config", ".markdownlint-cli2.yaml"]
+        name: markdownlint-cli2 (prompts)
+        alias: markdownlint-prompts
+        pass_filenames: false
+        args:
+          - "factories/**/*.md"
+          - "seed/**/*.md"
+          - "#**/README.md"
+          - "#bootstrap-out/**"
+
+      - id: markdownlint-cli2
+        name: markdownlint-cli2 (fix prompts)
+        alias: markdownlint-prompts-fix
+        pass_filenames: false
+        args:
+          - --fix
+          - "factories/**/*.md"
+          - "seed/**/*.md"
+          - "#**/README.md"
+          - "#bootstrap-out/**"
+        stages:
+          - manual
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.15.0
+    hooks:
+      - id: markdownlint-cli2
+        name: markdownlint-cli2 (docs)
+        alias: markdownlint-docs
+        pass_filenames: false
+        args:
+          - "**/README.md"
+          - "docs/**/*.md"
+          - "#bootstrap-out/**"
+
+      - id: markdownlint-cli2
+        name: markdownlint-cli2 (fix docs)
+        alias: markdownlint-docs-fix
+        pass_filenames: false
+        args:
+          - --fix
+          - "**/README.md"
+          - "docs/**/*.md"
+          - "#bootstrap-out/**"
         stages:
           - manual

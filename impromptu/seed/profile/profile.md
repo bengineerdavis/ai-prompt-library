@@ -69,4 +69,4 @@ All child prompts (Strategy Builder, Interview Builder, etc.) and the Seed Orche
 
 ______________________________________________________________________
 
-### Note: This is a neutral, generic version. Personalization and user preferences will be added as feedback is collected.
+### Note: This is a neutral, generic version. Personalization and user preferences will be added as feedback is collected

@@ -287,30 +287,30 @@ ______________________________________________________________________
 
 ### Phase 1 — Foundation (Weeks 1–4)
 
-| Week | Topic | Core Docs |
+| Week | Topic                                                    | Core Docs                             |
 | ---- | -------------------------------------------------------- | ------------------------------------- |
-| 1 | Sentry data model: Events, Issues, Projects, DSN | docs.sentry.io/product/sentry-basics/ |
-| 2 | SDK fundamentals: init, breadcrumbs, contexts, tags | docs.sentry.io/platforms/ |
-| 3 | Error Monitoring: stack traces, grouping, fingerprinting | docs.sentry.io/product/issues/ |
-| 4 | Tracing & Performance: spans, transactions, sample rates | docs.sentry.io/product/performance/ |
+| 1    | Sentry data model: Events, Issues, Projects, DSN         | docs.sentry.io/product/sentry-basics/ |
+| 2    | SDK fundamentals: init, breadcrumbs, contexts, tags      | docs.sentry.io/platforms/             |
+| 3    | Error Monitoring: stack traces, grouping, fingerprinting | docs.sentry.io/product/issues/        |
+| 4    | Tracing & Performance: spans, transactions, sample rates | docs.sentry.io/product/performance/   |
 
 ### Phase 2 — Support Craft (Weeks 5–8)
 
-| Week | Topic |
+| Week | Topic                                                   |
 | ---- | ------------------------------------------------------- |
-| 5 | The clarifying question framework |
-| 6 | Reproduction methodology: bug vs. config issue |
-| 7 | Escalation judgment: when to push, when to pass |
-| 8 | Response writing: confident, clear, non-over-committing |
+| 5    | The clarifying question framework                       |
+| 6    | Reproduction methodology: bug vs. config issue          |
+| 7    | Escalation judgment: when to push, when to pass         |
+| 8    | Response writing: confident, clear, non-over-committing |
 
 ### Phase 3 — Mastery & Edge Cases (Weeks 9–12)
 
-| Week | Topic |
+| Week | Topic                                                       |
 | ---- | ----------------------------------------------------------- |
-| 9 | Session Replay & User Feedback |
-| 10 | Source Maps & Release Tracking |
-| 11 | Crons, Alerts, and Notification rules |
-| 12 | Multi-project orgs, SDK version conflicts, AI agent context |
+| 9    | Session Replay & User Feedback                              |
+| 10   | Source Maps & Release Tracking                              |
+| 11   | Crons, Alerts, and Notification rules                       |
+| 12   | Multi-project orgs, SDK version conflicts, AI agent context |
 
 ______________________________________________________________________
 

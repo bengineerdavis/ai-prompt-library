@@ -97,23 +97,23 @@ ______________________________________________________________________
 
 ## Troubleshooting
 
-| Issue | Fix |
+| Issue                   | Fix                                                                       |
 | ----------------------- | ------------------------------------------------------------------------- |
-| Match < 75% | Add query keywords to the `keywords` array in the registry entry |
-| Phase 0 fails | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` strategies |
-| Parents not found | Ensure `strategy-builder` and `shopping-builder` exist in registry |
-| Tail Module not writing | Check write permissions on `factories-registry.jsonl` |
+| Match < 75%             | Add query keywords to the `keywords` array in the registry entry          |
+| Phase 0 fails           | Verify `seed-prompting-strategies.jsonl` has `"enabled": true` strategies |
+| Parents not found       | Ensure `strategy-builder` and `shopping-builder` exist in registry        |
+| Tail Module not writing | Check write permissions on `factories-registry.jsonl`                     |
 
 ______________________________________________________________________
 
 ## Related Files
 
-| File | Purpose |
+| File                               | Purpose                                             |
 | ---------------------------------- | --------------------------------------------------- |
-| `wealth-advisor-and-builder-v1.md` | Main factory prompt |
-| `strategy-builder.md` | Required parent factory |
-| `shopping-builder.md` | Required parent factory |
-| `factories-registry.jsonl` | Master registry — must include this factory's entry |
+| `wealth-advisor-and-builder-v1.md` | Main factory prompt                                 |
+| `strategy-builder.md`              | Required parent factory                             |
+| `shopping-builder.md`              | Required parent factory                             |
+| `factories-registry.jsonl`         | Master registry — must include this factory's entry |
 
 ______________________________________________________________________
 

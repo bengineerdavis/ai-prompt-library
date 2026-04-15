@@ -72,7 +72,7 @@ ______________________________________________________________________
 
 **Task**: Understand the factory's purpose deeply + decide Phase 1 strategies
 
-### Sub-tasks:
+### Sub-tasks
 
 1. **Parse domain**: What category? (e.g., consumer hardware, career, research)
 1. **Analyze example queries**: What patterns recur?

@@ -1,9 +1,11 @@
 config:
-  default: true
-  MD013: false
-  MD033: false
-  MD024: false
-
-globs:
-  - "**/*.md"
-  - "**/*.markdown"
+  MD013: false # line length
+  MD033: false # inline HTML
+  MD024: false # duplicate heading
+  MD025: false # multiple H1
+  MD026: false # trailing punctuation in heading
+  MD036: false # emphasis as heading
+  MD040: false # fenced code language
+  MD004: false # list marker style
+  MD022: false # blanks around headings
+  MD032: false # blanks around lists

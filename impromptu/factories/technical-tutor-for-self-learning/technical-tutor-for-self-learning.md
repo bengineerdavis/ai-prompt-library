@@ -147,13 +147,13 @@ ______________________________________________________________________
 
 1. **Identify primary failure mode** and map to tutor countermeasure:
 
-   | Failure Mode | Countermeasure |
+   | Failure Mode            | Countermeasure                                                        |
    | ----------------------- | --------------------------------------------------------------------- |
-   | `jumps_to_conclusions` | Enforce question-first rule in Co-Pilot; Meta-Prompting SLA check |
+   | `jumps_to_conclusions`  | Enforce question-first rule in Co-Pilot; Meta-Prompting SLA check     |
    | `paralysis_by_analysis` | Time-box research steps; give explicit "good enough to ask" threshold |
-   | `skips_fundamentals` | Lock Phase 1 before Phase 2; quiz gates between phases |
-   | `cognitive_overload` | Separate "learn concept" from "solve task" steps explicitly |
-   | `imposter_syndrome` | Normalize uncertainty; use probability language in all outputs |
+   | `skips_fundamentals`    | Lock Phase 1 before Phase 2; quiz gates between phases                |
+   | `cognitive_overload`    | Separate "learn concept" from "solve task" steps explicitly           |
+   | `imposter_syndrome`     | Normalize uncertainty; use probability language in all outputs        |
 
 1. **Select strategies** (2–3 for Phase 1):
 

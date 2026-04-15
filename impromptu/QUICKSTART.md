@@ -49,21 +49,21 @@ print(f"Match: {match.factory} ({match.confidence:.1%})")
 
 ## Match Confidence Thresholds
 
-| Score | Behavior |
+| Score  | Behavior                        |
 | ------ | ------------------------------- |
-| ≥90% | Auto-runs factory |
-| 85–89% | Asks to confirm (default yes) |
-| 75–84% | Shows top 3, asks you to pick |
-| \<75% | Suggests creating a new factory |
+| ≥90%   | Auto-runs factory               |
+| 85–89% | Asks to confirm (default yes)   |
+| 75–84% | Shows top 3, asks you to pick   |
+| \<75%  | Suggests creating a new factory |
 
 ## Troubleshooting
 
-| Problem | Fix |
+| Problem                | Fix                                                                                |
 | ---------------------- | ---------------------------------------------------------------------------------- |
-| No factory match | Rephrase query with more specific keywords |
-| Wrong factory selected | Add domain-specific terms (e.g. "sentry", "boglehead", "tutor") |
-| Python ImportError | Confirm `orchestrator.py` and `factories-registry.jsonl` are in the same directory |
-| Bash permission denied | `chmod +x orchestrator-match.sh` |
-| Perplexity paste error | Paste registry first, then orchestrator |
+| No factory match       | Rephrase query with more specific keywords                                         |
+| Wrong factory selected | Add domain-specific terms (e.g. "sentry", "boglehead", "tutor")                    |
+| Python ImportError     | Confirm `orchestrator.py` and `factories-registry.jsonl` are in the same directory |
+| Bash permission denied | `chmod +x orchestrator-match.sh`                                                   |
+| Perplexity paste error | Paste registry first, then orchestrator                                            |
 
 For registry setup, adding new factories, and full directory layout, see `docs/setup.md`.

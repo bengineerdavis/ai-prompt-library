@@ -89,7 +89,7 @@ jq 'select(.name == "your-factory-name")' factories-registry.jsonl
 ```
 
 The `rubric` weights should sum to 1.0 and use the same dimensions defined in
-[`../internals/scoring-and-thresholds.md`](../internals/scoring-and-thresholds.md).
+[`docs/internals/scoring-and-thresholds.md`](../internals/scoring-and-thresholds.md).
 You can adjust weights per factory (for example, emphasize completeness for
 research-heavy factories).
 
@@ -100,19 +100,101 @@ ______________________________________________________________________
 ### sentry-support-tutor
 
 ```json
-{"name":"sentry-support-tutor","version":"1.0","type":"factory","description":"Co-pilot, failure review, and study guide factory for a Senior Support Engineer accelerating Sentry.io mastery.","parent":"technical-tutor-for-self-learning","enabled":true,"tasks":["co_pilot","failure_review","study_session","pattern_tracking","question_discipline"],"keywords":["sentry","support","tutor","copilot","study","triage","tickets","SDK","failure-review","breadcrumbs","DSN","tracing","issues","events","escalation"],"rubric":{"clarity":0.2,"conciseness":0.15,"completeness":0.2,"goal_alignment":0.2,"context_awareness":0.15,"expected_output":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"],"recent_scores":[8.8],"avg_score":8.80,"last_updated":"2026-03-21"}
+{
+  "name":"sentry-support-tutor",
+  "version":"1.0",
+  "type":"factory",
+  "description":"Co-pilot, failure review, and study guide factory for a Senior Support Engineer accelerating Sentry.io mastery.",
+  "parent":"technical-tutor-for-self-learning",
+  "enabled":true,
+  "tasks":[
+    "co_pilot","failure_review","study_session","pattern_tracking","question_discipline"
+    ],
+  "keywords":[
+    "sentry","support","tutor","copilot","study","triage","tickets","SDK","failure-review","breadcrumbs","DSN","tracing","issues","events","escalation"
+    ],
+  "rubric":{
+    "clarity":0.2,
+    "conciseness":0.15,
+    "completeness":0.2,
+    "goal_alignment":0.2,
+    "context_awareness":0.15,
+    "expected_output":0.1
+    },
+  "strategies":[
+    "Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"
+    ],
+  "recent_scores":[8.8],
+  "avg_score":8.80,
+  "last_updated":"2026-03-21"
+  }
 ```
 
 ### technical-tutor-for-self-learning
 
 ```json
-{"name":"technical-tutor-for-self-learning","version":"1.0","type":"meta-factory","description":"Meta-factory that generates and deploys domain-specific technical tutors for any software, hardware, or foundational technical topic. All generated tutors follow Co-Pilot + Failure Review + Study Session pattern.","parent":"strategy-builder","enabled":true,"tasks":["factory_generation","tutor_deployment","study_plan_design","learner_profiling"],"keywords":["tutor","self-learning","technical","study","co-pilot","failure-review","mastery","accelerator","mentor","learning"],"rubric":{"clarity":0.15,"conciseness":0.1,"completeness":0.2,"goal_alignment":0.2,"context_awareness":0.15,"expected_output":0.2},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique","Constraint-Based-Reasoning"],"generates":"{domain-slug}-tutor-v1.md","recent_scores":[8.7],"avg_score":8.70,"last_updated":"2026-03-21"}
+{
+  "name":"technical-tutor-for-self-learning",
+  "version":"1.0",
+  "type":"meta-factory",
+  "description":"Meta-factory that generates and deploys domain-specific technical tutors for any software, hardware, or foundational technical topic. All generated tutors follow Co-Pilot + Failure Review + Study Session pattern.",
+  "parent":"strategy-builder",
+  "enabled":true,
+  "tasks":[
+    "factory_generation","tutor_deployment","study_plan_design","learner_profiling"
+    ],
+  "keywords":[
+    "tutor","self-learning","technical","study","co-pilot","failure-review","mastery","accelerator","mentor","learning"
+    ],
+  "rubric":{
+    "clarity":0.15,
+    "conciseness":0.1,
+    "completeness":0.2,
+    "goal_alignment":0.2,
+    "context_awareness":0.15,
+    "expected_output":0.2
+    },
+  "strategies":[
+    "Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique","Constraint-Based-Reasoning"
+    ],
+  "generates":"{domain-slug}-tutor-v1.md",
+  "recent_scores":[8.7],
+  "avg_score":8.70,
+  "last_updated":"2026-03-21"
+  }
 ```
 
 ### wealth-advisor-and-builder
 
 ```json
-{"name":"wealth-advisor-and-builder","version":"1.0","type":"factory","description":"Wealth planning for mid-career catch-up with employment risk, Boglehead-style.","parent":"strategy-builder","enabled":true,"tasks":["wealth","catchup","swr","runway","boglehead"],"keywords":["wealth","finance","boglehead","swr","runway","late_start","retirement"],"rubric":{"clarity":0.2,"conciseness":0.15,"completeness":0.2,"goal_alignment":0.2,"context_awareness":0.15,"expected_output":0.1},"strategies":["Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"],"recent_scores":[8.7,8.9,8.6],"avg_score":8.73,"last_updated":"2025-12-08"}
+{
+  "name":"wealth-advisor-and-builder",
+  "version":"1.0",
+  "type":"factory",
+  "description":"Wealth planning for mid-career catch-up with employment risk, Boglehead-style.",
+  "parent":"strategy-builder",
+  "enabled":true,
+  "tasks":[
+    "wealth","catchup","swr","runway","boglehead"
+    ],
+  "keywords":[
+    "wealth","finance","boglehead","swr","runway","late_start","retirement"
+    ],
+  "rubric":{
+    "clarity":0.2,
+    "conciseness":0.15,
+    "completeness":0.2,
+    "goal_alignment":0.2,
+    "context_awareness":0.15,
+    "expected_output":0.1
+    },
+  "strategies":[
+    "Decomposition","Chain-of-Thought","Meta-Prompting","Few-Shot","Self-Critique"
+    ],
+  "recent_scores":[8.7,8.9,8.6],
+  "avg_score":8.73,
+  "last_updated":"2025-12-08"
+  }
 ```
 
 ______________________________________________________________________

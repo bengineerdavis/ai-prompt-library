@@ -125,6 +125,10 @@ repos:
         name: check prompt library example json
         files: ^docs/examples/prompt-library\.example\.json$
         args: ["--schemafile", "schemas/prompt-library.schema.json"]
+      - id: check-jsonschema
+        name: check rubric schema
+        files: ^schemas/rubric-schema-v1\.json$
+        args: ["--check-metaschema"] # if it’s itself a schema
 
   - repo: https://github.com/ComPWA/mirrors-taplo
     rev: v0.9.3

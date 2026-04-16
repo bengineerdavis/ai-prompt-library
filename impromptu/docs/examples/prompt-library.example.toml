@@ -2,28 +2,22 @@
 id = "personal"
 name = "Personal Prompt Library"
 mode = "repo"
-prompts_root = "prompts"
+prompts_root = "prompts/"
 
-[repository]
+[library.repository]
 provider = "github"
-owner = "bengineerdavis"
-name = "ai-prompt-library"
-url = "https://github.com/bengineerdavis/ai-prompt-library"
+owner = "bdavis"
+name = "impromptu"
+url = "https://github.com/bdavis/impromptu"
 
 [[collections]]
 id = "personal"
-path = "personal"
-primary_file = "prompt.md"
+path = "personal/"
 extensions = [".md"]
+primary_file = "prompt.md"
 
 [[collections]]
 id = "scripts"
-path = "scripts"
-primary_file = "prompt.md"
+path = "scripts/"
 extensions = [".md"]
-
-[[collections]]
-id = "writing"
-path = "writing"
 primary_file = "prompt.md"
-extensions = [".md"]

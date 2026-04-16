@@ -1,0 +1,5 @@
+[[rule]]
+include = ["docs/examples/*.toml"]
+
+[rule.schema]
+path = "./schemas/prompt-library.schema.json"

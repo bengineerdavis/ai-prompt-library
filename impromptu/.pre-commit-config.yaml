@@ -108,3 +108,28 @@ repos:
           - "#bootstrap-out/**"
         stages:
           - manual
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: pretty-format-json
+        args: [--autofix, --indent=2]
+        files: ^(schemas/.*\.json|docs/examples/.*\.json)$
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.37.1
+    hooks:
+      - id: check-metaschema
+        files: ^schemas/.*\.json$
+      - id: check-jsonschema
+        name: check prompt library example json
+        files: ^docs/examples/prompt-library\.example\.json$
+        args: ["--schemafile", "schemas/prompt-library.schema.json"]
+
+  - repo: https://github.com/ComPWA/mirrors-taplo
+    rev: v0.9.3
+    hooks:
+      - id: taplo-format
+        files: ^docs/examples/.*\.toml$
+      - id: taplo-lint
+        files: ^docs/examples/.*\.toml$

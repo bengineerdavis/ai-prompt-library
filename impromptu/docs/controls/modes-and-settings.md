@@ -86,5 +86,7 @@ The rest of the system adapts to these settings.
 
 For how scores and thresholds work, see:
 
-- [Scoring model](./scoring-model.md)
-- [Thresholds and recommendations](./thresholds-and-recommendations.md)
+- [Scoring and thresholds](../internals/scoring-and-thresholds.md)
+- [Examples](./examples.md)
+- [Auto mode policy](./auto-mode-policy.md)
+- [Deep search](./deep-search.md)

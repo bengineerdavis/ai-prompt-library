@@ -4,8 +4,8 @@ Complete configuration and registry reference for the Seed Factory System (v4.1+
 
 For an overview of global controls and behavior, see:
 
-- [`docs/modes-and-settings.md`](./modes-and-settings.md)
-- [`seed/README.md`](../seed/README.md)
+- [`doc../control../controls/modes-and-settings.md`](../control../controls/modes-and-settings.md)
+- [`seed/README.md`](../../seed/README.md)
 
 ______________________________________________________________________
 
@@ -89,7 +89,7 @@ jq 'select(.name == "your-factory-name")' factories-registry.jsonl
 ```
 
 The `rubric` weights should sum to 1.0 and use the same dimensions defined in
-[`docs/scoring-model.md`](./scoring-model.md).
+[`doc../internals/scoring-and-thresholds.md`](../internals/scoring-and-thresholds.md).
 You can adjust weights per factory (for example, emphasize completeness for
 research-heavy factories).
 

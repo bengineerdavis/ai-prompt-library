@@ -37,8 +37,7 @@
 ### Commit automation
 
 - Add commit message validation based on Conventional Commits.
-- Add optional structured Git trailers for architecture intent and review
-  metadata.
+- Add optional structured Git trailers for architecture intent and review metadata.
 - Build a local-model helper that proposes commit messages from staged changes.
 - Add lightweight commit review assistance before finalizing commits.
 - Reuse the same commit standard across projects.
@@ -47,8 +46,7 @@
 
 ### Docs quality and prose linting
 
-- Add Vale as the primary prose linter with a shared style pack based on Google
-  style.
+- Add Vale as the primary prose linter with a shared style pack based on Google style.
 - Define a reusable project documentation standard that can be applied across
   repositories.
 - Add prompt-specific writing rules for consistency, clarity, and terminology.
@@ -62,8 +60,7 @@
 - Create and maintain a root `CHANGELOG.md` in a human-readable format based on Keep a
   Changelog.
 - Automate changelog draft generation from commit history and tags.
-- Automate version bump suggestions from commit history and release
-  rules.
+- Automate version bump suggestions from commit history and release rules.
 - Keep release review human-approved even when generation is automated.
 - Decide whether release automation should be local-first, CI-driven, or support both
   modes.

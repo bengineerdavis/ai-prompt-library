@@ -1,9 +1,10 @@
 # Auto mode policy
 
-This document explains how `auto` should work for both cost and complexity.
+This document explains how `auto` works for both `cost` and `complexity`.
 
-For the definitions of the main controls, see
-[Modes and settings](./modes-and-settings.md).
+For the control definitions, see [modes-and-settings.md](./modes-and-settings.md).
+For how scores and signals drive escalation, see
+[../internals/scoring-and-thresholds.md](../internals/scoring-and-thresholds.md).
 
 ## Default principle
 
@@ -18,7 +19,7 @@ That means:
 
 ## Auto cost
 
-When `cost = auto`, the system should decide how much budget to spend based on:
+When `cost = auto`, the system decides how much budget to spend based on:
 
 - task importance
 - task ambiguity
@@ -31,15 +32,14 @@ Default behavior should be cost-conscious.
 
 Examples:
 
-- In a SaaS environment, auto should assume cost sensitivity unless the user explicitly
-  signals otherwise.
+- In a SaaS environment, auto assumes cost sensitivity unless the user signals
+  otherwise.
 - In a local environment, auto can be more flexible but should still respect hardware
   and runtime limits.
 
 ## Auto complexity
 
-When `complexity = auto`, the system should prefer the simplest strategy that is likely
-to succeed.
+When `complexity = auto`, the system prefers the simplest strategy likely to succeed.
 
 Typical default progression:
 
@@ -64,10 +64,8 @@ Useful signals include:
 - high task stakes or high reuse value
 - strong benchmarkability
 
-For how these signals are computed and combined, see:
-
-- [Scoring model](./scoring-model.md)
-- [Thresholds and recommendations](./thresholds-and-recommendations.md)
+For how these signals are computed and combined, see
+[../internals/scoring-and-thresholds.md](../internals/scoring-and-thresholds.md).
 
 ## Non-goals
 

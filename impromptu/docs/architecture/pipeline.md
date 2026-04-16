@@ -3,7 +3,9 @@
 This document explains the internal prompt-building pipeline.
 
 For the user-facing controls that influence this pipeline, see
-[Modes and settings](./modes-and-settings.md).
+[../controls/modes-and-settings.md](../controls/modes-and-settings.md).
+For scoring and stopping logic, see
+[../internals/scoring-and-thresholds.md](../internals/scoring-and-thresholds.md).
 
 ## Core pipeline
 
@@ -41,7 +43,6 @@ Adapts the prompt to the domain, user intent, or task shape when useful.
 ### Optimizer
 
 Improves, compares, critiques, or evaluates prompt candidates.
-
 This is also the natural place for judge-style evaluation when multiple candidates or
 stronger validation are needed.
 
@@ -56,17 +57,14 @@ Applies reusable user preferences, standing constraints, and other persistent de
   permitted.
 - **verbosity** affects how much of this is shown to the user.
 
-For example:
+Examples:
 
-- `cost = low` and `complexity = simple` may produce one candidate with light
-  optimization.
-- `cost = high` and `complexity = exploratory` may allow multiple candidates, judges,
-  and refinement rounds.
+- `cost = low` and `complexity = simple` → one candidate with light optimization.
+- `cost = high` and `complexity = exploratory` → multiple candidates, judges, and
+  refinement rounds.
 
 ## Why the pipeline should remain universal
 
-Keeping a universal pipeline helps maintain consistency, debugging clarity, and
-predictable behavior.
-
-The system should adapt by changing stage intensity, not by inventing a completely
-different architecture for each task.
+Keeping a universal pipeline maintains consistency, debugging clarity, and predictable
+behavior. The system adapts by changing stage intensity, not by inventing a different
+architecture for each task.

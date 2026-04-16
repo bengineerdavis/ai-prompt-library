@@ -1,15 +1,15 @@
 # Deep search
 
-This document explains the heaviest `complexity` mode in Impromptu.
+`complexity = deep search` is the heaviest complexity mode.
 
-For the general control definitions, see [Modes and settings](./modes-and-settings.md).
+For general control definitions, see [modes-and-settings.md](./modes-and-settings.md).
+For stopping and escalation logic, see
+[../internals/scoring-and-thresholds.md](../internals/scoring-and-thresholds.md).
 
 ## What deep search means
 
-`complexity = deep search` allows the system to use a much broader and more expensive
-search process than normal.
-
-This can include:
+`complexity = deep search` allows a much broader and more expensive search process than
+normal. This can include:
 
 - more candidates
 - more judges or evaluators
@@ -31,7 +31,7 @@ Deep search is most appropriate when:
 - the user is experimenting with prompt factories, judges, or optimization workflows
 
 It is especially useful when extra structural exploration is likely to change the design
-of a prompt, factory, or workflow, not just polish wording.
+of a prompt, factory, or workflow — not just polish wording.
 
 ## When not to use it
 
@@ -46,28 +46,21 @@ In these cases, `simple`, `layered`, or `exploratory` complexity is normally eno
 
 ## Guardrails
 
-Even deep search should not run without limits.
-
-Use guardrails such as:
+Even deep search should not run without limits:
 
 - stop when score improvements plateau
 - stop when evaluators largely agree
 - stop when budget or runtime limits are reached
 - stop when additional search is unlikely to materially improve quality
 
-These decisions rely on the same signals used elsewhere (quality, confidence,
-disagreement, improvement delta, and budget ratio).
-For how those are computed, see [Scoring model](./scoring-model.md).
+These decisions rely on the same signals described in
+[../internals/scoring-and-thresholds.md](../internals/scoring-and-thresholds.md).
 
 ## Practical guidance
 
 Deep search should be rare by default.
-
 It should usually require:
 
 - `cost = high` or `unlimited`
 - strong uncertainty or explicit user request
 - a task where extra search is likely to matter
-
-For the stopping and escalation logic, see
-[Thresholds and recommendations](./thresholds-and-recommendations.md).

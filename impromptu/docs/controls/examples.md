@@ -1,9 +1,8 @@
 # Examples
 
-This document provides simple examples of how cost, complexity, and verbosity can be
-combined.
+Simple examples of how `cost`, `complexity`, and `verbosity` can be combined.
 
-For definitions of the controls, see [Modes and settings](./modes-and-settings.md).
+For control definitions, see [modes-and-settings.md](./modes-and-settings.md).
 
 ## Quick rewrite
 
@@ -72,7 +71,7 @@ Recommended settings:
 Why:
 
 - the user explicitly wants exploration
-- they are likely willing to tolerate higher cost and runtime
+- they are willing to tolerate higher cost and runtime
 
 ## New user default
 
@@ -88,4 +87,4 @@ Recommended settings:
 
 Why:
 
-- it gives good default behavior while staying conservative
+- good default behavior while staying conservative

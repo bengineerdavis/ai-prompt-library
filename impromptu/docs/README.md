@@ -1,58 +1,71 @@
-# Impromptu Docs
+# docs/
 
-This directory contains the working documentation for Impromptu’s prompt-building
-system.
+Documentation for Impromptu, organized into four subdirectories.
 
-## Reading order
+______________________________________________________________________
 
-Start here if you are new:
+## controls/ — User-facing behavior
 
-1. [Modes and settings](./modes-and-settings.md)
-1. [Auto mode policy](./auto-mode-policy.md)
-1. [Pipeline and stages](./pipeline-and-stages.md)
-1. [Thresholds and recommendations](./thresholds-and-recommendations.md)
-1. [User preferences and memory](./user-preferences-and-memory.md)
-1. [Service-specific guidance](./service-specific-guidance.md)
+How the three main knobs (`cost`, `complexity`, `verbosity`) work, how `auto` escalates,
+and worked examples.
 
-## What each doc covers
+→ [controls/README.md](./controls/README.md)
 
-- **Modes and settings** explains the main knobs a user can control: cost, complexity,
-  and verbosity.
-- **Auto mode policy** explains how `auto` should behave conservatively and when it
-  should escalate.
-- **Pipeline and stages** explains the internal build → specializer → optimizer →
-  profile flow.
-- **Thresholds and recommendations** explains how Impromptu decides when to do more
-  work, stop, or suggest new defaults.
-- **User preferences and memory** explains how reusable preferences are stored and
-  refreshed over time.
-- **Service-specific guidance** explains how to think about saved context in SaaS tools
-  versus the future Impromptu API/tooling.
-- **Impromptu prompt library model** defines the canonical v1 contract for collections,
-  namespace directories, canonical prompt files, support files, and prompt discovery
-  rules.
-- **WIP refactor plan: shared schemas and doc alignment** tracks the current branch
-  TODOs for schema alignment, drift detection, validation, tests, and follow-through.
+| File                                                               | Contents               |
+| ------------------------------------------------------------------ | ---------------------- |
+| [controls/modes-and-settings.md](./controls/modes-and-settings.md) | Control reference      |
+| [controls/auto-mode-policy.md](./controls/auto-mode-policy.md)     | Auto escalation policy |
+| [controls/deep-search.md](./controls/deep-search.md)               | Deep search mode       |
+| [controls/examples.md](./controls/examples.md)                     | Worked examples        |
 
-## Linking guidance
+______________________________________________________________________
 
-The docs that should directly link to or refer to **Modes and settings** are:
+## architecture/ — Structural models
 
-- `README.md` (entry point)
-- `auto-mode-policy.md`
-- `pipeline-and-stages.md`
-- `thresholds-and-recommendations.md`
-- `user-preferences-and-memory.md`
-- `service-specific-guidance.md`
+Library, project, workspace, and pipeline design.
 
-Reason: `modes-and-settings.md` defines the shared vocabulary for the rest of the
-system.
+→ [architecture/README.md](./architecture/README.md)
 
-## Additional docs
+| File                                                             | Contents                                       |
+| ---------------------------------------------------------------- | ---------------------------------------------- |
+| [architecture/library-model.md](./architecture/library-model.md) | Library and collection contract                |
+| [architecture/project-model.md](./architecture/project-model.md) | Project, workspace, environment, config layout |
+| [architecture/pipeline.md](./architecture/pipeline.md)           | Build → Specializer → Optimizer → Profile      |
 
-- [Onboarding](./onboarding.md)
-- [Examples](./examples.md)
-- [Deep search](./deep-search.md)
-- [Scoring model](./scoring-model.md)
-- [Impromptu prompt library model](./impromptu-library-model.md)
-- [WIP refactor plan: shared schemas and doc alignment](./refactor-shared-schemas-and-doc-alignment.md)
+______________________________________________________________________
+
+## internals/ — Scoring and decision logic
+
+Rubric, grading scale, decision profiles, and escalation logic.
+
+→ [internals/README.md](./internals/README.md)
+
+| File                                                                         | Contents                             |
+| ---------------------------------------------------------------------------- | ------------------------------------ |
+| [internals/scoring-and-thresholds.md](./internals/scoring-and-thresholds.md) | Full scoring and threshold reference |
+
+______________________________________________________________________
+
+## reference/ — Setup, onboarding, and service guidance
+
+Getting started, preferences, and environment-specific behavior.
+
+→ [reference/README.md](./reference/README.md)
+
+| File                                                                                 | Contents                                     |
+| ------------------------------------------------------------------------------------ | -------------------------------------------- |
+| [reference/setup.md](./reference/setup.md)                                           | Installation and registry reference          |
+| [reference/onboarding-and-preferences.md](./reference/onboarding-and-preferences.md) | First-run, preferences, and service guidance |
+
+______________________________________________________________________
+
+## Root-level docs
+
+| File                                                                                                     | Contents                                            |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| [DECISIONS.md](./DECISIONS.md)                                                                           | Architecture decisions and schema migration handoff |
+| [TODO.md](./TODO.md)                                                                                     | Open task list                                      |
+| [TODO-refactor-shared-schemas-and-doc-alignment.md](./TODO-refactor-shared-schemas-and-doc-alignment.md) | WIP branch tracker                                  |
+| [ROADMAP.md](./ROADMAP.md)                                                                               | Near, medium, and long-term roadmap                 |
+| [commit-message-standard.md](./commit-message-standard.md)                                               | Commit message format                               |
+| [examples/](./examples/)                                                                                 | `prompt-library.example.json` and `.toml`           |

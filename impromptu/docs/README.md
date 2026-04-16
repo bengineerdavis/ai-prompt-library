@@ -1,6 +1,6 @@
 # docs/
 
-Documentation for Impromptu, organized into four subdirectories.
+Documentation for Users and Developers interacting with Impromptu, including [user-facing behavior](#controls--user-facing-behavior), [architecture](#architecture--structural-models), [internals](#internals--scoring-and-decision-logic), and [reference material](#reference--setup-onboarding-and-service-guidance).
 
 ______________________________________________________________________
 

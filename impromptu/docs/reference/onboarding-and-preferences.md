@@ -3,6 +3,9 @@
 This document covers the first-run experience, how preferences are stored and refreshed,
 and how Impromptu behaves across different environments.
 
+These decisions rely on the same signals described in
+[../internals/scoring-and-thresholds.md](../internals/scoring-and-thresholds.md).
+
 For the main controls, see
 [../controls/modes-and-settings.md](../controls/modes-and-settings.md).
 
@@ -13,8 +16,7 @@ ______________________________________________________________________
 ### Goal
 
 The first-run experience should be short, helpful, and low-friction.
-The system should infer as much as possible first, then ask only a small number of
-questions where confidence is low or important preferences are missing.
+The system should infer as much as possible first, then ask only a small number of questions where confidence is low or important preferences are missing.
 
 ### Default onboarding principles
 

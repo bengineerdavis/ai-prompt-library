@@ -1,3 +1,9 @@
+# Commit Message Standard
+
+# Commit Message Standard
+
+# Commit Message Standard
+
 ## Adoption policy
 
 This standard applies to new commits going forward.

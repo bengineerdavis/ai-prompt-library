@@ -1,9 +1,9 @@
 # Meeting 001 Minutes (Example)
 
-Date: 2026-05-02  
-Chair: Chair  
-Facilitator: Guide  
-Note-Taker: Log  
+Date: 2026-05-02\
+Chair: Chair\
+Facilitator: Guide\
+Note-Taker: Log
 
 ## Goal
 
@@ -12,9 +12,9 @@ Clarify how the reusable meetings kit should be structured so it can be copied i
 ## Agenda
 
 1. Review current meetings directory layout.
-2. Decide where example minutes and working minutes should live.
-3. Confirm initial roles and responsibilities.
-4. Capture open questions for a future refactor.
+1. Decide where example minutes and working minutes should live.
+1. Confirm initial roles and responsibilities.
+1. Capture open questions for a future refactor.
 
 ## Discussion summary
 

@@ -39,9 +39,9 @@ Task context:
 Instructions:
 
 1. Stay within the role’s purpose and boundaries.
-2. Make trade-offs explicit.
-3. Avoid pretending to have authority the role does not have.
-4. Produce the requested output in a reusable, structured form.
+1. Make trade-offs explicit.
+1. Avoid pretending to have authority the role does not have.
+1. Produce the requested output in a reusable, structured form.
 
 Desired output:
 

@@ -40,11 +40,11 @@ Use the following meeting context:
 Instructions:
 
 1. Respect the active role definitions supplied separately.
-2. Use an interview-style format when advisors ask questions.
-3. Allow one substantive question per advisor per round unless explicitly changed.
-4. Keep outputs human-readable but structured enough for note capture.
-5. Surface decisions, deferred items, promises, and open questions clearly.
-6. If research is needed, separate facts from implications and track sources.
+1. Use an interview-style format when advisors ask questions.
+1. Allow one substantive question per advisor per round unless explicitly changed.
+1. Keep outputs human-readable but structured enough for note capture.
+1. Surface decisions, deferred items, promises, and open questions clearly.
+1. If research is needed, separate facts from implications and track sources.
 
 Current task:
 

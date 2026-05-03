@@ -1,0 +1,40 @@
+repos:
+  # Basic housekeeping (whitespace, EOF, basic file checks)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [ "--markdown-linebreak-ext=md" ]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+      - id: detect-private-key
+
+  # Spelling in docs/prompts (check + manual fix)
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        name: codespell-check
+        args: [ "--ignore-words=.codespellignore" ]
+
+      - id: codespell
+        alias: codespell-fix
+        name: codespell-fix
+        args:
+          - "--ignore-words=.codespellignore"
+          - "--write-changes"
+
+  # Markdown formatter for docs and prompts (manual so you stay in control)
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        name: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-frontmatter
+          - mdformat-footnote
+          - mdformat-gfm-alerts

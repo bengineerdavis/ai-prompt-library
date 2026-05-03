@@ -2,9 +2,10 @@
 
 ## Shared purpose
 
-The advisor panel exists to pressure-test the Chair’s thinking from different but complementary angles.
+The panel exists to bring structured complementarity to a shared task.
 
-Each advisor gets one substantive question per round unless the Chair changes the format.
+Different judges contribute different concerns, standards, and reasoning so
+that outcomes are stronger than what a single role would produce alone.
 
 The current panel includes:
 

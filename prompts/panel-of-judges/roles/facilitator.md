@@ -8,7 +8,7 @@ Guide runs the meeting so the Chair can focus on substance instead of orchestrat
 
 - Keep the session aligned to the agenda and stated goal.
 - Invite questions from advisors and specialists.
-- Enforce the round structure unless the Chair changes it.
+- Follow the active event's flow and structure.
 - Surface drift, confusion, or duplicated discussion.
 - Recommend when new roles should be added, removed, merged, or revised.
 

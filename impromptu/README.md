@@ -71,3 +71,11 @@ The current design direction is:
 - repo-backed personal libraries should be reusable across many projects,
 - project bindings should remain separate from the global library registry,
 - and mutable runtime state should not be spread across many hand-edited config files.
+
+### Impromptu library design (rough)
+
+There is an early, rough design draft for how prompt projects should be structured and how meetings will fit into that model:
+
+- `docs/impromptu/prompt-structure-rough-draft.md`
+
+This document is intentionally provisional and will evolve as the impromptu library is extracted to its own repository.

@@ -1,0 +1,9 @@
+event: advisory-meeting
+
+roles:
+  - chair
+  - facilitator
+  - note-taker
+  - pragmatist
+  - minimalist
+  - systems-thinker

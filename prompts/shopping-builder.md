@@ -11,11 +11,12 @@ You are a shopping strategy factory for consumer product research and buying dec
 **Seed Context**: Honor Seed Profile norms (probability language, epistemic honesty, scannable outputs).
 
 **Strategies Available** (Phase 1, selected from `seed-prompting-strategies.jsonl`):
+
 - Few-Shot – use prior product research as a baseline.
 - Meta-Prompting – inject community wisdom (forums, reviews, Reddit patterns).
 - Self-Critique – score recommendations against a rubric before returning.
 
----
+______________________________________________________________________
 
 ## Input Schema
 
@@ -46,7 +47,7 @@ Factories receive structured input from the orchestrator; shopping-builder speci
 }
 ```
 
----
+______________________________________________________________________
 
 ## Output Schema
 
@@ -86,20 +87,20 @@ The factory returns a JSON-compatible structure with sections used by the Tail M
 }
 ```
 
----
+______________________________________________________________________
 
 ## Phase 0: Context Capture & Strategy Selection
 
 **Task**: Understand the user goal and select which strategies to run in Phase 1.
 
 1. Parse goal, category, and constraints.
-2. Inspect `continuity_baseline` for prior purchases and scores.
-3. Load enabled strategies from `seed-prompting-strategies-v1.1.jsonl`.
-4. Filter to `strategies_allowed` and to shopping-appropriate strategies.
-5. Decide on 1–3 strategies (typically Few-Shot + Meta-Prompting + Self-Critique).
-6. Record selected strategies and rationale.
+1. Inspect `continuity_baseline` for prior purchases and scores.
+1. Load enabled strategies from `seed-prompting-strategies-v1.1.jsonl`.
+1. Filter to `strategies_allowed` and to shopping-appropriate strategies.
+1. Decide on 1–3 strategies (typically Few-Shot + Meta-Prompting + Self-Critique).
+1. Record selected strategies and rationale.
 
----
+______________________________________________________________________
 
 ## Phase 1: Strategy Execution
 
@@ -124,7 +125,7 @@ The factory returns a JSON-compatible structure with sections used by the Tail M
 - Rank candidates by composite score and constraint fit.
 - Choose a primary recommendation and 1–3 alternates.
 
----
+______________________________________________________________________
 
 ## Phase 2: Structured Output
 
@@ -154,19 +155,19 @@ The factory returns a JSON-compatible structure with sections used by the Tail M
 
 - How Few-Shot, Meta-Prompting, and Self-Critique were used.
 
----
+______________________________________________________________________
 
 ## Tail Module: Feedback & Persistence
 
 **Task**: Close the loop and improve future runs.
 
 1. Score the output on Seed criteria (Clarity, Completeness, Goal Alignment, etc.).
-2. Ask the user for 1–5 ratings on clarity and usefulness.
-3. Append an execution record to a log (or registry) with:
+1. Ask the user for 1–5 ratings on clarity and usefulness.
+1. Append an execution record to a log (or registry) with:
    - goal, strategies_used, score, new_tasks, feedback.
-4. Suggest evolution triggers (e.g., new recurring tasks such as VRAM_analysis for GPUs).
+1. Suggest evolution triggers (e.g., new recurring tasks such as VRAM_analysis for GPUs).
 
----
+______________________________________________________________________
 
 ## Factory Metadata
 

@@ -22,18 +22,21 @@ job-candidate-research-suite/
 └── FILE-MANIFEST.md               (This file)
 ```
 
----
+______________________________________________________________________
 
 ## 📋 File Descriptions
 
 ### Starting Point
+
 - **README.md** (4 KB)
+
   - Full guide to using the entire suite
   - Workflow from recruiter outreach → offer stage
   - Tips for success + FAQ
   - **Read first before using any other files**
 
 - **QUICK-REFERENCE.md** (3 KB)
+
   - 1-page cheat sheet of all 5 prompts
   - Workflow flowchart
   - Decision trees for red/green flags
@@ -41,7 +44,9 @@ job-candidate-research-suite/
   - **Bookmark this for quick lookup**
 
 ### Core Seed Prompts (5 files)
+
 - **1-company-research.md** (4 KB)
+
   - Purpose: Understand company business, culture, market, financial health
   - When: Within 24 hrs of recruiter outreach
   - Input: Company name
@@ -49,6 +54,7 @@ job-candidate-research-suite/
   - Time: 15-20 min research
 
 - **2-recruiter-research.md** (3 KB)
+
   - Purpose: Profile recruiter and hiring manager + team health signals
   - When: Within 24 hrs of recruiter outreach
   - Input: Recruiter name, hiring manager name, company name
@@ -56,6 +62,7 @@ job-candidate-research-suite/
   - Time: 15-20 min research
 
 - **3-skill-mapping.md** (4 KB)
+
   - Purpose: Map your experience to job requirements; identify gaps and mitigation
   - When: After receiving full job description
   - Input: Job description + your resume + career goals
@@ -63,6 +70,7 @@ job-candidate-research-suite/
   - Time: 20-30 min analysis
 
 - **4-salary-research.md** (5 KB)
+
   - Purpose: Determine market compensation + build negotiation case
   - When: Before first recruiter call
   - Input: Role title, company, experience level, location
@@ -70,6 +78,7 @@ job-candidate-research-suite/
   - Time: 20-30 min research
 
 - **5-critical-questions.md** (5 KB)
+
   - Purpose: Generate tailored questions for recruiter/hiring manager that surface red flags
   - When: Night before each screening call
   - Input: Role, company, your experience, call type
@@ -77,6 +86,7 @@ job-candidate-research-suite/
   - Time: 10-15 min prep
 
 ### Tracking Tool
+
 - **6-tracking-template.csv** (0.5 KB)
   - Purpose: Log and compare multiple parallel opportunities
   - When: After each interview round
@@ -85,11 +95,12 @@ job-candidate-research-suite/
   - Columns: Company, Recruiter, Role, Status, Strengths, Gaps, Red Flags, Culture, Salary, Decision, etc.
   - Time: 10 min per opportunity update
 
----
+______________________________________________________________________
 
 ## 🚀 Quick Start (Different Scenarios)
 
 ### Scenario 1: One Immediate Opportunity
+
 ```
 1. Read README.md (5 min)
 2. Run 1-company-research.md (15 min)
@@ -106,6 +117,7 @@ Total time investment: ~90 min for full research
 ```
 
 ### Scenario 2: Multiple Parallel Opportunities
+
 ```
 1. Read README.md (5 min)
 2. For each opportunity:
@@ -126,6 +138,7 @@ Total time investment: ~150-200 min for 4-5 opportunities
 ```
 
 ### Scenario 3: Quick Vetting (30-min filter)
+
 ```
 1. Skim QUICK-REFERENCE.md (3 min)
 2. Run 1-company-research.md (12 min)
@@ -135,7 +148,7 @@ Total time investment: ~150-200 min for 4-5 opportunities
 Use this for rapid assessment of incoming recruiter leads
 ```
 
----
+______________________________________________________________________
 
 ## 📊 File Relationships
 
@@ -162,88 +175,99 @@ Use this for rapid assessment of incoming recruiter leads
         [Ready for interviews]
 ```
 
----
+______________________________________________________________________
 
 ## 💾 How to Download/Use
 
 ### Option 1: Individual Files
+
 - Download each `.md` file separately
 - Copy-paste each prompt into your LLM (Claude, GPT-4, Perplexity)
 - Track results in the CSV file manually
 
 ### Option 2: Full Directory (Recommended)
+
 - If provided as a `.zip` file:
   1. Download the zip
-  2. Unzip locally: `unzip job-candidate-research-suite.zip`
-  3. Read `README.md` first
-  4. Use files as needed
-  5. Edit `tracking-template.csv` in Excel/Google Sheets
+  1. Unzip locally: `unzip job-candidate-research-suite.zip`
+  1. Read `README.md` first
+  1. Use files as needed
+  1. Edit `tracking-template.csv` in Excel/Google Sheets
 
 ### Option 3: GitHub Integration
+
 - Clone/fork the repository
 - Use version control to track your iterations
 - Share refined templates with others
 
----
+______________________________________________________________________
 
 ## 🎯 Key Features
 
-✅ **Vanilla seed prompts**: Non-personalized templates for any LLM  
-✅ **Reusable**: Use for every job search, adapt for your priorities  
-✅ **Structured**: Clear inputs → processing → outputs  
-✅ **Actionable**: Not just analysis; includes scripts, red flags, green flags  
-✅ **Comparative**: Tracking template to evaluate multiple offers  
-✅ **Iterative**: Update templates based on what works in real interviews  
+✅ **Vanilla seed prompts**: Non-personalized templates for any LLM\
+✅ **Reusable**: Use for every job search, adapt for your priorities\
+✅ **Structured**: Clear inputs → processing → outputs\
+✅ **Actionable**: Not just analysis; includes scripts, red flags, green flags\
+✅ **Comparative**: Tracking template to evaluate multiple offers\
+✅ **Iterative**: Update templates based on what works in real interviews
 
----
+______________________________________________________________________
 
 ## 📝 Tips for Maximum Value
 
 1. **Customize for your priorities**
+
    - Edit prompts to reference your 90-day learning goals
    - Add company stage/industry filters
    - Adjust questions based on what you've learned
 
-2. **Document learnings**
+1. **Document learnings**
+
    - After each interview round, note: "This question was most useful"
    - Update templates quarterly with new insights
    - Share patterns with your peer network
 
-3. **Parallel processing**
+1. **Parallel processing**
+
    - Run research on 3-5 opportunities simultaneously
    - Use tracking-template.csv to compare holistically
    - Focus interview time on top 2-3
 
-4. **Know your walk-away numbers**
+1. **Know your walk-away numbers**
+
    - Salary minimum
    - Cultural red flags
    - Acceptable commute/remote flexibility
    - Clear these BEFORE interviews begin
 
-5. **Ask hard questions early**
+1. **Ask hard questions early**
+
    - Don't wait until offer stage to learn dealbreakers
    - Recruiter evasiveness = red flag
    - Good companies welcome deep questions
 
----
+______________________________________________________________________
 
 ## 🔄 Maintenance & Updates
 
 **After using these prompts:**
+
 - Document: What questions were most useful?
 - Refine: Which prompts need updates?
 - Share: What patterns emerged across opportunities?
 - Iterate: Update templates before next job search
 
 **Version history:**
+
 - v1.0: Initial release (Dec 2025)
 - v1.1: [Your improvements here]
 
----
+______________________________________________________________________
 
 ## 📞 Support & Feedback
 
 After using this suite:
+
 - Which seed prompts saved you the most time?
 - What red flags did you not predict?
 - What gaps in research did you notice?
@@ -251,7 +275,7 @@ After using this suite:
 
 Share learnings so others can benefit from patterns you discovered.
 
----
+______________________________________________________________________
 
 ## 📚 Related Resources
 
@@ -262,39 +286,39 @@ Share learnings so others can benefit from patterns you discovered.
 - **Glassdoor**: Company culture + manager reviews
 - **Engineering blogs**: Company values + decision-making culture
 
----
+______________________________________________________________________
 
 ## ✨ Next Steps
 
 1. **Read README.md** (5 min)
-2. **Bookmark QUICK-REFERENCE.md** (for fast lookup)
-3. **Pick an active opportunity** and run the 5 prompts
-4. **Use tracking-template.csv** to compare multiple opportunities
-5. **Iterate and refine** based on what you learn
-6. **Share patterns** with your peer network
+1. **Bookmark QUICK-REFERENCE.md** (for fast lookup)
+1. **Pick an active opportunity** and run the 5 prompts
+1. **Use tracking-template.csv** to compare multiple opportunities
+1. **Iterate and refine** based on what you learn
+1. **Share patterns** with your peer network
 
----
+______________________________________________________________________
 
 **Good luck with your job search!** 🚀
 
 Remember: Spend 90 min upfront on research to save 10+ hours of wasted interview time.
 
----
+______________________________________________________________________
 
 ## File Size Summary
 
-| File | Size | Type |
-|------|------|------|
-| README.md | 4 KB | Markdown |
-| QUICK-REFERENCE.md | 3 KB | Markdown |
-| 1-company-research.md | 4 KB | Markdown |
-| 2-recruiter-research.md | 3 KB | Markdown |
-| 3-skill-mapping.md | 4 KB | Markdown |
-| 4-salary-research.md | 5 KB | Markdown |
-| 5-critical-questions.md | 5 KB | Markdown |
-| 6-tracking-template.csv | 0.5 KB | CSV |
-| **Total** | **~28 KB** | Lightweight |
+| File                    | Size       | Type        |
+| ----------------------- | ---------- | ----------- |
+| README.md               | 4 KB       | Markdown    |
+| QUICK-REFERENCE.md      | 3 KB       | Markdown    |
+| 1-company-research.md   | 4 KB       | Markdown    |
+| 2-recruiter-research.md | 3 KB       | Markdown    |
+| 3-skill-mapping.md      | 4 KB       | Markdown    |
+| 4-salary-research.md    | 5 KB       | Markdown    |
+| 5-critical-questions.md | 5 KB       | Markdown    |
+| 6-tracking-template.csv | 0.5 KB     | CSV         |
+| **Total**               | **~28 KB** | Lightweight |
 
----
+______________________________________________________________________
 
 **All files are lightweight and can be shared via email, cloud storage, or version control.**

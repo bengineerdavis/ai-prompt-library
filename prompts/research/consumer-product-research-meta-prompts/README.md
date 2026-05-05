@@ -3,7 +3,7 @@
 ## 🎯 One Prompt Does Everything
 
 - **Product Research**: "mechanical keyboards under $150"
-- **Upgrades**: "new PC vs 2024 research"  
+- **Upgrades**: "new PC vs 2024 research"
 - **Shopping Strategy**: "best time to buy GPUs 2025"
 - **Use Cases**: "fitness tracker use cases BJJ"
 - **Rollback**: "keyboards {model:perplexity,v1.4}"
@@ -115,3 +115,4 @@ Query: "mechanical keyboards under $150 {model:perplexity,v1.6}"
 text
 
 **Ready to research! 🚀**
+```

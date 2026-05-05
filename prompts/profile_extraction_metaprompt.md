@@ -1,22 +1,24 @@
 # PROFILE EXTRACTION META-PROMPT
+
 ## Extract Candidate Data from Conversations with AI SaaS Services
 
-**Version**: 1.0  
-**Use Case**: Build or update persistent job research profiles from Perplexity, Claude, ChatGPT, or similar AI services  
+**Version**: 1.0\
+**Use Case**: Build or update persistent job research profiles from Perplexity, Claude, ChatGPT, or similar AI services\
 **Output Format**: Markdown (compatible with ben_job_research_profile.md template)
 
----
+______________________________________________________________________
 
 ## PURPOSE
 
 This meta-prompt helps you systematically extract and structure personal/professional context from:
+
 - Interviews with AI assistants (Perplexity, Claude, ChatGPT)
 - Conversations about job opportunities, career goals, technical skills
 - Background research on your own experience and aspirations
 
 **Result**: A clean, exportable markdown file you can reuse across AI services.
 
----
+______________________________________________________________________
 
 ## EXTRACTION WORKFLOW
 
@@ -32,43 +34,48 @@ Before we dive into [JOB POSTING / RESEARCH GOAL], let me share my profile conte
 
 [PASTE: ben_job_research_profile.md]
 
-Now, as we work through this research, I want to extract or update my profile based on insights 
-that emerge. At the end of our session, please compile an updated PROFILE SNAPSHOT that I can 
+Now, as we work through this research, I want to extract or update my profile based on insights
+that emerge. At the end of our session, please compile an updated PROFILE SNAPSHOT that I can
 use for future requests.
 
 Ready to proceed?
 ```
 
----
+______________________________________________________________________
 
 ### Step 2: During Research Session - Flag Extraction Points
 
-As you and the AI work through job research, company analysis, or career planning, 
+As you and the AI work through job research, company analysis, or career planning,
 **flag moments where profile data emerges**:
 
 **Examples of Extraction Triggers**:
 
 - **Career insight**: "You mentioned wanting to move from support to infrastructure. That's a clear vector."
+
   - **Extract to**: Career Vector section
   - **Example flag**: `[EXTRACT: Career Vector]`
 
 - **Technical skill discovery**: "I see you have deep Kubernetes experience from Airbyte. That's a strength signal."
+
   - **Extract to**: Technical Profile > Strong Expertise
   - **Example flag**: `[EXTRACT: Kubernetes → Strong Expertise]`
 
 - **Gap identification**: "Rust is on your learning path. When's that becoming production-ready?"
+
   - **Extract to**: Learning/Growth Areas
   - **Example flag**: `[EXTRACT: Rust → Learning Areas, ETA unknown]`
 
 - **Constraint update**: "Your electrical capacity limits multi-GPU setups. That's a real constraint."
+
   - **Extract to**: Hardware Stack / Constraints
   - **Example flag**: `[EXTRACT: Electrical constraint → Constraints section]`
 
 - **Priority reweighting**: "Actually, open-source culture matters more to me than I thought."
+
   - **Extract to**: Job Posting Evaluation Priorities
   - **Example flag**: `[EXTRACT: Reweight Phase 3 (Market) signals]`
 
----
+______________________________________________________________________
 
 ### Step 3: End-of-Session Extraction Request
 
@@ -77,7 +84,7 @@ At the end of your research session, ask the AI:
 ```
 EXTRACTION REQUEST:
 
-Based on our conversation, please provide an updated PROFILE SNAPSHOT 
+Based on our conversation, please provide an updated PROFILE SNAPSHOT
 in the following format (use [NO CHANGE] if a field wasn't discussed):
 
 ────────────────────────────────────────────────────────────────
@@ -123,7 +130,7 @@ NEXT UPDATE TRIGGERS TO TRACK:
 Also provide a quick "EXTRACTION SUMMARY" in 2–3 sentences of what changed and why.
 ```
 
----
+______________________________________________________________________
 
 ## STRUCTURED EXTRACTION TEMPLATE
 
@@ -167,13 +174,14 @@ Also provide a quick "EXTRACTION SUMMARY" in 2–3 sentences of what changed and
 **Ready to merge?**: [Y/N] [Link to discussion/approval]
 ```
 
----
+______________________________________________________________________
 
 ## MULTI-SESSION PROFILE BUILDING
 
 ### Workflow for Building Profile Across Multiple Sessions:
 
 **Session 1** (Perplexity - Company Research)
+
 ```
 - Share profile
 - Research company X, role Y
@@ -182,6 +190,7 @@ Also provide a quick "EXTRACTION SUMMARY" in 2–3 sentences of what changed and
 ```
 
 **Session 2** (Claude - Career Planning)
+
 ```
 - Reference previous session extracts
 - Discuss career vector and growth path
@@ -190,6 +199,7 @@ Also provide a quick "EXTRACTION SUMMARY" in 2–3 sentences of what changed and
 ```
 
 **Session 3** (ChatGPT - Interview Prep)
+
 ```
 - Load all previous session extracts as context
 - Prep for target company interview
@@ -198,6 +208,7 @@ Also provide a quick "EXTRACTION SUMMARY" in 2–3 sentences of what changed and
 ```
 
 **Consolidation** (Manual merge every 4–6 weeks)
+
 ```
 - Review all session extracts: extracts/*.md
 - Identify consistent themes (e.g., "infrastructure focus mentioned 3x")
@@ -206,7 +217,7 @@ Also provide a quick "EXTRACTION SUMMARY" in 2–3 sentences of what changed and
 - Update metadata: Last Updated, Version
 ```
 
----
+______________________________________________________________________
 
 ## EXTRACTION CONFIDENCE MARKERS
 
@@ -231,35 +242,38 @@ When extracting data, use these confidence markers to indicate certainty:
 
 Include these in extraction snapshots so you know what's solid vs. what needs confirmation.
 
----
+______________________________________________________________________
 
 ## MULTI-AI SERVICE CONSISTENCY CHECKS
 
 If you use multiple AI services (Perplexity + Claude + ChatGPT), watch for:
 
 **Consistency Issues** (flag if they differ):
+
 - Career vector interpretation (support → infra vs. support → manager?)
 - Priority weighting differences
 - Technical skill assessments
 
 **How to resolve**:
+
 1. Document which service made which assessment
-2. Note any contradictions
-3. In next session, explicitly ask: "I've seen these two interpretations; which is more accurate?"
-4. Update profile to reflect your clarification
+1. Note any contradictions
+1. In next session, explicitly ask: "I've seen these two interpretations; which is more accurate?"
+1. Update profile to reflect your clarification
 
 **Example**:
+
 ```
 Perplexity said: "Career vector is support → infrastructure (40% priority)"
 Claude said: "Career vector is support → platform engineering (45% priority)"
 
-My clarification: "Actually, both paths interest me equally; they're part of the same 
+My clarification: "Actually, both paths interest me equally; they're part of the same
 infrastructure/platform stack. Weight together at 40–45%."
 
 Updated profile accordingly.
 ```
 
----
+______________________________________________________________________
 
 ## EXPORTING AND VERSIONING
 
@@ -288,7 +302,7 @@ git commit -m "Profile v1.1: Updated career vector + added Rust learning timelin
 - **Sync across services**: Copy current version into each AI session preamble
 - **Backup**: Keep versioned backups (v1.0, v1.1, etc.)
 
----
+______________________________________________________________________
 
 ## QUICK CHECKLIST: END-OF-SESSION EXTRACTION
 
@@ -301,14 +315,16 @@ Use this before closing an AI research session:
 - [ ] Any contradictions with previous sessions? (Flagged for resolution?)
 - [ ] Ready to merge back to main profile on next consolidation cycle?
 
----
+______________________________________________________________________
 
 ## EXAMPLE EXTRACTION FLOW (End-to-End)
 
 ### Starting Point:
+
 - ben_job_research_profile.md (v1.0, current)
 
 ### Session: Perplexity Research
+
 ```
 User: [Shares profile] [Asks about Netflix Infrastructure Engineer role]
 ...
@@ -322,12 +338,13 @@ Perplexity: [Provides structured snapshot]
 ```
 
 ### Extraction Snapshot Output:
+
 ```markdown
 # EXTRACTED UPDATES FROM SESSION: 2025-12-02 (Perplexity Netflix Research)
 
 ## EXTRACTION SUMMARY
-Confirmed career vector (support → infrastructure) as primary path and primary evaluation 
-criterion. Identified Kubernetes as strong expertise ready to highlight. Go gap assessed as 
+Confirmed career vector (support → infrastructure) as primary path and primary evaluation
+criterion. Identified Kubernetes as strong expertise ready to highlight. Go gap assessed as
 learning opportunity vs. blocker. Recommend increasing Phase 2 (Role) research weight to 45%.
 
 ## CHANGES BY SECTION
@@ -362,31 +379,33 @@ learning opportunity vs. blocker. Recommend increasing Phase 2 (Role) research w
 ```
 
 ### Consolidation (Manual):
+
 - Save to: `extracts/session_1_perplexity_netflix_research.md`
 - Review for conflicts: None detected
 - Merge back to: `ben_job_research_profile.md`
 - Update version: 1.0 → 1.1
 - Update metadata: Last Updated: 2025-12-15
 
----
+______________________________________________________________________
 
 ## TIPS FOR EFFECTIVE EXTRACTION
 
 1. **Be specific**: Not "I learned a lot" but "I learned that Go experience is learnable vs. required"
-2. **Quote the AI**: Include direct quotes in extraction snapshots for future reference
-3. **Flag confidence**: Always include ~90% / ~60% / ~30% markers
-4. **Separate facts from opinion**: "Netflix is known for X [researched fact]" vs. "I think Netflix values Y [opinion]"
-5. **Set consolidation cadence**: Every 4–6 weeks, not ad-hoc
-6. **Version control**: Keep all extracts in git; never lose session data
-7. **Cross-check**: If researching across multiple services, watch for contradictions
+1. **Quote the AI**: Include direct quotes in extraction snapshots for future reference
+1. **Flag confidence**: Always include ~90% / ~60% / ~30% markers
+1. **Separate facts from opinion**: "Netflix is known for X [researched fact]" vs. "I think Netflix values Y [opinion]"
+1. **Set consolidation cadence**: Every 4–6 weeks, not ad-hoc
+1. **Version control**: Keep all extracts in git; never lose session data
+1. **Cross-check**: If researching across multiple services, watch for contradictions
 
----
+______________________________________________________________________
 
 ## FINAL THOUGHT
 
-This extraction meta-prompt is a **knowledge management system** for your job research. 
+This extraction meta-prompt is a **knowledge management system** for your job research.
 
 Instead of scattered conversations that disappear, you're building a **living, versioned profile** that:
+
 - Persists across multiple AI services
 - Improves with each session
 - Stays consistent and accurate over months
@@ -394,10 +413,10 @@ Instead of scattered conversations that disappear, you're building a **living, v
 
 Use it, refine it, and share back if you find improvements.
 
----
+______________________________________________________________________
 
 **Related Files**:
+
 - `ben_job_research_profile.md` (main profile template)
 - `job_research_meta_prompt.md` (the universal research framework)
 - `extracts/` directory (session-by-session snapshots)
-

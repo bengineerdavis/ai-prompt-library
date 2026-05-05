@@ -77,9 +77,8 @@ Finally, suggest 5–7 follow‑up questions for the candidate to ask the recrui
 - Understanding the hiring manager's style and expectations
 - Confirming the realism of the role's scope, seniority, and growth path.
 
-
-
 ## Related Documents
+
 - See `skill-mapping.md` for role fit analysis
 - See `salary-research.md` for compensation benchmarking
 - See `critical-questions.md` for pre-screen call preparation

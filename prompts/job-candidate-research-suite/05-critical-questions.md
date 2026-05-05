@@ -1,6 +1,7 @@
 # Critical Pre-Screen Questions Seed Prompt
 
 ## Purpose
+
 Generate tailored, direct-but-friendly questions to ask recruiter/hiring manager that surface deal-breakers early and signal your competence and seriousness.
 
 ## Core Seed Prompt
@@ -178,15 +179,16 @@ Provide questions as:
 ## How to Use
 
 1. **Customize for your call**: Pick 5-8 questions most relevant to this opportunity
-2. **Prepare talking points**: Know why you're asking each question
-3. **Listen carefully**: Their answers matter as much as their willingness to answer
-4. **Take notes**: Write down responses; compare across rounds
-5. **Ask follow-ups**: If answer is vague, push for specifics
-6. **Close with**: "Is there anything I should know about working here or your team?"
+1. **Prepare talking points**: Know why you're asking each question
+1. **Listen carefully**: Their answers matter as much as their willingness to answer
+1. **Take notes**: Write down responses; compare across rounds
+1. **Ask follow-ups**: If answer is vague, push for specifics
+1. **Close with**: "Is there anything I should know about working here or your team?"
 
 ## Sample Call Flows
 
 ### Recruiter Screen (20 min)
+
 ```
 1. Build rapport: "Thanks for reaching out. I'm genuinely interested in this role."
 2. Ask role clarity: #1 (90-day success), #2 (typical day)
@@ -197,6 +199,7 @@ Provide questions as:
 ```
 
 ### Hiring Manager Call (60 min)
+
 ```
 1. Build rapport: "Thanks for taking the time. I've researched your company and am impressed by [specific reason]."
 2. Ask about role: #1 (success in 90 days), #4 (current challenges)
@@ -209,12 +212,15 @@ Provide questions as:
 ## What Great Answers Sound Like
 
 ### Bad Answer: "We have great work-life balance!"
+
 **Good Answer**: "We try to respect people's time. Most engineers work 8-6, and we don't expect weekend availability except during critical incidents. In the past 6 months, we've had maybe 2-3 incidents that required late-night work. We compensate time off with flex time."
 
 ### Bad Answer: "There's a lot of growth opportunity."
+
 **Good Answer**: "Here's the path: IC engineer → senior engineer → staff engineer or engineering manager. We promote about 1-2 people per year from IC to senior. Staff engineer roles typically take 4-5 years to reach. Management track is separate—some engineers prefer staying IC and that's valued equally."
 
 ### Bad Answer: "We move fast."
+
 **Good Answer**: "We prioritize shipping fast but maintain code review standards. We deploy to production multiple times per day in some services, daily in others. We have a blameless post-mortem culture—if something breaks, we learn from it rather than blame."
 
 ## Red Flags to Listen For
@@ -234,9 +240,10 @@ Provide questions as:
 🟢 "We had someone transition to [new skill]; here's how we supported them" → Development-focused
 🟢 "I disagree with company strategy on [topic], but here's how we're working through it" → Psychological safety
 
----
+______________________________________________________________________
 
 ## Related Documents
+
 - See `company-research.md` for background before call
 - See `recruiter-research.md` for hiring manager deep dive
 - See `skill-mapping.md` for understanding role fit

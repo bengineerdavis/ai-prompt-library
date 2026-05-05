@@ -7,7 +7,7 @@ Deep-dive research on the company's business, culture, technology, and market po
 ## Core Seed Prompt
 
 You are a research analyst helping a job candidate evaluate a company.
-Using publicly available sources, provide a comprehensive profile on [COMPANY_NAME]:
+Using publicly available sources, provide a comprehensive profile on \[COMPANY_NAME\]:
 
 **PART A: Company Overview & Business**
 
@@ -43,7 +43,7 @@ Using publicly available sources, provide a comprehensive profile on [COMPANY_NA
 **PART D: Organizational Structure & Team**
 
 - Engineering organization: How many engineers? Teams/departments?
-- Reporting structure for [YOUR_TARGET_ROLE]: Who would you report to? Cross-functional partners?
+- Reporting structure for \[YOUR_TARGET_ROLE\]: Who would you report to? Cross-functional partners?
 - Known challenges: Scaling issues, technical debt, performance bottlenecks (from job posts or engineering posts)
 - Team stability: Recent hiring, growth, or consolidation signals
 - Culture signals: Work environment (fast-paced startup, steady enterprise, academic research?)
@@ -84,11 +84,11 @@ Using publicly available sources, provide a comprehensive profile on [COMPANY_NA
 ## How to Use
 
 1. **Run early**: Do this research within 24 hours of recruiter outreach
-2. **Gather sources**: Bookmark key pages (Glassdoor, Blind, engineering blog, job board)
-3. **Look for patterns**: Multiple sources saying the same thing = reliable signal
-4. **Compare to your goals**: Does this company align with your 90-day learning plan?
-5. **Cross-reference**: Compare company info with recruiter/hiring manager research
-6. **Ask clarifying questions**: Use findings to inform questions for the recruiter
+1. **Gather sources**: Bookmark key pages (Glassdoor, Blind, engineering blog, job board)
+1. **Look for patterns**: Multiple sources saying the same thing = reliable signal
+1. **Compare to your goals**: Does this company align with your 90-day learning plan?
+1. **Cross-reference**: Compare company info with recruiter/hiring manager research
+1. **Ask clarifying questions**: Use findings to inform questions for the recruiter
 
 ## Key Questions to Answer
 
@@ -122,7 +122,7 @@ Using publicly available sources, provide a comprehensive profile on [COMPANY_NA
 - Who are the employees? (Career builders, risk-takers, academics?)
 - What do people say they value?
 
----
+______________________________________________________________________
 
 ## Green Flags 🟢
 
@@ -154,24 +154,24 @@ Using publicly available sources, provide a comprehensive profile on [COMPANY_NA
 - Loss of major customers or contracts (if you can find signals)
 - Recent CEO/CTO departure or leadership crisis
 
----
+______________________________________________________________________
 
 ## Research Sources to Check
 
-| Source | What to Look For | Confidence Level |
-|--------|------------------|------------------|
-| **Glassdoor** | Salary, culture, management reviews | Medium-High |
-| **Blind** | Engineering culture, compensation, management quality (anonymous) | Medium-High |
-| **LinkedIn Company Page** | Headcount, recent hires, employee highlights | High |
-| **Engineering Blog** | Technical challenges, culture, decision-making | High |
-| **GitHub** | Code quality, activity, open source engagement | High |
-| **Reddit / Hacker News** | Unfiltered user/employee perspective | Medium (crowd-sourced) |
-| **Twitter / X** | Leadership commentary, culture signals | Medium |
-| **Recent News** | Funding, layoffs, partnerships, leadership changes | High |
-| **Job Postings** | Tech stack, team structure, growth areas | High |
-| **Crunchbase** | Funding, leadership, timeline | High |
+| Source                    | What to Look For                                                  | Confidence Level       |
+| ------------------------- | ----------------------------------------------------------------- | ---------------------- |
+| **Glassdoor**             | Salary, culture, management reviews                               | Medium-High            |
+| **Blind**                 | Engineering culture, compensation, management quality (anonymous) | Medium-High            |
+| **LinkedIn Company Page** | Headcount, recent hires, employee highlights                      | High                   |
+| **Engineering Blog**      | Technical challenges, culture, decision-making                    | High                   |
+| **GitHub**                | Code quality, activity, open source engagement                    | High                   |
+| **Reddit / Hacker News**  | Unfiltered user/employee perspective                              | Medium (crowd-sourced) |
+| **Twitter / X**           | Leadership commentary, culture signals                            | Medium                 |
+| **Recent News**           | Funding, layoffs, partnerships, leadership changes                | High                   |
+| **Job Postings**          | Tech stack, team structure, growth areas                          | High                   |
+| **Crunchbase**            | Funding, leadership, timeline                                     | High                   |
 
----
+______________________________________________________________________
 
 ## Related Documents
 

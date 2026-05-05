@@ -39,14 +39,14 @@ The prompt auto-detects or accepts these parameters:
 The prompt produces, in order:
 
 1. Parameters used
-2. Capability note
-3. Metadata header in the selected format
-4. Outline summary
-5. Detailed notes
-6. Fact capture
-7. Sources mentioned
-8. Actions & questions
-9. Full cleaned transcript, when applicable
+1. Capability note
+1. Metadata header in the selected format
+1. Outline summary
+1. Detailed notes
+1. Fact capture
+1. Sources mentioned
+1. Actions & questions
+1. Full cleaned transcript, when applicable
 
 ## Capabilities
 

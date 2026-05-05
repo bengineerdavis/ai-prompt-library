@@ -3,7 +3,7 @@
 All notable changes to this library are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
----
+______________________________________________________________________
 
 ## [Unreleased] — Documentation Reduction Pass
 
@@ -13,7 +13,7 @@ Two-session documentation reduction pass across `impromptu/`, `factories/`, `see
 and root. Goal: eliminate redundant READMEs, consolidate scattered setup content,
 and give every remaining doc a single clear scope.
 
----
+______________________________________________________________________
 
 ## Session 2 — 2026-04-01 / 2026-04-02 · factories/ and seed/
 
@@ -66,15 +66,15 @@ and give every remaining doc a single clear scope.
 
 ### Net doc count (session 2)
 
-| Location | Before | After | Delta |
-|----------|--------|-------|-------|
-| Root | 2 | 2 | — |
-| `docs/` | 2 | 2 | — |
-| `seed/` | 6 | 2 | −4 |
-| `factories/` | 3 | 3 | — |
-| **Total** | **13** | **9** | **−4** |
+| Location     | Before | After | Delta  |
+| ------------ | ------ | ----- | ------ |
+| Root         | 2      | 2     | —      |
+| `docs/`      | 2      | 2     | —      |
+| `seed/`      | 6      | 2     | −4     |
+| `factories/` | 3      | 3     | —      |
+| **Total**    | **13** | **9** | **−4** |
 
----
+______________________________________________________________________
 
 ## Session 1 — 2026-04-01 · impromptu/
 
@@ -86,4 +86,4 @@ Refactoring pass on the `impromptu/` prompt directory. Prompt files normalized t
 consistent naming conventions and structure; redundant documentation consolidated
 or removed; directory brought into alignment with library conventions.
 
----
+______________________________________________________________________

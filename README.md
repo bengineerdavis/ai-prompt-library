@@ -20,8 +20,6 @@ Once uploaded, you can use the prompts by asking for the prompt you want to use 
 
 "Use the Strategy Builder prompt to create a plan for my next project."
 
-
 A prompt should be returned, from which you can then use it to get your desired output.
 
 The responses will be in Markdown format.
-  

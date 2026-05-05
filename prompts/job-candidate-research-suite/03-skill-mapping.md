@@ -112,11 +112,11 @@ Provide findings in a clear, scannable format:
 ## How to Use
 
 1. **Gather inputs**: Full job description, updated resume, LinkedIn profile
-2. **Run this prompt** after receiving the role details
-3. **Focus on gaps**: For each "Learnable" gap, create a 1-week learning plan
-4. **Practice narratives**: Rehearse gap-mitigation stories with a peer or coach
-5. **Update as you learn**: After each interview round, refine your understanding of which skills matter most
-6. **Cross-reference**: Compare this analysis to recruiter feedback
+1. **Run this prompt** after receiving the role details
+1. **Focus on gaps**: For each "Learnable" gap, create a 1-week learning plan
+1. **Practice narratives**: Rehearse gap-mitigation stories with a peer or coach
+1. **Update as you learn**: After each interview round, refine your understanding of which skills matter most
+1. **Cross-reference**: Compare this analysis to recruiter feedback
 
 ## Example: Filling Gaps
 
@@ -141,7 +141,7 @@ Provide findings in a clear, scannable format:
 - Demonstrates understanding of the *why* (IaC principles), not just the *what* (Terraform syntax)
 - Hiring managers respect candidates who invest time upfront
 
----
+______________________________________________________________________
 
 ## Key Narratives to Prepare
 
@@ -183,7 +183,7 @@ Template:
 Here's how that applies to this role: [Specific examples]."
 ```
 
----
+______________________________________________________________________
 
 ## Related Documents
 

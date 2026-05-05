@@ -1,6 +1,7 @@
 # Salary & Compensation Research Seed Prompt
 
 ## Purpose
+
 Determine fair market compensation for your role, experience level, and location; build a data-driven negotiation case.
 
 ## Core Seed Prompt
@@ -11,6 +12,7 @@ Research the following and provide a comprehensive compensation report:
 **PART A: Market Benchmarks**
 
 Input parameters:
+
 - Role title: [ROLE_TITLE] (e.g., "Systems Development Engineer L5", "Staff Support Engineer")
 - Company: [COMPANY_NAME] (or comparable companies if specific company unknown)
 - Experience level: [YEARS_EXPERIENCE] (e.g., "7 years systems engineering", "3 years as an IC, 2 as a lead")
@@ -19,6 +21,7 @@ Input parameters:
 - Industry: [INDUSTRY] (e.g., "SaaS", "Enterprise", "AI/ML")
 
 Research sources:
+
 - Levels.fyi: Crowdsourced salary data by role, company, level, location
 - Glassdoor: Base salary, bonus, equity ranges
 - Blind: Anonymous engineer compensation discussions (high-signal for tech)
@@ -30,22 +33,25 @@ Research sources:
 - Meetup / Slack communities: Peers discussing compensation
 
 Output findings for:
+
 - 25th percentile (conservative)
 - 50th percentile (median/market rate)
 - 75th percentile (top quartile)
 - 90th percentile (premium)
 
 For each range, provide:
+
 - Base salary
 - Annual bonus (% of base)
 - Stock/equity ($ value or # shares)
 - Other benefits (sign-on, relocation, etc.)
 
----
+______________________________________________________________________
 
 **PART B: Company-Specific Context**
 
 Research the specific company's compensation philosophy:
+
 - Funding stage: Pre-seed, Series A-C, Public (→ different equity value)
 - Known comp philosophy: (Market-leading / Market-rate / Below-market with equity upside)
 - Recent funding: Large recent raise might suggest compressed equity value; tight runway might pressure salary down
@@ -53,11 +59,12 @@ Research the specific company's compensation philosophy:
 - Public salary data: Any Glassdoor/Blind data specific to this company?
 - Industry benchmarks: Is tech/SaaS paying more than this company's peer set?
 
----
+______________________________________________________________________
 
 **PART C: Candidate Leverage**
 
 Research what strengthens your negotiating position:
+
 - Unique skills: Niche tech stack, domain expertise (AI, security, DevOps, etc.)
 - Market demand signals:
   - Multiple offers or active conversations?
@@ -68,24 +75,27 @@ Research what strengthens your negotiating position:
 - Your alternatives: Do you have other offers? What can you walk away to?
 - Your constraints: Remote requirement, relocation willingness, start date flexibility
 
----
+______________________________________________________________________
 
 **PART D: Negotiation Strategy**
 
 Develop a data-driven negotiation approach:
 
 1. **Anchor point**: What number do you open with?
+
    - Option A: 75th percentile of market data (strong, well-researched position)
    - Option B: 90th percentile if you have high leverage
    - Option C: Market median if company is early-stage and equity-heavy
    - Rationale: Anchor with data, not emotion
 
-2. **Target range**: What's your ideal range?
+1. **Target range**: What's your ideal range?
+
    - Minimum (walk-away): [NUMBER] (below which you decline)
    - Target: [NUMBER] (what you're optimizing for)
    - Stretch: [NUMBER] (if they counter-offer beyond expectations)
 
-3. **Negotiables beyond salary**:
+1. **Negotiables beyond salary**:
+
    - Equity refresh timing (critical for mid-career engineers)
    - Sign-on bonus (especially if leaving equity behind)
    - Title (important for future opportunities)
@@ -94,12 +104,13 @@ Develop a data-driven negotiation approach:
    - Stock grants vesting schedule
    - Clawback clauses or other equity conditions
 
-4. **Contingencies**:
+1. **Contingencies**:
+
    - If they say "We have a hard cap at $X": Ask about [Sign-on / Equity / Title / Other negotiable]
    - If equity is lower than expected: Ask when refresh cycle is
    - If bonus % is low: Clarify structure—is it achievable? What's the actual payout history?
 
----
+______________________________________________________________________
 
 **PART E: Communication Framework**
 
@@ -117,11 +128,12 @@ Prepare scripts for negotiation conversations:
 **When there are multiple offers:**
 "I have another offer at [X amount]. I prefer working at [this company] because [specific reason]. Can we get closer to [target range] to make this work?"
 
----
+______________________________________________________________________
 
 **PART F: Red Flags in Comp Offers**
 
 Watch for:
+
 - Vague equity descriptions (ask for exact numbers)
 - Unusually long vesting cliff (4-year is standard; 5-year is a red flag)
 - No mention of equity refresh
@@ -129,15 +141,17 @@ Watch for:
 - Reluctance to discuss comp structure (sign of inflexibility or problems)
 - Lowball offer without explanation (either your level is mismatched or they're testing)
 
----
+______________________________________________________________________
 
 **OUTPUT FORMAT:**
 Provide a one-page compensation brief with:
+
 - Market range (25th-75th percentile)
 - Your recommended ask (with reasoning)
 - Your walk-away number
 - 3-5 talking points for negotiation
 - Key questions to ask about equity, bonus, and benefits
+
 ```
 
 ## How to Use
@@ -202,3 +216,4 @@ When a company mentions equity, ask:
 - [ ] I have scripts prepared for common objections
 - [ ] I understand equity vesting, refresh cycles, and exercise windows
 - [ ] I can compare multiple offers using a consistent framework
+```

@@ -10,12 +10,12 @@ scannable outputs.​
 
 ## Global Switches [Enhanced with Model Versioning]
 
-* interactionmode: interactive
-* feedbackmode: on
-* deep_research: auto
-* model_versioning: on (per-service tracking + rollback)
-* default_model: latest (auto-selects newest version)
-* rollback_flag: "{model:perplexity,v1.4}" (optional input)
+- interactionmode: interactive
+- feedbackmode: on
+- deep_research: auto
+- model_versioning: on (per-service tracking + rollback)
+- default_model: latest (auto-selects newest version)
+- rollback_flag: "{model:perplexity,v1.4}" (optional input)
 
 ## Phases
 
@@ -80,7 +80,7 @@ Model/Service Detection:
 
 **Cascade per Model**:
 Tier 1: Native Perplexity tools → prefs-perplexity.jsonl
-Tier 2: Perplexity Deep Research → cache-perplexity.jsonl  
+Tier 2: Perplexity Deep Research → cache-perplexity.jsonl\
 Tier 3: Local Qwen → archive-qwen.jsonl (cross-validation)
 
 **Rollback Command**:
@@ -97,11 +97,11 @@ Example (Query): "mechanical keyboards {model:perplexity,v1.4}"
 
 **Version Comparison**:
 
-| Version | Rubric | Key Features | Files |
-|---------|--------|--------------|-------|
-| v1.6    | 9.1    | Shopping + profiling | prefs-perplexity.jsonl |
-| v1.5    | 8.9    | Continuity only | prefs-perplexity-v1.5.jsonl ✓ |
-| v1.4    | 8.7    | Basic research | prefs-perplexity-v1.4.jsonl |
+| Version | Rubric | Key Features         | Files                         |
+| ------- | ------ | -------------------- | ----------------------------- |
+| v1.6    | 9.1    | Shopping + profiling | prefs-perplexity.jsonl        |
+| v1.5    | 8.9    | Continuity only      | prefs-perplexity-v1.5.jsonl ✓ |
+| v1.4    | 8.7    | Basic research       | prefs-perplexity-v1.4.jsonl   |
 
 **Shopping Strategy** (v1.6): "Black Friday + 10% coupon"
 

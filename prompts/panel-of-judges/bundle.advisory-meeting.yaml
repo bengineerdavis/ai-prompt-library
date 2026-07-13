@@ -8,3 +8,9 @@ roles:
   - minimalist
   - systems-thinker
 
+include:
+  skills: true
+  handoff_context: true
+  templates: false
+  factories: false
+  roadmap: false

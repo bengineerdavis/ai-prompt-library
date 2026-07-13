@@ -5,3 +5,10 @@ defaults: defaults.advisory-meeting.yaml
 roles:
   - people-expert
   - systems-thinker
+
+include:
+  skills: true
+  handoff_context: true
+  templates: false
+  factories: false
+  roadmap: false

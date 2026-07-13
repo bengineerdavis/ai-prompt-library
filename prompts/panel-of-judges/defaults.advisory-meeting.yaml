@@ -1,0 +1,12 @@
+# defaults.advisory-meeting.yaml
+roles:
+  - chair
+  - facilitator
+  - note-taker
+  - recruiter
+
+skills:
+  - interview
+  - analysis
+  - deep-research
+  - self-improve

@@ -1,10 +1,7 @@
+# bundle.advisory-meeting-with-research.yaml
 event: advisory-meeting
+defaults: defaults.advisory-meeting.yaml
 
 roles:
-  - chair
-  - facilitator
-  - note-taker
-  - pragmatist
-  - minimalist
+  - people-expert
   - systems-thinker
-  - deep-researcher

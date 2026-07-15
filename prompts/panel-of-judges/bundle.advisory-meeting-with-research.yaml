@@ -1,14 +1,17 @@
 # bundle.advisory-meeting-with-research.yaml
-event: advisory-meeting
-defaults: defaults.advisory-meeting.yaml
+event:
+  name: advisory-meeting
+  defaults: defaults.advisory-meeting.yaml
 
-roles:
-  - people-expert
-  - systems-thinker
+participants:
+  roles:
+    - people-expert
+    - systems-thinker
+
+skills: []
 
 include:
-  skills: true
-  handoff_context: true
+  context: []
   templates: false
   factories: false
   roadmap: false

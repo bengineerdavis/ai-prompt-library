@@ -1,16 +1,20 @@
-event: advisory-meeting
+event:
+  name: advisory-meeting
+  defaults: defaults.advisory-meeting.yaml
 
-roles:
-  - chair
-  - facilitator
-  - note-taker
-  - pragmatist
-  - minimalist
-  - systems-thinker
+participants:
+  roles:
+    - chair
+    - facilitator
+    - note-taker
+    - pragmatist
+    - minimalist
+    - systems-thinker
+
+skills: []
 
 include:
-  skills: true
-  handoff_context: true
+  context: []
   templates: false
   factories: false
   roadmap: false

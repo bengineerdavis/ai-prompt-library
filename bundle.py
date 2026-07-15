@@ -9,6 +9,7 @@
 import argparse
 import sys
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 try:
     import yaml
@@ -20,10 +21,14 @@ except ImportError:
     )
     raise
 
+
 def resolve_prompts_dir() -> Path:
+    """Return the root prompts/ directory (library root / prompts)."""
     return Path(__file__).resolve().parent / "prompts"
 
+
 def list_collections(prompts_dir: Path) -> None:
+    """List collections and their bundle configs."""
     print(f"Collections in {prompts_dir}:")
     print()
     for coll_dir in sorted(prompts_dir.iterdir()):
@@ -37,12 +42,15 @@ def list_collections(prompts_dir: Path) -> None:
         for cfg in bundle_files:
             print(f"   {cfg.name}")
 
+
 def load_yaml(path: Path) -> Dict[str, Any]:
+    """Load a YAML file and ensure the top level is a mapping."""
     with path.open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
     if not isinstance(data, dict):
         raise ValueError(f"Config {path} must be a YAML mapping at top level.")
     return data
+
 
 def get_event(config: Dict[str, Any]) -> Dict[str, Any]:
     event = config.get("event") or {}
@@ -52,6 +60,7 @@ def get_event(config: Dict[str, Any]) -> Dict[str, Any]:
     if not name:
         raise ValueError("event.name is required.")
     return event
+
 
 def get_participants(config: Dict[str, Any]) -> Dict[str, Any]:
     participants = config.get("participants") or {}
@@ -66,6 +75,7 @@ def get_participants(config: Dict[str, Any]) -> Dict[str, Any]:
         "roles": roles,
     }
 
+
 def get_skills(config: Dict[str, Any]) -> List[str]:
     skills = config.get("skills") or []
     if skills is None:
@@ -73,6 +83,7 @@ def get_skills(config: Dict[str, Any]) -> List[str]:
     if not isinstance(skills, list):
         raise ValueError("skills must be a list if present.")
     return skills
+
 
 def get_include(config: Dict[str, Any]) -> Dict[str, Any]:
     include = config.get("include") or {}
@@ -93,20 +104,29 @@ def get_include(config: Dict[str, Any]) -> Dict[str, Any]:
         "roadmap": roadmap,
     }
 
+
 def merge_lists(base: List[str], override: List[str]) -> List[str]:
+    """Merge two lists with deduplication, preserving order."""
     seen = set()
-    merged = []
+    merged: List[str] = []
     for item in base + override:
         if item not in seen:
             seen.add(item)
             merged.append(item)
     return merged
 
-def merge_configs(defaults: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
-    merged = dict(defaults)
-    merged.update(override)  # shallow override, then fix nested fields
 
-    # Special handling for nested sections
+def merge_configs(defaults: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Merge defaults and override configs with special handling for:
+    - event (mapping)
+    - participants.roles (list merged)
+    - skills (list merged)
+    - include.context (list merged)
+    """
+    merged: Dict[str, Any] = dict(defaults)
+    merged.update(override)  # shallow override, then fix nested sections
+
     # event
     if "event" in defaults or "event" in override:
         event_base = defaults.get("event", {}) or {}
@@ -142,10 +162,14 @@ def merge_configs(defaults: Dict[str, Any], override: Dict[str, Any]) -> Dict[st
 
     return merged
 
+
 def is_flat_collection(coll_dir: Path) -> bool:
+    """Return True if collection has no events/ and no roles/."""
     return not (coll_dir / "events").is_dir() and not (coll_dir / "roles").is_dir()
 
+
 def find_role_file(coll_dir: Path, role: str) -> Optional[Path]:
+    """Find a role file in roles/, roles/judges/, or roles/specialists/."""
     candidates = [
         coll_dir / "roles" / f"{role}.md",
         coll_dir / "roles" / "judges" / f"{role}.md",
@@ -156,11 +180,15 @@ def find_role_file(coll_dir: Path, role: str) -> Optional[Path]:
             return path
     return None
 
+
 def find_skill_file(coll_dir: Path, skill: str) -> Optional[Path]:
+    """Find a skill file in skills/."""
     path = coll_dir / "skills" / f"{skill}.md"
     return path if path.is_file() else None
 
+
 def resolve_context_files(coll_dir: Path, event_name: str, include_ctx: List[str]) -> List[Path]:
+    """Resolve include.context entries to actual files, with handoff-context alias support."""
     files: List[Path] = []
     for item in include_ctx:
         if item == "handoff-context":
@@ -173,20 +201,21 @@ def resolve_context_files(coll_dir: Path, event_name: str, include_ctx: List[str
             else:
                 sys.stderr.write(f"Warning: no handoff-context found for {event_name}\n")
         else:
-            path = (coll_dir / item)
+            path = coll_dir / item
             if path.is_file():
                 files.append(path)
             else:
                 sys.stderr.write(f"Warning: include.context target not found: {path}\n")
     # dedupe, preserving order
     seen = set()
-    unique_files = []
+    unique_files: List[Path] = []
     for f in files:
         key = f.resolve()
         if key not in seen:
             seen.add(key)
             unique_files.append(f)
     return unique_files
+
 
 def assemble_files(
     coll_dir: Path,
@@ -195,11 +224,12 @@ def assemble_files(
     skills_conf: List[str],
     include_conf: Dict[str, Any],
 ) -> List[Path]:
+    """Assemble the ordered list of files to bundle for a structured collection."""
     event_name = event_conf["name"]
 
     files: List[Path] = []
 
-    # 1. charter
+    # 1. charter — prefer charter.md, fall back to meetings-charter.md
     charter = coll_dir / "context" / "charter.md"
     if not charter.is_file():
         charter = coll_dir / "context" / "meetings-charter.md"
@@ -215,7 +245,7 @@ def assemble_files(
     else:
         sys.stderr.write(f"Warning: event file not found: {event_file}\n")
 
-    # 3. event preferences
+    # 3. event preferences (optional)
     prefs = coll_dir / "events" / event_name / "preferences.md"
     if prefs.is_file():
         files.append(prefs)
@@ -225,7 +255,7 @@ def assemble_files(
     files.extend(ctx_files)
 
     # 5. roles
-    missing_roles = []
+    missing_roles: List[str] = []
     for role in participants_conf["roles"]:
         rf = find_role_file(coll_dir, role)
         if rf:
@@ -236,7 +266,7 @@ def assemble_files(
         sys.stderr.write(f"Warning: role files not found: {', '.join(missing_roles)}\n")
 
     # 6. skills
-    missing_skills = []
+    missing_skills: List[str] = []
     for skill in skills_conf:
         sf = find_skill_file(coll_dir, skill)
         if sf:
@@ -246,7 +276,7 @@ def assemble_files(
     if missing_skills:
         sys.stderr.write(f"Warning: skill files not found: {', '.join(missing_skills)}\n")
 
-    # 7. session prompt
+    # 7. session prompt — prefer event-local, fall back to templates/
     session = coll_dir / "events" / event_name / "session-prompt.md"
     if not session.is_file():
         session = coll_dir / "templates" / "meeting-session-prompt.md"
@@ -263,6 +293,7 @@ def assemble_files(
             unique_files.append(f)
 
     return unique_files
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -293,6 +324,7 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
+
 def main() -> None:
     args = parse_args()
     prompts_dir = resolve_prompts_dir()
@@ -308,7 +340,7 @@ def main() -> None:
     if args.collection:
         coll_dir = prompts_dir / args.collection
     else:
-        # derive collection from config parent, like the bash script
+        # derive collection from config parent
         cfg_path = Path(args.config).resolve()
         coll_dir = cfg_path.parent
 
@@ -328,10 +360,10 @@ def main() -> None:
             sys.exit(1)
         config_path = default_cfg
 
+    # Load and merge configs
     config_raw = load_yaml(config_path)
-
-    event = config_raw.get("event") or {}
-    defaults_ref = event.get("defaults")
+    event_section = config_raw.get("event") or {}
+    defaults_ref = event_section.get("defaults")
     if defaults_ref:
         defaults_path = (coll_dir / defaults_ref).resolve()
         if not defaults_path.is_file():
@@ -342,8 +374,8 @@ def main() -> None:
         config_merged = config_raw
 
     if is_flat_collection(coll_dir):
-        # flat passthrough: copy main .md
-        main_prompt = None
+        # Flat collection: copy main .md to generated/session.txt
+        main_prompt: Optional[Path] = None
         for candidate in [
             coll_dir / f"{coll_dir.name}.md",
             coll_dir / "main.md",
@@ -366,9 +398,7 @@ def main() -> None:
         print(f"Copied → {output_path}")
         return
 
-    # structured collection
-    config_raw = load_yaml(config_path)
-    # defaults merge as in commit 2
+    # Structured collection
     event_conf = get_event(config_merged)
     participants_conf = get_participants(config_merged)
     skills_conf = get_skills(config_merged)
@@ -389,20 +419,13 @@ def main() -> None:
         print(f"Output: {output_path}")
         return
 
-    # Concatenate files
     with output_path.open("w", encoding="utf-8") as out:
         for f in files:
             out.write(f.read_text(encoding="utf-8"))
             out.write("\n\n")
+
     print(f"Bundled → {output_path}")
 
-    # Stub:
-    print(f"Using collection: {coll_dir}")
-    print(f"Using config: {config_path}")
-    if args.dry_run:
-        print("Dry run: parsing not yet implemented.")
-    else:
-        print("Bundling not yet implemented.")
 
 if __name__ == "__main__":
     main()

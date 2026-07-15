@@ -142,6 +142,128 @@ def merge_configs(defaults: Dict[str, Any], override: Dict[str, Any]) -> Dict[st
 
     return merged
 
+def is_flat_collection(coll_dir: Path) -> bool:
+    return not (coll_dir / "events").is_dir() and not (coll_dir / "roles").is_dir()
+
+def find_role_file(coll_dir: Path, role: str) -> Optional[Path]:
+    candidates = [
+        coll_dir / "roles" / f"{role}.md",
+        coll_dir / "roles" / "judges" / f"{role}.md",
+        coll_dir / "roles" / "specialists" / f"{role}.md",
+    ]
+    for path in candidates:
+        if path.is_file():
+            return path
+    return None
+
+def find_skill_file(coll_dir: Path, skill: str) -> Optional[Path]:
+    path = coll_dir / "skills" / f"{skill}.md"
+    return path if path.is_file() else None
+
+def resolve_context_files(coll_dir: Path, event_name: str, include_ctx: List[str]) -> List[Path]:
+    files: List[Path] = []
+    for item in include_ctx:
+        if item == "handoff-context":
+            event_local = coll_dir / "events" / event_name / "handoff-context.md"
+            root = coll_dir / "handoff-context.md"
+            if event_local.is_file():
+                files.append(event_local)
+            elif root.is_file():
+                files.append(root)
+            else:
+                sys.stderr.write(f"Warning: no handoff-context found for {event_name}\n")
+        else:
+            path = (coll_dir / item)
+            if path.is_file():
+                files.append(path)
+            else:
+                sys.stderr.write(f"Warning: include.context target not found: {path}\n")
+    # dedupe, preserving order
+    seen = set()
+    unique_files = []
+    for f in files:
+        key = f.resolve()
+        if key not in seen:
+            seen.add(key)
+            unique_files.append(f)
+    return unique_files
+
+def assemble_files(
+    coll_dir: Path,
+    event_conf: Dict[str, Any],
+    participants_conf: Dict[str, Any],
+    skills_conf: List[str],
+    include_conf: Dict[str, Any],
+) -> List[Path]:
+    event_name = event_conf["name"]
+
+    files: List[Path] = []
+
+    # 1. charter
+    charter = coll_dir / "context" / "charter.md"
+    if not charter.is_file():
+        charter = coll_dir / "context" / "meetings-charter.md"
+    if charter.is_file():
+        files.append(charter)
+    else:
+        sys.stderr.write(f"Warning: charter not found in {coll_dir}/context\n")
+
+    # 2. event definition
+    event_file = coll_dir / "events" / event_name / "event.md"
+    if event_file.is_file():
+        files.append(event_file)
+    else:
+        sys.stderr.write(f"Warning: event file not found: {event_file}\n")
+
+    # 3. event preferences
+    prefs = coll_dir / "events" / event_name / "preferences.md"
+    if prefs.is_file():
+        files.append(prefs)
+
+    # 4. include.context
+    ctx_files = resolve_context_files(coll_dir, event_name, include_conf["context"])
+    files.extend(ctx_files)
+
+    # 5. roles
+    missing_roles = []
+    for role in participants_conf["roles"]:
+        rf = find_role_file(coll_dir, role)
+        if rf:
+            files.append(rf)
+        else:
+            missing_roles.append(role)
+    if missing_roles:
+        sys.stderr.write(f"Warning: role files not found: {', '.join(missing_roles)}\n")
+
+    # 6. skills
+    missing_skills = []
+    for skill in skills_conf:
+        sf = find_skill_file(coll_dir, skill)
+        if sf:
+            files.append(sf)
+        else:
+            missing_skills.append(skill)
+    if missing_skills:
+        sys.stderr.write(f"Warning: skill files not found: {', '.join(missing_skills)}\n")
+
+    # 7. session prompt
+    session = coll_dir / "events" / event_name / "session-prompt.md"
+    if not session.is_file():
+        session = coll_dir / "templates" / "meeting-session-prompt.md"
+    if session.is_file():
+        files.append(session)
+
+    # dedupe by resolved path
+    seen = set()
+    unique_files: List[Path] = []
+    for f in files:
+        key = f.resolve()
+        if key not in seen:
+            seen.add(key)
+            unique_files.append(f)
+
+    return unique_files
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="bundle.py",
@@ -219,10 +341,60 @@ def main() -> None:
     else:
         config_merged = config_raw
 
+    if is_flat_collection(coll_dir):
+        # flat passthrough: copy main .md
+        main_prompt = None
+        for candidate in [
+            coll_dir / f"{coll_dir.name}.md",
+            coll_dir / "main.md",
+        ] + list(coll_dir.glob("*.md")):
+            if candidate.is_file():
+                main_prompt = candidate
+                break
+        if main_prompt is None:
+            sys.stderr.write(f"Error: no prompt file found in flat collection: {coll_dir}\n")
+            sys.exit(1)
+        out_dir = coll_dir / "generated"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        output_path = Path(args.output) if args.output else out_dir / "session.txt"
+        if args.dry_run:
+            print("Dry run (flat collection):")
+            print(f"  {main_prompt}")
+            print(f"Output: {output_path}")
+            return
+        output_path.write_text(main_prompt.read_text(encoding="utf-8"), encoding="utf-8")
+        print(f"Copied → {output_path}")
+        return
+
+    # structured collection
+    config_raw = load_yaml(config_path)
+    # defaults merge as in commit 2
     event_conf = get_event(config_merged)
     participants_conf = get_participants(config_merged)
     skills_conf = get_skills(config_merged)
     include_conf = get_include(config_merged)
+
+    files = assemble_files(coll_dir, event_conf, participants_conf, skills_conf, include_conf)
+
+    out_dir = coll_dir / "generated"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    output_path = Path(args.output) if args.output else out_dir / "session.txt"
+
+    if args.dry_run:
+        print(f"Dry run — {coll_dir.name} / {event_conf['name']}")
+        print()
+        for f in files:
+            print(f"  {f.relative_to(Path(__file__).resolve().parent)}")
+        print()
+        print(f"Output: {output_path}")
+        return
+
+    # Concatenate files
+    with output_path.open("w", encoding="utf-8") as out:
+        for f in files:
+            out.write(f.read_text(encoding="utf-8"))
+            out.write("\n\n")
+    print(f"Bundled → {output_path}")
 
     # Stub:
     print(f"Using collection: {coll_dir}")

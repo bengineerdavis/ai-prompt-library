@@ -1,175 +1,170 @@
 # Panel of Judges
 
-Reusable library of events, roles, and skill files that can be combined into a session.
-
-## Table of contents
-
-- [Purpose](#purpose)
-- [Core concepts](#core-concepts)
-- [Library structure](#library-structure)
-- [Event-local bundles and data](#event-local-bundles-and-data)
-- [How to add new artifacts](#how-to-add-new-artifacts)
-- [Use model](#use-model)
-- [Notes](#notes)
+Reusable multi-role interaction kit for idea generation, evaluation, refinement, and decision support.
 
 ## Purpose
 
-The **panel of judges** is a reusable library for structured multi-role interactions.
+The panel of judges is a reusable collection for involving two or more roles, agents, or models in the same task.
 
-It is designed for situations where multiple perspectives improve the result, including generation, review, comparison, decision support, refinement, and meta/factory work on the library itself.
+It can be used whenever multiple perspectives are useful for:
 
-This library is not limited to meetings. A meeting is one kind of event that can be defined and reused within the collection.
+- generating ideas,
+- exploring solutions,
+- comparing options,
+- pressure-testing plans,
+- evaluating outputs,
+- refining proposals,
+- surfacing tradeoffs,
+- resolving disagreements,
+- selecting a direction.
 
-## Core concepts
+The panel is not limited to meetings. Meetings are one event type within this collection, but the same collection can also support brainstorming, planning review, protocol review, evaluation, adjudication, and stuck-resolution.
 
-The collection separates reusable artifacts so they can be recombined in different sessions.
+## Design model
 
-- **Event** — a reusable interaction protocol with a categorical goal; it defines the type of interaction, not the user's specific ask in a given run.
-- **Role** — a reusable participant definition with a perspective, responsibilities, and contribution style.
-- **Skill** — a reusable capability or method that may be used across multiple roles or events.
-- **Bundle** — a runnable assembly for a specific event configuration.
-- **Session** — one actual run that combines an event, roles, optional skills, and session-specific context.
-- **Data** — saved outputs from a session, such as minutes, notes, or handoffs.
+The collection separates three reusable layers:
 
-A role should remain portable across events, and a skill should remain portable across roles and events unless there is a strong reason to scope it more narrowly.
+- events define interaction types,
+- roles define participants,
+- shared context defines common principles across the collection.
 
-## Library structure
+This keeps the system portable. A role should make sense across many events. An event should be able to use different role sets. The collection should stay useful even as individual event types evolve or are replaced.
 
-The README describes the pattern, not a fixed inventory.
+## Governance
+
+Authority belongs to the active event, not to the collection as a whole.
+
+The collection supplies reusable roles and shared principles. Each event defines its own authority model, objection procedure, and flow.
+
+## Structure
+
+Suggested structure:
 
 ```sh
 panel-of-judges/
-  README.md
-  STRUCTURE.md
-  BUNDLER.md
-
-  context/
-    charter.md
-    <shared-context>.md
-
-  events/
-    <event-type>/
-      event.md
-      preferences.md               # optional reusable defaults for that event type
-      session-prompt.md            # optional event bootstrap prompt
-      meeting-template.md          # optional output/minutes template
-      bundles/
-        bundle.yaml
-        bundle.<variant>.yaml
-      data/
-        minutes/
-        notes/
-        handoffs/
-
-  roles/
-    <role>.md
-    judges/
-      <judge-role>.md
-    specialists/
-      <specialist-role>.md
-
-  skills/
-    <skill>.md
-
-  templates/
-    event-template.md
-    role-template.md
-    skill-template.md
-    role-invocation-template.md
-    <other-template>.md
-
-  generated/
-
-  handoff-context.md              # optional cross-session continuity
-  ROADMAP.md                      # optional future-facing questions and plans
+├── README.md
+├── bundle.py
+├── prompts/
+│   └── panel-of-judges/
+│       ├── bundle.yaml
+│       ├── bundle.advisory-meeting.yaml
+│       ├── bundle.advisory-meeting-with-research.yaml
+│       ├── context/
+│       │   ├── charter.md
+│       │   └── meetings-charter.md
+│       ├── events/
+│       │   ├── advisory-meeting/
+│       │   │   ├── event.md
+│       │   │   ├── preferences.md
+│       │   │   ├── session-prompt.md
+│       │   │   ├── handoff-context.md
+│       │   │   └── data/
+│       │   │       └── minutes/
+│       │   │           └── advisory-meeting-001-minutes.md
+│       │   ├── brainstorming/
+│       │   │   └── event.md
+│       │   ├── planning-review/
+│       │   │   └── event.md
+│       │   ├── protocol-review/
+│       │   │   └── event.md
+│       │   ├── evaluation/
+│       │   │   └── event.md
+│       │   └── stuck-resolution/
+│       │       └── event.md
+│       ├── roles/
+│       │   ├── chair.md
+│       │   ├── facilitator.md
+│       │   ├── note-taker.md
+│       │   ├── judges/
+│       │   │   ├── pragmatist.md
+│       │   │   ├── minimalist.md
+│       │   │   └── systems-thinker.md
+│       │   └── specialists/
+│       │       ├── deep-researcher.md
+│       │       ├── people-expert.md
+│       │       └── recruiter.md
+│       ├── skills/
+│       │   ├── analysis.md
+│       │   ├── deep-research.md
+│       │   └── interview.md
+│       ├── templates/
+│       │   └── meeting-session-prompt.md
+│       └── generated/
+│           └── session.txt
 ```
 
-Guiding rules:
+## Bundling model
 
-- Put reusable interaction protocols under `events/`.
-- Put reusable participant definitions under `roles/`.
-- Put reusable capabilities under `skills/`.
-- Put event-specific operational configs under that event's `bundles/`.
-- Put saved session outputs under that event's `data/`.
+The active bundler is `bundle.py`.
 
-## Event-local bundles and data
+Bundle config files live at the collection root under `prompts/<collection>/`. The config selects an event type, participant roles, optional skills, and optional additional context.
 
-Bundles should live with the event they configure, because they are part of how that event is run in practice.
+The value of `event.name` must exactly match an existing directory under `events/`. That event directory is the canonical representation of the interaction type.
 
-Recommended pattern:
+Example bundle config:
+
+```yaml
+event:
+  name: advisory-meeting
+
+participants:
+  roles:
+    - chair
+    - facilitator
+    - note-taker
+    - pragmatist
+    - minimalist
+    - systems-thinker
+
+skills:
+  - analysis
+
+include:
+  context:
+    - handoff-context
+    - events/advisory-meeting/data/minutes/advisory-meeting-001-minutes.md
+```
+
+## Running the bundler
+
+Run the default config for the collection:
+
+```bash
+./bundle.py -p panel-of-judges
+```
+
+Preview a session without writing output:
+
+```bash
+./bundle.py -p panel-of-judges --dry-run
+```
+
+Run a specific config:
+
+```bash
+./bundle.py -c prompts/panel-of-judges/bundle.advisory-meeting-with-research.yaml
+```
+
+By default, output is written to `prompts/<collection>/generated/session.txt`.
+
+## Working state
+
+Reusable prompt source and working session records should stay separate.
+
+Reusable source belongs in event definitions, roles, skills, templates, and shared context. Working records such as minutes, prior outputs, or handoff material should live under the relevant event type, usually beneath `events/<event-type>/data/`.
+
+Example:
 
 ```text
-events/<event-type>/bundles/
+events/advisory-meeting/data/minutes/advisory-meeting-001-minutes.md
 ```
 
-Saved outputs from real sessions should also live with the event that produced them.
-
-Recommended pattern:
-
-```text
-events/<event-type>/data/
-```
-
-For minutes:
-
-```text
-events/<event-type>/data/minutes/<event-type>-NNN-minutes.md
-```
-
-This keeps reusable protocol definitions separate from records of specific sessions while still keeping each event type self-contained.
-
-## How to add new artifacts
-
-### Add a new event
-
-Create a new directory under `events/<event-type>/` and add at least:
-
-- `event.md`
-
-Optionally add:
-
-- `preferences.md`
-- `session-prompt.md`
-- `meeting-template.md`
-- `bundles/`
-- `data/`
-
-Use `templates/event-template.md` as the starting point.
-
-### Add a new role
-
-Create a Markdown file under `roles/`, `roles/judges/`, or `roles/specialists/` depending on the role's type.
-
-Use `templates/role-template.md` as the starting point.
-
-### Add a new skill
-
-Create a Markdown file under `skills/`.
-
-Use `templates/skill-template.md` as the starting point.
-
-### Add a new bundle variant
-
-Create a new bundle config under the related event's `bundles/` directory.
-
-Use a naming pattern like:
-
-- `bundle.yaml`
-- `bundle.with-research.yaml`
-- `bundle.factory-review.yaml`
+Include those files in new sessions through `include.context` paths relative to the collection root.
 
 ## Use model
 
-1. Choose an event type.
-2. Choose the roles needed for that event.
-3. Add any relevant skills or supporting context.
-4. Use the appropriate bundle for that event.
-5. Run the session.
-6. Save the resulting minutes, notes, and handoffs under that event's `data/` directory.
-7. Route reusable improvements into future factory/meta work when needed.
-
-## Notes
-
-`STRUCTURE.md` should hold the more explicit architectural rules for the library, while this README remains the shorter orientation guide.
-
-Bundler-specific behavior and config details should live in `BUNDLER.md` or its current equivalent.
+1. Pick an event type.
+2. Select the roles needed for that event.
+3. State the task, goal, and context.
+4. Let roles generate, critique, compare, refine, or evaluate.
+5. Record decisions, tradeoffs, and follow-up work.

@@ -1,9 +1,10 @@
 # defaults.advisory-meeting.yaml
-roles:
-  - chair
-  - facilitator
-  - note-taker
-  - recruiter
+participants:
+  roles:
+    - chair
+    - facilitator
+    - note-taker
+    - recruiter
 
 skills:
   - interview

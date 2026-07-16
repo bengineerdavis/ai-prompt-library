@@ -1,219 +1,56 @@
 # Bundler
 
-The bundler assembles a paste-ready session prompt from reusable source files.
+The bundler assembles a paste-ready session prompt from reusable source files in a collection.
 
-It concatenates the charter, event definition, event preferences, optional context files, role files, skill files, optional templates/factory/roadmap material, and the session prompt template into a single output file you can paste into a chat or CLI tool.[file:103][file:80]
+For structured collections such as `panel-of-judges`, it combines shared context, an event definition, optional event preferences, selected roles, optional skills, optional included context, and an optional session prompt into a single output file you can paste into a chat or CLI tool.
+
+## Table of contents
+
+- [Quick start](#quick-start)
+- [Config shape](#config-shape)
+- [Config location](#config-location)
+- [Strict event naming](#strict-event-naming)
+- [What gets bundled](#what-gets-bundled)
+- [Event-local context](#event-local-context)
+- [Output](#output)
+- [Flags](#flags)
+- [Naming guidance](#naming-guidance)
 
 ## Quick start
 
-For an advisory meeting with default roles:
+Run the default root-level config for a collection:
 
 ```bash
-# from repo root
 ./bundle.py -p panel-of-judges
 ```
 
-Output is written to `prompts/panel-of-judges/generated/session.txt` by default.[file:103] Copy and paste that file into your chat.
-
-### Example workflow
+Preview what would be included without writing output:
 
 ```bash
-# list available collections and their bundle configs
-./bundle.py --list
-
-# default advisory meeting — no arguments beyond collection
-./bundle.py -p panel-of-judges
-
-# preview what would be included without writing
 ./bundle.py -p panel-of-judges --dry-run
-
-# use a named config variant
-./bundle.py -p panel-of-judges -c prompts/panel-of-judges/bundle.advisory-meeting-with-research.yaml --dry-run
-
-# run the same variant from inside the collection directory
-cd prompts/panel-of-judges
-../../bundle.py -p panel-of-judges -c bundle.advisory-meeting-with-research.yaml
 ```
 
-## CLI
-
-The bundler is a Python script with inline `uv` metadata and one executable entry point.[file:103]
+Run a specific root-level config file:
 
 ```bash
-./bundle.py [OPTIONS]
+./bundle.py -c prompts/panel-of-judges/bundle.advisory-meeting-with-research.yaml
 ```
 
-### Flags
+## Config shape
 
-| Flag                | Short | Description                                                                 |
-|---------------------|-------|-----------------------------------------------------------------------------|
-| `--collection`      | `-p`  | Collection name under `prompts/` (e.g. `panel-of-judges`)                  |
-| `--config <file>`   | `-c`  | Path to a bundle config YAML (relative or absolute)                        |
-| `--output <file>`   | `-o`  | Output file path (defaults to `<collection>/generated/session.txt`)       |
-| `--dry-run`         |       | Print files that would be included without writing output                  |
-| `--list`            |       | List collections and their bundle configs                                  |
-| `--help`            | `-h`  | Show usage                                                                 |
+A bundle config defines one session assembly.
 
-Rules:
+It may specify:
 
-- You must specify at least a collection (`-p`) or an explicit config (`-c`).[file:103]
-- When only `-p` is provided, the bundler discovers a default config inside that collection.[file:103]
-- When `-c` is provided, the collection is inferred from the config’s parent directory if `-p` is omitted.[file:103]
+- the active event,
+- participant roles,
+- optional skills,
+- optional included context,
+- optional defaults inheritance.
 
-## Collections
-
-A collection is a directory under `prompts/` that holds events, roles, and context for a reusable interaction kit.[file:12][file:103]
-
-### Listing collections
-
-```bash
-./bundle.py --list
-```
-
-This prints something like:
-
-```text
-Collections in /path/to/repo/prompts:
-
-panel-of-judges/
-  bundle.yaml
-  bundle.advisory-meeting.yaml
-  bundle.advisory-meeting-with-research.yaml
-
-another-collection/
-  bundle.yaml
-```
-
-For each collection, the bundler lists `bundle.yaml` and any `bundle.*.yaml` files it finds.[file:103]
-
-### Collection structure (panel-of-judges)
-
-The `panel-of-judges` collection is structured like this:[file:12]
-
-```text
-prompts/panel-of-judges/
-  README.md
-  bundle.yaml
-  bundle.advisory-meeting.yaml
-  bundle.advisory-meeting-with-research.yaml
-  defaults.advisory-meeting.yaml
-  context/
-    charter.md
-    ...
-  events/
-    advisory-meeting/
-      event.md
-      preferences.md
-      session-prompt.md
-      ...
-  roles/
-    chair.md
-    facilitator.md
-    note-taker.md
-    judges/
-      pragmatist.md
-      minimalist.md
-      systems-thinker.md
-      ...
-    specialists/
-      deep-researcher.md
-      ...
-  skills/
-    deep-research.md
-    analysis.md
-    ...
-  templates/
-    meeting-session-prompt.md
-    ...
-  generated/
-    session.txt
-  data/
-    ...
-  ROADMAP.md        # optional, meta/factory use
-  handoff-context.md  # optional, cross-session continuity
-```
-
-## Config files
-
-Config files tell the bundler which event, roles, skills, and include options to use when assembling a session.[file:103]
-
-Configs are YAML mappings with four main sections:
-
-- `event`
-- `participants`
-- `skills`
-- `include`
-
-### Basic schema
+Example:
 
 ```yaml
-event:
-  name: advisory-meeting
-  defaults: defaults.advisory-meeting.yaml   # optional
-
-participants:
-  roles:
-    - chair
-    - facilitator
-    - note-taker
-
-skills:
-  - deep-research
-  - analysis
-
-include:
-  context:
-    - handoff-context
-    - data/minutes/meeting-001-minutes.md
-  templates: false
-  factories: false
-  roadmap: false
-```
-
-#### `event`
-
-- `name` (required): event type under `events/` (e.g. `advisory-meeting`).[file:103]
-- `defaults` (optional): path to another config file used as a defaults source for this config.[file:103]
-
-#### `participants`
-
-- `roles` (list): role identifiers to include. For each role, the bundler search order is:[file:103]
-
-  1. `roles/<role>.md`
-  2. `roles/judges/<role>.md`
-  3. `roles/specialists/<role>.md`
-
-Missing role files produce warnings but do not stop the bundler.[file:103]
-
-#### `skills`
-
-- `skills` (list): skill identifiers to include. Each is resolved as `skills/<skill>.md`.[file:103]
-
-Missing skill files produce warnings but do not stop the bundler.[file:103]
-
-#### `include`
-
-- `context` (list of strings): extra context files to include.[file:103]
-  - special value: `handoff-context`  
-    - tries `events/<event>/handoff-context.md`, then `<collection>/handoff-context.md`.[file:103]
-  - otherwise: treated as a path relative to the collection root.
-- `templates` (bool): if `true`, include all `templates/*.md` files.[file:103]
-- `factories` (bool or list): meta/factory inputs.
-  - `false`: do not include factory material.
-  - `true`: search for directories `factories/`, `factory/`, or `meta/` and include all `.md` files found.[file:103]
-  - list: each entry is a file or directory path relative to the collection root.
-    - file paths: included directly if present.
-    - directory paths: include all `.md` files under that directory.[file:103]
-- `roadmap` (bool): if `true`, include `ROADMAP.md` from the collection root, or `docs/ROADMAP.md` as fallback.[file:103]
-
-### Using defaults
-
-Defaults configs let you define a base event configuration once and then apply variants by layering specific changes on top.[file:103]
-
-#### Defaults file
-
-```yaml
-# defaults.advisory-meeting.yaml
 event:
   name: advisory-meeting
 
@@ -226,244 +63,135 @@ participants:
     - minimalist
     - systems-thinker
 
-skills: []
-
-include:
-  context: []
-  templates: false
-  factories: false
-  roadmap: false
-```
-
-#### Default advisory bundle
-
-```yaml
-# bundle.advisory-meeting.yaml
-event:
-  name: advisory-meeting
-  defaults: defaults.advisory-meeting.yaml
-
-participants:
-  roles: []        # no extra roles beyond defaults
-
-skills: []         # no extra skills beyond defaults
-
-include:
-  context: []      # no extra context beyond defaults
-  templates: false
-  factories: false
-  roadmap: false
-```
-
-#### Advisory with research
-
-```yaml
-# bundle.advisory-meeting-with-research.yaml
-event:
-  name: advisory-meeting
-  defaults: defaults.advisory-meeting.yaml
-
-participants:
-  roles:
-    - deep-researcher
-    - recruiter
-    - people-expert
-
 skills:
-  - deep-research
   - analysis
+  - deep-research
 
 include:
   context:
     - handoff-context
-  templates: false
-  factories: false
-  roadmap: false
+    - events/advisory-meeting/data/minutes/advisory-meeting-001-minutes.md
 ```
 
-##### Merging rules
+If you use defaults inheritance, keep the reference inside the `event` mapping:
 
-When `event.defaults` is set, the bundler:
-
-1. Loads the defaults config.
-2. Loads the main config.
-3. Applies `merge_configs(defaults, override)`.[file:103]
-
-Special behavior:
-
-- `event`: shallow mapping merge (override wins per key).[file:103]
-- `participants.roles`: de-duplicated union of defaults and override roles (override roles append).[file:103]
-- `skills`: de-duplicated union of defaults and override skills.[file:103]
-- `include.context`: de-duplicated union of defaults and override context entries.[file:103]
-- Other `include` keys (`templates`, `factories`, `roadmap`): standard override semantics.[file:103]
-
-## What gets bundled
-
-For a structured collection, the bundler includes files in this order:[file:103][file:80]
-
-1. **Charter**
-
-   - `context/charter.md`, or
-   - `context/meetings-charter.md` as fallback.
-
-2. **Event definition**
-
-   - `events/<event>/event.md`.
-
-3. **Event preferences**
-
-   - `events/<event>/preferences.md` (if present).
-
-4. **Extra context**
-
-   From `include.context`:
-
-   - `handoff-context`:
-     - `events/<event>/handoff-context.md`, else
-     - `<collection>/handoff-context.md`.
-   - other strings are paths relative to the collection root (e.g. `data/minutes/meeting-001-minutes.md`).[file:103]
-
-5. **Roles**
-
-   For each role in `participants.roles`:
-
-   - `roles/<role>.md`, else
-   - `roles/judges/<role>.md`, else
-   - `roles/specialists/<role>.md`.[file:103]
-
-   Missing role files are reported as warnings but do not abort bundling.
-
-6. **Skills**
-
-   For each skill in `skills`:
-
-   - `skills/<skill>.md`.[file:103]
-
-   Missing skill files are reported as warnings but do not abort bundling.
-
-7. **Templates (optional)**
-
-   If `include.templates` is `true`:
-
-   - all `templates/*.md` files in sorted order.[file:103]
-
-8. **Factory/meta material (optional)**
-
-   If `include.factories` is:
-
-   - `false`: nothing.
-   - `true`: all `.md` files found under:
-     - `factories/`,
-     - `factory/`, or
-     - `meta/` (if they exist).[file:103]
-   - list: treat each entry as a file or directory path relative to the collection root:
-     - files: included directly,
-     - directories: include all `.md` files under that directory.[file:103]
-
-9. **Roadmap (optional)**
-
-   If `include.roadmap` is `true`:
-
-   - `ROADMAP.md` in the collection root, or
-   - `docs/ROADMAP.md` as fallback.[file:103]
-
-10. **Session prompt**
-
-    - `events/<event>/session-prompt.md`, else
-    - `templates/meeting-session-prompt.md`.[file:103]
-
-All paths are de-duplicated by resolved path while preserving first occurrence order.[file:103]
-
-## Output
-
-By default, output for a collection `X` goes to:
-
-```text
-prompts/X/generated/session.txt
+```yaml
+event:
+  name: advisory-meeting
+  defaults: defaults/base-meeting.yaml
 ```
+
+## Config location
+
+Bundle config files currently live at the collection root.
 
 Examples:
 
-```bash
-./bundle.py -p panel-of-judges
-# → prompts/panel-of-judges/generated/session.txt
-
-./bundle.py -p panel-of-judges -c prompts/panel-of-judges/bundle.advisory-meeting-with-research.yaml
-# → same default output, different content
+```text
+prompts/panel-of-judges/bundle.yaml
+prompts/panel-of-judges/bundle.advisory-meeting.yaml
+prompts/panel-of-judges/bundle.advisory-meeting-with-research.yaml
 ```
 
-To write to a different path, use `-o`:
+When no config path is provided, `bundle.py` looks for `bundle.yaml` first and then falls back to the first `bundle.*.yaml` file in the collection root.
 
-```bash
-./bundle.py -p panel-of-judges -o /tmp/my-session.txt
-```
+## Strict event naming
 
-## Flat collections
-
-Some collections may be “flat” — no `events/` or `roles/` subdirectories — and instead supply a single primary prompt file.[file:103]
-
-A collection is considered flat when both `events/` and `roles/` are missing.[file:103]
-
-For flat collections, the bundler:
-
-1. Looks for:
-   - `<collection>/<collection>.md`,
-   - `<collection>/main.md`,
-   - else the first `*.md` file in the collection directory.[file:103]
-2. Copies that file to the output path.
-3. Still supports `--dry-run` to show which file would be copied.[file:103]
+The value of `event.name` must exactly match an existing event directory under the collection’s `events/` directory.
 
 Example:
 
-```bash
-./bundle.py -p some-flat-collection --dry-run
+```yaml
+event:
+  name: advisory-meeting
 ```
 
-## Dry run
-
-Use `--dry-run` to inspect which files would be bundled without writing output.[file:103]
-
-```bash
-./bundle.py -p panel-of-judges --dry-run
-./bundle.py -p panel-of-judges -c bundle.advisory-meeting-with-research.yaml --dry-run
-```
-
-Output example:
+This must correspond to:
 
 ```text
-Dry run — panel-of-judges / advisory-meeting
-
-  prompts/panel-of-judges/context/charter.md
-  prompts/panel-of-judges/events/advisory-meeting/event.md
-  prompts/panel-of-judges/events/advisory-meeting/preferences.md
-  prompts/panel-of-judges/handoff-context.md
-  prompts/panel-of-judges/roles/chair.md
-  prompts/panel-of-judges/roles/facilitator.md
-  prompts/panel-of-judges/roles/note-taker.md
-  ...
-  prompts/panel-of-judges/events/advisory-meeting/session-prompt.md
-
-Output: prompts/panel-of-judges/generated/session.txt
+prompts/panel-of-judges/events/advisory-meeting/
 ```
 
-## Validation checklist
+`event.name` is the canonical event type identifier. The bundler does not resolve aliases.
 
-When adding or editing configs, it’s useful to run a small verification set:
+If the directory does not exist, the bundler fails with an error instead of guessing.
 
-1. `./bundle.py --list`
-2. `./bundle.py -p <collection> --dry-run`
-3. One or more variant configs with `--dry-run`
-4. At least one real bundle write (without `--dry-run`) to ensure output concatenation works
+## What gets bundled
 
-For panel-of-judges, a typical sequence:
+For a structured collection, the bundler assembles files in this order:
 
-```bash
-./bundle.py --list
+1. `context/charter.md` or `context/meetings-charter.md`
+2. `events/<event>/event.md`
+3. `events/<event>/preferences.md` if present
+4. files listed in `include.context`
+5. role files from `roles/`, `roles/judges/`, or `roles/specialists/`
+6. skill files from `skills/`
+7. `events/<event>/session-prompt.md` or `templates/meeting-session-prompt.md`
 
-./bundle.py -p panel-of-judges --dry-run
-./bundle.py -p panel-of-judges -c prompts/panel-of-judges/bundle.advisory-meeting-with-research.yaml --dry-run
+Missing optional files are skipped with warnings. Missing role or skill files also warn rather than stopping the bundle.
 
-./bundle.py -p panel-of-judges
+## Event-local context
+
+Although bundle config files live at the collection root, working context for a specific event type can live under that event directory.
+
+Recommended pattern:
+
+```text
+events/<event-type>/data/
 ```
 
-If you introduce a new defaults file or a new include option, repeat the same checks to ensure schema and file resolution behave as expected.[file:103]
+For saved minutes:
+
+```text
+events/<event-type>/data/minutes/<event-type>-NNN-minutes.md
+```
+
+To include event-local history in a new session, reference it through `include.context` using a path relative to the collection root.
+
+Example:
+
+```yaml
+include:
+  context:
+    - handoff-context
+    - events/advisory-meeting/data/minutes/advisory-meeting-001-minutes.md
+```
+
+The special `handoff-context` token resolves to `events/<event>/handoff-context.md` first, and falls back to a collection-root `handoff-context.md` if no event-local file exists.
+
+## Output
+
+By default, output is written to:
+
+```text
+prompts/<collection>/generated/session.txt
+```
+
+The `generated/` directory is for rebuilt output, not authored source, so it is safe to overwrite.
+
+Use `-o` to choose a custom output path.
+
+## Flags
+
+| Flag | Description |
+|---|---|
+| `-p`, `--collection` | Collection name under `prompts/` |
+| `-c`, `--config` | Path to a bundle config YAML |
+| `-o`, `--output` | Write to a custom output file |
+| `--dry-run` | Print files that would be included without writing output |
+| `--list` | List collections and available bundle configs |
+
+## Naming guidance
+
+Use root-level config names such as:
+
+```text
+bundle.yaml
+bundle.advisory-meeting.yaml
+bundle.advisory-meeting-with-research.yaml
+bundle.brainstorming.yaml
+```
+
+Use canonical event directory slugs in `event.name`.
+
+Use `include.context` for event-local continuity files, including prior minutes and handoff material.

@@ -1,0 +1,18 @@
+event:
+  name: advisory-meeting
+  defaults: defaults.advisory-meeting.yaml
+
+participants:
+  roles:
+    - recruiter
+    - people-expert
+
+skills:
+  - analysis
+
+include:
+  context:
+    - handoff-context
+  templates: true
+  factories: true
+  roadmap: true

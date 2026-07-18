@@ -1,5 +1,5 @@
 event:
-  name: advisory-meeting
+  name: advisory-meeting-factory-review
   defaults: defaults.advisory-meeting.yaml
 
 participants:

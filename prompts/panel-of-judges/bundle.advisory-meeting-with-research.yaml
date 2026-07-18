@@ -1,6 +1,6 @@
 # bundle.advisory-meeting-with-research.yaml
 event:
-  name: advisory-meeting
+  name: advisory-meeting-with-research
   defaults: defaults.advisory-meeting.yaml
 
 participants:

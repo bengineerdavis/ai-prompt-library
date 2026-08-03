@@ -10,7 +10,7 @@ metadata:
     - adaptive-auto
     - direct
     - divergent
-***
+---
 
 # Interaction Questioning
 

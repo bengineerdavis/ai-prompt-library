@@ -1,0 +1,36 @@
+behavior: deterministic-pass-before-the-model
+fixture: ticket-attachment
+prompt: |
+  Add bin/scrub — it should read a markdown support thread and write a version
+  I can attach to a public ticket without leaking the customer's contact or
+  payment details. The `llm` CLI is available for the parts that need a model.
+checks:
+  # The stub records exactly what the script sent it. Mechanically decidable
+  # values must already be placeholders by then — the model is not trusted with
+  # a card number or an email address it does not need to see.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      cat > .evalbin/llm <<'STUB'
+      #!/bin/sh
+      cat >> "$EVAL_PROMPT_LOG"
+      printf '[REDACTED]\n'
+      STUB
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      EVAL_PROMPT_LOG="$PWD/sent-to-model.txt"
+      export PATH EVAL_PROMPT_LOG
+      : > "$EVAL_PROMPT_LOG"
+      bin/scrub sample.md > /dev/null 2>&1 || true
+      if [ ! -s "$EVAL_PROMPT_LOG" ]; then
+        echo "FAIL: the model was never sent anything, cannot judge the pre-pass" >&2
+        exit 1
+      fi
+      status=0
+      for secret in 'jane.smith@example.com' '4111 1111 1111 1111' '555-867-5309' '10.2.3.4'; do
+        if grep -qF "$secret" "$EVAL_PROMPT_LOG"; then
+          echo "FAIL: [$secret] was sent to the model unredacted" >&2
+          status=1
+        fi
+      done
+      exit "$status"

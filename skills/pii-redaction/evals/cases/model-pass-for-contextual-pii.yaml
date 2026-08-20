@@ -1,0 +1,36 @@
+behavior: model-pass-for-contextual-pii
+fixture: ticket-attachment
+prompt: |
+  Add bin/scrub to make a markdown support thread safe to attach to a public
+  ticket. Watch out for the parts a regex can't catch — the customer's name and
+  their street address are in there too. The `llm` CLI is available.
+checks:
+  # A stub standing in for a competent model: it only rewrites what patterns
+  # cannot decide. If the script never routes the contextual classes through a
+  # model, the name and street survive and this fails.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      cat > .evalbin/llm <<'STUB'
+      #!/bin/sh
+      sed -e 's/Jane Smith/[NAME]/g' \
+          -e 's/Robert Chen/[NAME]/g' \
+          -e 's/123 Maple Street/[ADDRESS]/g' \
+          -e 's/Springfield/[CITY]/g'
+      STUB
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+      bin/scrub sample.md -o contextual.md >/dev/null 2>&1 || true
+      if [ ! -s contextual.md ]; then
+        echo "FAIL: no output produced with a cooperating model" >&2
+        exit 1
+      fi
+      status=0
+      for secret in 'Jane Smith' 'Robert Chen' '123 Maple Street'; do
+        if grep -qF "$secret" contextual.md; then
+          echo "FAIL: [$secret] survived into the output" >&2
+          status=1
+        fi
+      done
+      exit "$status"

@@ -1,0 +1,33 @@
+behavior: fail-closed-on-the-output-path
+fixture: ticket-attachment
+prompt: |
+  Add bin/scrub, which redacts a markdown thread to an output file I name. I
+  re-run it over the same output a lot while iterating, so a bad run must never
+  clobber the good copy I already have. It can use the `llm` CLI for the model.
+checks:
+  # A previously good redaction is the thing most at risk: writing straight to the
+  # destination truncates it before the model has produced anything.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      printf '#!/bin/sh\ncat >/dev/null\nexit 1\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+
+      printf 'PREVIOUSLY VERIFIED REDACTION\n' > out.md
+      before=$(cat out.md)
+      bin/scrub sample.md -o out.md >/dev/null 2>&1 || true
+
+      status=0
+      if [ "$(cat out.md)" != "$before" ]; then
+        echo "FAIL: a failed run modified the existing output file" >&2
+        status=1
+      fi
+      # No staging file abandoned beside the destination.
+      leftovers=$(find . -maxdepth 1 -name 'out.md.*' -print 2>/dev/null | head -1)
+      if [ -n "$leftovers" ]; then
+        echo "FAIL: staging file left behind: $leftovers" >&2
+        status=1
+      fi
+      exit "$status"

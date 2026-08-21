@@ -1,7 +1,7 @@
 ---
 name: pii-redaction
 description: Builds and reviews PII redaction tools as three layers — deterministic patterns, then a model pass, then leak verification that fails closed. Use when writing or reviewing any script that strips, masks, or anonymises personal data from text, or that sends user content to a model and writes a result meant for sharing.
-spec_hash: 83972dfb2e94
+spec_hash: 3816d53fd657
 ---
 
 # PII Redaction
@@ -50,8 +50,12 @@ precisely the data you were asked not to accumulate.
 Re-run the layer 1 detectors against the model's candidate output. Any
 high-confidence hit is a failed run, not a warning. Also fail when:
 
-- **The output is byte-identical to the input** and the input had detected PII.
-  A pass-through or ignored instruction looks like success otherwise.
+- **The model returned what it was sent, byte-for-byte, while contextual PII
+  remains in that text.** Test the *remaining* text, not "the document had PII":
+  layer 1 has already taken the decidable classes out, so a document whose only
+  PII was an email address correctly comes back untouched. Failing on the wrong
+  condition rejects valid runs — use a conservative name/address shape check on
+  what you sent to decide whether the model owed you any work.
 - **The output is refusal-shaped** — a short "I can't help with that" instead of
   a redacted copy. Length collapse against the input is the usable signal.
 

@@ -83,17 +83,32 @@ redaction rather than a warning.
 
 ### Behavior: Unchanged and refusal-shaped output are failures
 
-The agent SHALL fail the run when the candidate output is byte-identical to the
-input despite the input containing detected PII, and when the output is
-refusal-shaped — a short response declining the task rather than a redacted copy
-of the input.
+The agent SHALL fail the run when the model returns the text it was sent
+byte-for-byte **while contextual PII remains in that text**, and when the output
+is refusal-shaped — a short response declining the task rather than a redacted
+copy of the input.
 
-#### Scenario: Pass-through model produces an identical file
+The qualifier is load-bearing. "The document contained PII" is the wrong test:
+the deterministic layer has already removed the decidable classes by the time
+the model sees the text, so a document whose only PII was an email address
+legitimately comes back untouched, and failing there rejects correct runs. The
+sound test is whether anything the model is responsible for — a name, an
+address — is still present in what it was handed.
+
+#### Scenario: Pass-through model leaves a name untouched
 
 - **GIVEN** `bin/pii-redactor -i in.md -o out.md` where `llm` is a script that
   runs `cat`
-- **WHEN** `in.md` contains PII
+- **WHEN** `in.md` contains `Contact Jane Smith at jane.smith@example.com`
 - **THEN** the run exits non-zero, and `out.md` is not created
+
+#### Scenario: Nothing left for the model to do
+
+- **GIVEN** the same pass-through `llm`
+- **WHEN** the input's only PII is an email address, which the deterministic
+  layer has already replaced
+- **THEN** the run succeeds and the output carries the placeholder, because an
+  unchanged response was the correct answer
 
 #### Scenario: Model declines the request
 

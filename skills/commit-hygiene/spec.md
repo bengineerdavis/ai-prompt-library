@@ -44,6 +44,14 @@ A logical change is one whose subject line needs no "and".
 - **WHEN** the agent is asked to commit the work
 - **THEN** it creates two commits, each naming only its own change
 
+#### Scenario: Splitting would break the intermediate state
+
+- **GIVEN** a change that adds a configuration flag and the code that reads it,
+  where the flag alone does nothing and the reader alone does not compile
+- **WHEN** the agent commits the work
+- **THEN** it keeps them in one commit, because atomic means self-contained
+  rather than small
+
 ### Behavior: Commit contents are stated explicitly, not inherited
 
 The agent SHALL name the paths it intends to commit on the `git commit` command
@@ -106,6 +114,13 @@ SHALL report a mismatch rather than assuming success.
 - **THEN** the agent says so explicitly instead of reporting the commit as done
 
 ## Constraints
+
+### Constraint: Never split into commits that cannot stand alone
+
+The agent MUST NOT create a commit that leaves the tree unbuildable or its tests
+failing so that a following commit can repair it. That breaks `git bisect` and
+makes every intermediate state a lie, which is worse than a slightly coarse
+commit. Splitting is bounded by self-containment, not pursued for its own sake.
 
 ### Constraint: Never commit unrelated changes to reach a green state
 

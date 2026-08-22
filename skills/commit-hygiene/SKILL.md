@@ -1,7 +1,7 @@
 ---
 name: commit-hygiene
 description: Keeps commits scoped to one logical change, sizes the message to the change rather than padding it, names the paths being committed so a concurrent process cannot contribute files, and checks afterwards that the commit contains what was intended. Use when committing work, dividing finished changes into commits, or reviewing whether a commit's scope and message match.
-spec_hash: c32884358b3c
+spec_hash: 204653837d70
 ---
 
 # Commit Hygiene
@@ -17,6 +17,18 @@ camouflage. Treat message length as a **scope signal**, not a quality metric.
    two commits. Split.
 1. **Commit by path, never by index state** (see below).
 1. **Check what you actually committed** — `git show --stat HEAD`.
+
+## Splitting has a floor
+
+Atomic means **self-contained**, not small. Never split so far that a commit
+leaves the tree unbuildable or its tests red for the next commit to repair —
+that breaks `git bisect` and makes every intermediate state a lie. Keep together
+anything meaningless alone: a flag and the code that reads it, a rename and its
+call sites, a signature change and its callers.
+
+Split when a reader would ask "why is this here?", when one part could be
+reverted while keeping the rest, when the subject needs "and", or when a
+drive-by fix rode along with a feature.
 
 ## Size the message to the change
 
@@ -89,6 +101,13 @@ The same commit also swept in 52 unrelated files, because it was made with
 `git add` plus a bare `git commit` while another session had files staged. Both
 failures, once. The pathspec form and the post-commit check each prevent it
 independently.
+
+## Repo-specific conventions still win
+
+This skill is portable. Where a repository documents its own commit conventions
+— scope vocabulary, subject format, worked examples from its own history — read
+and follow those; they are more specific. The dotfiles repo keeps its version in
+`docs/CONVENTIONS.md` under "Commit granularity".
 
 ## Never
 

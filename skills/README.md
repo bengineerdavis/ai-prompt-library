@@ -54,6 +54,7 @@ chezmoi (it is ignored as dev tooling), so the link is per-machine setup.
 
 ## Skills
 
-| Skill                           | Purpose                                                                                                                 |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [pii-redaction](pii-redaction/) | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed. |
+| Skill                             | Purpose                                                                                                                 |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| [pii-redaction](pii-redaction/)   | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed. |
+| [commit-hygiene](commit-hygiene/) | One logical change per commit, message sized to the change, commit by path, verify the contents afterwards.             |

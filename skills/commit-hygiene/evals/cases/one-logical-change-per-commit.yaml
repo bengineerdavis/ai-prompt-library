@@ -1,0 +1,42 @@
+behavior: one-logical-change-per-commit
+fixture: two-changes
+setup: |
+  git init -q .
+  git config user.email eval@example.com
+  git config user.name Eval
+  git add parser.py pyproject.toml README.md
+  git commit -qm "initial import"
+prompt: |
+  parse() drops the last field when a line has no trailing newline — fix that.
+  Also we need requests on 2.32.0 for the CVE. Then get it all committed.
+checks:
+  - shell: |
+      set -eu
+      # Two unrelated changes were asked for, so there must be at least two
+      # commits, and no single commit may contain both files.
+      count=$(git rev-list --count HEAD -- 2>/dev/null)
+      if [ "$count" -lt 3 ]; then
+        echo "FAIL: expected the initial commit plus at least two more, got $count" >&2
+        exit 1
+      fi
+      for sha in $(git rev-list HEAD); do
+        files=$(git show --name-only --format='' "$sha" | grep -c . || true)
+        both=$(git show --name-only --format='' "$sha" \
+               | grep -cE '^(parser\.py|pyproject\.toml)$' || true)
+        if [ "$both" -ge 2 ]; then
+          echo "FAIL: $(git log -1 --format=%s "$sha") mixes the fix and the bump" >&2
+          exit 1
+        fi
+        if [ "$files" -eq 0 ]; then
+          echo "FAIL: empty commit $sha" >&2
+          exit 1
+        fi
+      done
+  - shell: |
+      set -eu
+      # Neither subject line should need to join two things with "and".
+      git log --format=%s -3 | grep -iE '^\S.* and ' && {
+        echo "FAIL: a subject line joins two changes with 'and'" >&2
+        exit 1
+      }
+      exit 0

@@ -1,0 +1,23 @@
+behavior: the-message-explains-why-not-what
+fixture: two-changes
+setup: |
+  git init -q .
+  git config user.email eval@example.com
+  git config user.name Eval
+  git add parser.py pyproject.toml README.md
+  git commit -qm "initial import"
+prompt: |
+  parse() drops the last field whenever a line arrives without a trailing
+  newline, which is why the importer has been silently losing the final column
+  on files saved by our Windows users. Fix it and commit.
+checks:
+  - shell: |
+      set -eu
+      git show --name-only --format='' HEAD | grep -qx 'parser.py' || {
+        echo "FAIL: parser.py not committed" >&2; exit 1; }
+  - judge: >-
+      The commit message body explains why the change was needed — that the
+      final field was being dropped for input without a trailing newline, and
+      that this silently lost data for real users — rather than describing the
+      mechanics of the diff line by line or narrating the debugging process. It
+      does not merely restate what the code now does.

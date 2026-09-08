@@ -5,6 +5,49 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-09-07 — Questioning & Local-Service Procurement Refactor
+
+### Added
+
+- `prompts/services/local-service-procurement/` — new kit (SKILL v0.3.0, README,
+  brief template, changelog) for buying local professional services starting from
+  natural language; owns the procurement workflow after discovery.
+- `prompts/panel-of-judges/roles/specialists/service-provider-due-diligence-advisor.md`
+  v0.3.0 — provider-evaluation specialist that proposes gates, evidence checks, and
+  call/quote fields without asking user-facing question batches.
+- `prompts/panel-of-judges/bundle.advisory-meeting-service-procurement.yaml` —
+  advisory-meeting variant composing the advisor with questioning, procurement,
+  and deep-research.
+- `prompts/skillet/SKILL.md` — Skillet CLI authoring workflow for skills
+  (status → spec → rendered skill → evals → validate → dry/baseline evals).
+- `prompts/adhd/SKILL.md` — divergent-ideation skill.
+- Per-scope changelogs: project (this file), per-skill
+  (`prompts/<skill>/CHANGELOG.md`), and per-event
+  (`prompts/panel-of-judges/events/<event>/CHANGELOG.md`).
+- Commit messages now follow the Scoped Commits format (`<scope>: <description>`,
+  <https://scopedcommits.com/>).
+
+### Changed
+
+- `prompts/questioning/SKILL.md` → v2.3.2 — natural-language-first discovery,
+  two-sided understanding, goal stack, stakes triage, next-move routing (questions
+  are optional), expectation calibration, fatigue protection, understanding
+  confirmation, and learning handoffs. Now backed by `spec.md` (Skillet behavior
+  contract) and judge-based eval cases for every behavior; `skillet validate`
+  passes.
+- Local-service-procurement artifacts now compose with Interaction Questioning
+  v2.3.2 instead of duplicating discovery logic.
+
+### Fixed
+
+- `prompts/research/research/SKILL.md` — restored YAML frontmatter lost to an
+  accidental edit.
+- Panel-of-judges bundle variants `with-research` and `factory-review` referenced
+  non-existent event directories and hard-failed; they now configure the shared
+  `advisory-meeting` event.
+
+______________________________________________________________________
+
 ## [Unreleased] — Documentation Reduction Pass
 
 ### Summary

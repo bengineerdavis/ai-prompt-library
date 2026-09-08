@@ -1,0 +1,26 @@
+event:
+  name: advisory-meeting
+  defaults: defaults.advisory-meeting.yaml
+
+participants:
+  roles:
+    - chair
+    - facilitator
+    - note-taker
+    - pragmatist
+    - systems-thinker
+    - service-provider-due-diligence-advisor
+
+# interaction-questioning and local-service-procurement live outside this
+# collection, so they are pulled in via include.context with collection-relative
+# paths (skills: only resolves files under panel-of-judges/skills/).
+skills:
+  - deep-research
+
+include:
+  context:
+    - ../questioning/SKILL.md
+    - ../services/local-service-procurement/SKILL.md
+  templates: false
+  factories: false
+  roadmap: false

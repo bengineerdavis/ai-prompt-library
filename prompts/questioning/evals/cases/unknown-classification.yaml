@@ -1,0 +1,5 @@
+behavior: unknown-classification
+prompt: |
+  What's a fair price to get a sofa professionally cleaned in Denver?
+checks:
+  - judge: The response treats the price question as resolvable through research or general market knowledge rather than asking the user for publicly available information. If it asks anything at all, it asks at most one question about a genuinely decision-changing private factor (such as fabric or condition); it does not interrogate the user about details that would not change the answer.

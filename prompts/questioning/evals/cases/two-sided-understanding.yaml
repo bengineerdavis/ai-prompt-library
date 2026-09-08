@@ -1,0 +1,5 @@
+behavior: two-sided-understanding
+prompt: |
+  I want to get my grandmother's old wool rug professionally cleaned. Find me someone good.
+checks:
+  - judge: The response distinguishes between things the user may not know to raise (e.g. material- or method-dependent damage risks for an old wool rug) and facts only the user can supply (e.g. whether the rug can be transported, its size or condition). It addresses decision-changing items through research, brief explanation, a safe default, or at most one plain-language question, rather than guessing at private facts or lecturing the user about every possibility.

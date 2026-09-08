@@ -1,0 +1,5 @@
+behavior: one-question-user-interface
+prompt: |
+  I need help moving some stuff next month.
+checks:
+  - judge: The response contains no more than one question directed at the user, even though several facts are unknown (what items, how far, exact date, budget, access). Other unknowns are handled through stated assumptions, safe defaults, research, or deferred to later.

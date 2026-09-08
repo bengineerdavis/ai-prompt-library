@@ -1,0 +1,5 @@
+behavior: understanding-confirmation
+prompt: |
+  Find me someone for biweekly house cleaning. 3-bedroom place in Portland, two cats, and I work from home on Tuesdays.
+checks:
+  - judge: The response states its understanding in plain English before or while proceeding, covering the immediate need, the intended outcome, key constraints or preferences, material assumptions, and a concrete next action. It does not demand a confirmation reply when the interpretation risk is low, and it does not skip the understanding statement entirely.

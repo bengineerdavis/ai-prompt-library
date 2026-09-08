@@ -1,0 +1,5 @@
+behavior: learning-handoffs
+prompt: |
+  This is the third session in a row where someone buying cleaning services didn't realize that a base cleaning price usually excludes stain treatment, and it changed which provider was actually cheapest. Please capture what we learned so future sessions handle this better.
+checks:
+  - judge: The response produces a structured, reusable learning record that identifies the trigger or observed pattern, the gap between the initial request and the underlying outcome, the question or default that would have helped, the decision impact, the outcome, the reusable lesson, and a proposed artifact or location where the improvement should live. It is not just a vague note that users should ask more questions.

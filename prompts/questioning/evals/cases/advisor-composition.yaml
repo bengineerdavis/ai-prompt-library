@@ -1,0 +1,6 @@
+behavior: advisor-composition
+prompt: |
+  We're running a panel session with a researcher, a pragmatist, and a service-provider due-diligence advisor about hiring a moving company. Together they've surfaced ten unknowns: the move date, distance, whether there's an elevator, the mover's insurance status, whether the user owns fragile items, parking permits, budget, packing help needed, stairs at the destination, and the user's tolerance for DIY packing. What should we ask the user?
+checks:
+  - judge: |
+      The response acts as the single controller of user-facing questioning. It selects exactly one highest-value question (or explains why none is needed right now) and routes the other unknowns to research, safe defaults, or deferred status with brief reasons. It does not present the user with a batch of questions.

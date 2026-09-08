@@ -1,0 +1,5 @@
+behavior: natural-language-first-discovery
+prompt: |
+  I need someone to help with a problem in my house.
+checks:
+  - judge: The response accepts the vague natural-language request as a valid starting point. It orients toward plausible problem/service categories and takes exactly one useful next move (a single plain-language question, a brief orientation plus one question, or a stated research step). It does not demand a completed intake form, technical scope, provider category, or specialist vocabulary from the user.

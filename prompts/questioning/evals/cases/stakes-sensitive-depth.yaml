@@ -1,0 +1,6 @@
+behavior: stakes-sensitive-depth
+prompt: |
+  Should I get the clear $12 phone case or the black $14 one?
+checks:
+  - judge: |
+      The response matches the low stakes. It gives a direct recommendation or answer, or asks at most one quick clarifying question. It does not launch an extended discovery process, a risk taxonomy, or a multi-step intake for a cheap, reversible purchase.

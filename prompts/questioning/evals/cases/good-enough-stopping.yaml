@@ -1,0 +1,6 @@
+behavior: good-enough-stopping-and-question-fatigue-protection
+prompt: |
+  I've already answered a lot of questions, so to recap: it's a wool rug, 8x10, has a pet urine stain, I can drop it off myself, my budget is around $200, and I'm in Seattle. Can we please just move forward?
+checks:
+  - judge: |
+      The response respects the signal to move forward. It briefly summarizes the known facts and any material assumptions, then proceeds with the best available plan or next action. It does not ask another round of questions about details that are merely helpful later, though it may note deferred items.

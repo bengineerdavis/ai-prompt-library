@@ -18,7 +18,7 @@ Describe the capability this skill provides.
 Focus on the problem it solves, not the mechanism.
 One short paragraph.
 
----
+______________________________________________________________________
 
 ## Invocation
 
@@ -30,7 +30,7 @@ Who else can invoke it (Chair, Trainer, event trigger):
 
 > `[SKILL-NAME — <Role> requested by <invoker>]` <reason>
 
----
+______________________________________________________________________
 
 ## Execution
 
@@ -47,7 +47,7 @@ What the role does in this step.
 How the skill returns its output.
 What format, what labels, what the principal or panel receives.
 
----
+______________________________________________________________________
 
 ## What this skill does NOT do
 
@@ -55,7 +55,7 @@ What format, what labels, what the principal or panel receives.
 - What the skill defers to other roles or human judgment.
 - What it will not fabricate or assert.
 
----
+______________________________________________________________________
 
 ## Notes
 

@@ -23,7 +23,7 @@ stating information from memory without verification.
 This skill enforces a discipline: **claim nothing you cannot source, and flag
 everything you are uncertain about.**
 
----
+______________________________________________________________________
 
 ## Invocation
 
@@ -32,20 +32,22 @@ Any role may invoke this skill:
 > `[DEEP-RESEARCH — <Role Name>]` <question or information gap in one sentence>
 
 Examples:
-> `[DEEP-RESEARCH — Tax Strategist]` What are the 2026 HSA contribution limits and catch-up rules?
+
+> `[DEEP-RESEARCH — Tax Strategist]` What are the 2026 HAS contribution limits and catch-up rules?
 > `[DEEP-RESEARCH — AI/Tech Advisor]` What is the historical drawdown range for AI/tech-heavy ETFs during the 2022 correction?
 > `[DEEP-RESEARCH — Wealth Planner]` What do Boglehead-aligned planners recommend for non-US allocation percentage in a 70-retirement portfolio?
 
 The event's **Specialist Trigger** for Deep Researcher may also activate this skill
 automatically when a key fact is missing and no researcher role is active.
 
----
+______________________________________________________________________
 
 ## Execution
 
 ### Step 1 — State the question precisely
 
 Restate the research question in one sentence with:
+
 - The specific fact, range, or comparison needed
 - The time horizon or recency requirement (if relevant)
 - The decision it will inform
@@ -55,6 +57,7 @@ Restate the research question in one sentence with:
 Try to answer from available context (pasted files, session history, prior findings).
 
 For each claim, tag it:
+
 - `[verified]` — found in a pasted source file or confirmed by the principal
 - `[confident]` — well-established, low risk of being wrong
 - `[uncertain]` — based on general knowledge, may be stale or context-dependent
@@ -73,10 +76,10 @@ The principal decides whether to pause and verify, proceed with `[uncertain]` ta
 Structure findings as:
 
 > **Finding:** <claim> `[verified|confident|uncertain|unknown]`
-> **Source:** <file name, session reference, or "general knowledge — verify">
+> **Source:** \<file name, session reference, or "general knowledge — verify">
 > **Relevance:** <one sentence on how this informs the current decision>
 
----
+______________________________________________________________________
 
 ## What this skill does NOT do
 
@@ -84,7 +87,7 @@ Structure findings as:
 - Does not assert `[verified]` for information not found in a pasted file or confirmed by the principal.
 - Does not replace a human research step for high-stakes decisions — it surfaces what is known and flags what is not.
 
----
+______________________________________________________________________
 
 ## Notes
 

@@ -17,34 +17,38 @@ skill:
 ## What this skill does
 
 When invoked, this skill runs a structured self-critique loop on:
+
 - A role's **output from the current session** (did I do my job well?), or
 - The role's **own definition file** (is my role well-designed?).
 
 It produces a scored audit and, if the score falls below threshold, generates
 a concrete improvement proposal the principal or trainer can accept, reject, or modify.
 
----
+______________________________________________________________________
 
 ## Invocation
 
 Any role may invoke this skill at any time using:
 
-> `[SELF-IMPROVE — <Role Name>]` <target: output | definition> <optional: reason>
+> `[SELF-IMPROVE — <Role Name>]` \<target: output | definition> \<optional: reason>
 
 Examples:
+
 > `[SELF-IMPROVE — Tax Strategist]` output — my contribution to agenda item 3 felt incomplete.
 > `[SELF-IMPROVE — Pragmatist]` definition — I'm not sure my "Does not do" section is specific enough.
 
 The Chair or Trainer may also invoke this skill on behalf of a role:
+
 > `[SELF-IMPROVE — Pragmatist requested by Trainer]` definition
 
----
+______________________________________________________________________
 
 ## Execution
 
 ### Step 1 — Identify the target
 
 State clearly what is being evaluated:
+
 - For **output**: quote or summarize the specific contribution being reviewed.
 - For **definition**: reference the role file by name and version.
 
@@ -54,27 +58,28 @@ Score the target 1–10 on each criterion. Use severity labels to weight finding
 
 **For output:**
 
-| Criterion | Weight | Score /10 | Notes |
-|---|---|---|---|
-| Role fidelity | 30% | | Did the output stay within the role's purpose and boundaries? |
-| Completeness | 25% | | Were all expected contributions made? |
-| Clarity | 25% | | Is the output actionable and unambiguous? |
-| Epistemic honesty | 20% | | Were uncertainty, caveats, and tradeoffs surfaced? |
+| Criterion         | Weight | Score /10 | Notes                                                         |
+| ----------------- | ------ | --------- | ------------------------------------------------------------- |
+| Role fidelity     | 30%    |           | Did the output stay within the role's purpose and boundaries? |
+| Completeness      | 25%    |           | Were all expected contributions made?                         |
+| Clarity           | 25%    |           | Is the output actionable and unambiguous?                     |
+| Epistemic honesty | 20%    |           | Were uncertainty, caveats, and tradeoffs surfaced?            |
 
 **For definition:**
 
-| Criterion | Weight | Score /10 | Notes |
-|---|---|---|---|
-| Template conformance | 30% | | All required sections present and correctly structured? |
-| Portability | 25% | | No engagement-specific content baked in? |
-| Negative-space clarity | 25% | | Are the "Does not do" boundaries specific and enforceable? |
-| Internal consistency | 20% | | Does the role's stance align with its responsibilities and limits? |
+| Criterion              | Weight | Score /10 | Notes                                                              |
+| ---------------------- | ------ | --------- | ------------------------------------------------------------------ |
+| Template conformance   | 30%    |           | All required sections present and correctly structured?            |
+| Portability            | 25%    |           | No engagement-specific content baked in?                           |
+| Negative-space clarity | 25%    |           | Are the "Does not do" boundaries specific and enforceable?         |
+| Internal consistency   | 20%    |           | Does the role's stance align with its responsibilities and limits? |
 
 **Minimum passing score: 7.5 weighted average.**
 
 ### Step 3 — Produce findings
 
 For each criterion scoring below 8:
+
 - Name the gap in one sentence.
 - Label it `[light]`, `[moderate]`, `[serious]`, or `[red-line]`.
 - Propose a specific fix (not just a direction).
@@ -87,22 +92,24 @@ Present the principal (or Trainer, if active) with:
 > **Gaps found: N**
 >
 > Options:
+>
 > - `[A]` Accept as-is (score is passing; gaps are noted only)
 > - `[B]` Apply proposed fixes now and return revised version
 > - `[C]` Defer to a future session (log as open improvement item)
 
 Do not apply changes without explicit `[B]` confirmation.
 
----
+______________________________________________________________________
 
 ## Output
 
 If `[B]` is chosen:
+
 - Return the revised output or definition with changes marked using `→` inline.
 - Return a changelog entry: what changed, why, and the version bump.
 - If the target is a definition file, flag whether the change requires a registry update.
 
----
+______________________________________________________________________
 
 ## Notes
 

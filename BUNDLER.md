@@ -121,12 +121,12 @@ If the directory does not exist, the bundler fails with an error instead of gues
 For a structured collection, the bundler assembles files in this order:
 
 1. `context/charter.md` or `context/meetings-charter.md`
-2. `events/<event>/event.md`
-3. `events/<event>/preferences.md` if present
-4. files listed in `include.context`
-5. role files from `roles/`, `roles/judges/`, or `roles/specialists/`
-6. skill files from `skills/`
-7. `events/<event>/session-prompt.md` or `templates/meeting-session-prompt.md`
+1. `events/<event>/event.md`
+1. `events/<event>/preferences.md` if present
+1. files listed in `include.context`
+1. role files from `roles/`, `roles/judges/`, or `roles/specialists/`
+1. skill files from `skills/`
+1. `events/<event>/session-prompt.md` or `templates/meeting-session-prompt.md`
 
 Missing optional files are skipped with warnings. Missing role or skill files also warn rather than stopping the bundle.
 
@@ -173,13 +173,13 @@ Use `-o` to choose a custom output path.
 
 ## Flags
 
-| Flag | Description |
-|---|---|
-| `-p`, `--collection` | Collection name under `prompts/` |
-| `-c`, `--config` | Path to a bundle config YAML |
-| `-o`, `--output` | Write to a custom output file |
-| `--dry-run` | Print files that would be included without writing output |
-| `--list` | List collections and available bundle configs |
+| Flag                 | Description                                               |
+| -------------------- | --------------------------------------------------------- |
+| `-p`, `--collection` | Collection name under `prompts/`                          |
+| `-c`, `--config`     | Path to a bundle config YAML                              |
+| `-o`, `--output`     | Write to a custom output file                             |
+| `--dry-run`          | Print files that would be included without writing output |
+| `--list`             | List collections and available bundle configs             |
 
 ## Naming guidance
 

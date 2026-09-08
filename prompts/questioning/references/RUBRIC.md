@@ -8,12 +8,15 @@ Applies to: interaction-questioning and related clarification skills
 Judge three dimensions:
 
 1. Final output quality
+
 - Did the questioning help the final answer become more accurate, more useful, or better fit to the user's need?
 
 2. Convergence to an actionable answer
+
 - Did the skill reach a point where the next step or final answer was clear enough to act on?
 
 3. Efficiency
+
 - Judge this only after scoring quality and convergence separately.
 - Efficiency means the skill reached a strong answer with reasonable questioning cost.
 - Fewer questions is not always better if quality drops.
@@ -24,6 +27,7 @@ Also judge whether the skill helped the user define a clearly agreed-upon goal f
 This matters most in exploratory sessions where the first request may not match the answer the user actually needs.
 
 Questions:
+
 - Did the skill identify the real session goal, not just the first wording of the request?
 - Did the questions help the user resolve internal uncertainty or self-disagreement?
 - Did the skill move from exploratory discussion to a clear shared goal in plain language?
@@ -34,27 +38,32 @@ Questions:
 ## Questions to ask
 
 ### Quality
+
 - Did the skill identify the most important unknowns early?
 - Did the questions change the quality of the final result in a meaningful way?
 - Did it avoid irrelevant or low-value questions?
 
 ### Convergence
+
 - Did the questioning sequence move toward a usable answer?
 - Did the skill stop once the answer was actionable?
 - Did it avoid over-questioning?
 
 ### Efficiency
+
 - Was the number of questions justified by the gain in quality?
 - Did the skill switch between direct questioning and deeper branching at the right time?
 - Did internal complexity stay hidden unless explicitly requested?
 
 ### Confidence and explanation
+
 - In normal mode, did the skill keep confidence and reasoning mostly hidden?
 - In verbose mode, did it show confidence only at goal-inference, confirmation, or branch-selection decisions that could materially change the path?
 - When verbose confidence was shown, did it use high, medium, or low with a short plain-language explanation?
 - In deep-trace mode, did it expose enough reasoning detail to debug the questioning path, confidence shifts, and recovery steps?
 
 ### Session goal
+
 - Did the skill help define the session goal early enough?
 - Did it notice when the goal changed during the session?
 - Did it avoid locking too early onto the user's first phrasing?
@@ -64,6 +73,7 @@ Questions:
 ## Specific failure modes
 
 Flag when:
+
 - the skill asks obvious questions too late
 - the skill opens too many branches without pruning
 - the skill keeps asking after the answer is already actionable
@@ -80,6 +90,7 @@ Flag when:
 
 Also apply the generic plain-language checks to the questioning skill itself.
 Pay special attention to:
+
 - branch terminology
 - state labels
 - mode names

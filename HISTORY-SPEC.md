@@ -27,19 +27,19 @@ history/<library-key>/<subcollection>/<event-type>/<thread-key>-<session-key>/
 
 ## Boundary
 
-| Stays in the library object | Goes in the history object |
-|---|---|
-| `events/<event-type>/event.md` | `minutes.md` |
-| `events/<event-type>/preferences.md` | `handoff.md` |
-| `events/<event-type>/session-prompt.md` | `session.md` |
-| `events/<event-type>/bundles/bundle.yaml` | `meta.json` |
+| Stays in the library object                         | Goes in the history object          |
+| --------------------------------------------------- | ----------------------------------- |
+| `events/<event-type>/event.md`                      | `minutes.md`                        |
+| `events/<event-type>/preferences.md`                | `handoff.md`                        |
+| `events/<event-type>/session-prompt.md`             | `session.md`                        |
+| `events/<event-type>/bundles/bundle.yaml`           | `meta.json`                         |
 | `events/<event-type>/bundles/bundle.<variant>.yaml` | session folder metadata and records |
-| `context/*.md` | |
-| `roles/**/*.md` | |
-| `skills/*.md` | |
-| `templates/*.md` | |
-| `handoff-context.md` | |
-| `ROADMAP.md` | |
+| `context/*.md`                                      |                                     |
+| `roles/**/*.md`                                     |                                     |
+| `skills/*.md`                                       |                                     |
+| `templates/*.md`                                    |                                     |
+| `handoff-context.md`                                |                                     |
+| `ROADMAP.md`                                        |                                     |
 
 ## Layout
 
@@ -57,13 +57,13 @@ history/ai-prompt-library/panel-of-judges/advisory-meeting/main-2026-07-16-001/
 
 ### Path parts
 
-| Part | Meaning | Example |
-|---|---|---|
-| `library-key` | Source library namespace | `ai-prompt-library` |
-| `subcollection` | Prompt project or collection | `panel-of-judges` |
-| `event-type` | Reusable event type used in the session | `advisory-meeting` |
-| `thread-key` | Continuity line for related sessions | `main`, `research-branch` |
-| `session-key` | Sortable unique key for one run | `2026-07-16-001` |
+| Part            | Meaning                                 | Example                   |
+| --------------- | --------------------------------------- | ------------------------- |
+| `library-key`   | Source library namespace                | `ai-prompt-library`       |
+| `subcollection` | Prompt project or collection            | `panel-of-judges`         |
+| `event-type`    | Reusable event type used in the session | `advisory-meeting`        |
+| `thread-key`    | Continuity line for related sessions    | `main`, `research-branch` |
+| `session-key`   | Sortable unique key for one run         | `2026-07-16-001`          |
 
 Recommended session key format:
 
@@ -73,12 +73,12 @@ YYYY-MM-DD-NNN
 
 ## Required artifacts
 
-| File | Required | Purpose |
-|---|---|---|
-| `minutes.md` | Yes | Combined session record with notes, conclusions, decisions, takeaways, and observations |
-| `handoff.md` | Yes | Continuity summary for the next session or next owner |
-| `session.md` | Yes | Exact final bundled prompt used for the run |
-| `meta.json` | Yes | Machine-readable metadata snapshot |
+| File         | Required | Purpose                                                                                 |
+| ------------ | -------- | --------------------------------------------------------------------------------------- |
+| `minutes.md` | Yes      | Combined session record with notes, conclusions, decisions, takeaways, and observations |
+| `handoff.md` | Yes      | Continuity summary for the next session or next owner                                   |
+| `session.md` | Yes      | Exact final bundled prompt used for the run                                             |
+| `meta.json`  | Yes      | Machine-readable metadata snapshot                                                      |
 
 ### Controlled artifact rule
 
@@ -104,8 +104,8 @@ That exact final prompt is then saved in the history object as `session.md`.
 ### New session
 
 1. Choose the `library-key`, `subcollection`, `event-type`, `thread-key`, and `session-key`.
-2. Determine the `bundle-key` and exact bundle path used.
-3. Create the session directory:
+1. Determine the `bundle-key` and exact bundle path used.
+1. Create the session directory:
 
 ```text
 history/<library-key>/<subcollection>/<event-type>/<thread-key>-<session-key>/
@@ -116,43 +116,43 @@ history/<library-key>/<subcollection>/<event-type>/<thread-key>-<session-key>/
    - `handoff.md`
    - `session.md`
    - `meta.json`
-5. Paste the exact bundled final prompt into `session.md`.
-6. Write the combined session record into `minutes.md`.
-7. Write the continuation summary into `handoff.md`.
-8. Fill in `meta.json`.
+1. Paste the exact bundled final prompt into `session.md`.
+1. Write the combined session record into `minutes.md`.
+1. Write the continuation summary into `handoff.md`.
+1. Fill in `meta.json`.
 
 ### Continue a thread
 
 1. Reuse the same `thread-key`.
-2. Create a new `session-key`.
-3. Create a new session directory.
-4. Use the latest `handoff.md` and relevant prior `minutes.md` as continuation context.
-5. Save the new session artifacts in the new directory.
+1. Create a new `session-key`.
+1. Create a new session directory.
+1. Use the latest `handoff.md` and relevant prior `minutes.md` as continuation context.
+1. Save the new session artifacts in the new directory.
 
 ### Branch a thread
 
 1. Create a new `thread-key`.
-2. Record the source thread in `meta.json`.
-3. Create the new session directory under the new thread key.
-4. Carry over the relevant handoff and prior session context as needed.
+1. Record the source thread in `meta.json`.
+1. Create the new session directory under the new thread key.
+1. Carry over the relevant handoff and prior session context as needed.
 
 ## Metadata
 
 Recommended minimum fields for `meta.json`:
 
-| Field | Purpose |
-|---|---|
-| `library_key` | Source library namespace |
-| `subcollection` | Prompt project or collection |
-| `event_type` | Event used for the session |
-| `thread_key` | Continuity line |
-| `session_key` | Unique sortable session id |
-| `bundle_key` | Selected bundle variant or `default` |
-| `bundle_path` | Relative path to the source bundle file |
-| `created_at` | Timestamp for the session record |
-| `artifact_types` | Controlled list of artifacts present |
-| `parent_thread_key` | Optional source thread when branching |
-| `continued_from_session_key` | Optional prior session reference |
+| Field                        | Purpose                                 |
+| ---------------------------- | --------------------------------------- |
+| `library_key`                | Source library namespace                |
+| `subcollection`              | Prompt project or collection            |
+| `event_type`                 | Event used for the session              |
+| `thread_key`                 | Continuity line                         |
+| `session_key`                | Unique sortable session id              |
+| `bundle_key`                 | Selected bundle variant or `default`    |
+| `bundle_path`                | Relative path to the source bundle file |
+| `created_at`                 | Timestamp for the session record        |
+| `artifact_types`             | Controlled list of artifacts present    |
+| `parent_thread_key`          | Optional source thread when branching   |
+| `continued_from_session_key` | Optional prior session reference        |
 
 ## Starter structures
 
@@ -193,10 +193,10 @@ events/<event-type>/
 A future AI tool should be able to read this spec and create:
 
 1. a new prompt project,
-2. a new event type,
-3. starter bundle files,
-4. the required history artifacts,
-5. and a clean boundary between history and reusable prompt source.
+1. a new event type,
+1. starter bundle files,
+1. the required history artifacts,
+1. and a clean boundary between history and reusable prompt source.
 
 ## Appendix
 

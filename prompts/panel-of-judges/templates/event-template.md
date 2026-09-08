@@ -13,7 +13,7 @@ Describe what this interaction type is for.
 
 ## Event class
 
-- <Generation|Review|Selection|Resolution|Meta>
+- \<Generation|Review|Selection|Resolution|Meta>
 
 ## Goals
 
@@ -23,9 +23,9 @@ Describe what this interaction type is for.
 
 ## Authority
 
-- Final authority: <human / named role / shared mechanism>
+- Final authority: \<human / named role / shared mechanism>
 - Overrides: <who may explicitly override objections>
-- Escalation: <how unresolved issues are deferred, logged, or handed off>
+- Escalation: \<how unresolved issues are deferred, logged, or handed off>
 
 ## Active roles
 
@@ -42,11 +42,11 @@ Describe what this interaction type is for.
 ## Flow
 
 1. State the task, scope, and constraints.
-2. Generate, review, compare, or refine according to the event type.
-3. Surface objections, tradeoffs, and open questions.
-4. Negotiate, synthesize, or narrow options.
-5. Decide, defer, or record disagreement.
-6. Capture outputs and follow-up work.
+1. Generate, review, compare, or refine according to the event type.
+1. Surface objections, tradeoffs, and open questions.
+1. Negotiate, synthesize, or narrow options.
+1. Decide, defer, or record disagreement.
+1. Capture outputs and follow-up work.
 
 ## Objection procedure
 

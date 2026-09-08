@@ -1,7 +1,5 @@
 # Events, Roles, and Objections
 
-# 
-
 # Status: rough draft for capture now, refactor later.
 
 ## Core model

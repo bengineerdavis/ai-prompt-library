@@ -1,4 +1,3 @@
-
 <!--
 skill:
   name: interview
@@ -26,7 +25,7 @@ It is especially useful for closing feedback phases, role self-reflection, and g
 
 Any role may invoke this skill using Markdown:
 
-> `[INTERVIEW — <Interviewer Role>]` target: <Role or "panel">, topic: <process | role | decision | factory>, goal: <one-sentence aim>
+> `[INTERVIEW — <Interviewer Role>]` target: \<Role or "panel">, topic: \<process | role | decision | factory>, goal: <one-sentence aim>
 
 Examples:
 

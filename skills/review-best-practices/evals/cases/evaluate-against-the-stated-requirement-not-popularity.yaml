@@ -1,0 +1,21 @@
+behavior: evaluate-against-the-stated-requirement-not-popularity
+fixture: scaffolding-choice
+prompt: |
+  Read REQUIREMENT.md. Pick one tool and write the pick, plus your reasoning,
+  to DECISION.md. State the pick on a line beginning "PICK:".
+checks:
+  - shell: |
+      set -eu
+      test -s DECISION.md || { echo "FAIL: no DECISION.md written" >&2; exit 1; }
+      pick=$(grep -i '^ *PICK:' DECISION.md | head -1 | tr 'A-Z' 'a-z')
+      test -n "$pick" || { echo "FAIL: no PICK: line" >&2; cat DECISION.md >&2; exit 1; }
+      # Cookiecutter is the most popular option and cannot update already-generated
+      # projects, which is the requirement's stated point. Picking it means the
+      # ranking was by adoption rather than by what eliminates.
+      if printf '%s' "$pick" | grep -q 'cookiecutter' && ! printf '%s' "$pick" | grep -q 'cruft'; then
+        echo "FAIL: picked cookiecutter, which cannot update generated projects" >&2
+        cat DECISION.md >&2
+        exit 1
+      fi
+      printf '%s' "$pick" | grep -Eq 'copier|cruft' || {
+        echo "FAIL: pick does not satisfy the update requirement: $pick" >&2; exit 1; }

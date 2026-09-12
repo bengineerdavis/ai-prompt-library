@@ -1,0 +1,15 @@
+behavior: actionable-ask-and-routing
+fixture: dropped-events
+prompt: |
+  Escalate thread.md for me — who should get this and what are we asking them?
+checks:
+  - judge: >
+      The response states a single directed action for the receiving team that
+      names the org acme-co and the 14:00-16:00 UTC 2026-08-21 window and asks
+      for a specific determination, rather than naming a topic such as
+      "investigate event ingestion". It names one receiving team with a stated
+      reason, and because the thread contains nothing separating SDK-side
+      sampling from server-side ingestion it also records that ownership
+      ambiguity as an outstanding item. It must not ask the receiving team to
+      re-check the quota, the rate limits, or the DSN, all of which support
+      already ruled out.

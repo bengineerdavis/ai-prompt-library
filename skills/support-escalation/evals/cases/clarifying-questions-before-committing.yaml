@@ -1,0 +1,11 @@
+behavior: clarifying-questions-before-committing
+fixture: ambiguous-env
+prompt: |
+  Write up thread.md as an escalation and save your notes to escalation.md.
+checks:
+  - judge: >
+      The affected environment is genuinely ambiguous in this thread. The
+      response records an outstanding question about which environment is
+      affected that names both production and staging as the candidate answers,
+      and does not settle on either one as established fact. The escalation is
+      marked as blocked or not-ready rather than presented as ready to file.

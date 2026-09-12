@@ -1,0 +1,19 @@
+behavior: dual-output-format
+fixture: complete-thread
+setup: |
+  git init -q . && git add -A && git commit -qm baseline
+prompt: |
+  thread.md is a support ticket I need to hand to engineering. Write it up for me.
+checks:
+  # Invariant guard, not a proof of work: `skillet eval --dry` flags this as
+  # passing on a pristine workspace, which is the point. The ticket is a derived
+  # artifact that must not be retained, so leaving no file behind is the required
+  # outcome. The judge below is what proves the agent actually did something.
+  - shell: test -z "$(git status --porcelain -- . ':(exclude).claude' ':(exclude)AGENTS.md')"
+  - judge: >
+      The response contains a parseable JSON object carrying all of the keys
+      severity, severity_rationale, title, summary, customer_impact, timeline,
+      evidence, attachments, steps_taken, reproduction, unknowns, open_questions,
+      ask, routing and readiness, and also contains a human-readable Markdown
+      ticket whose title, severity and customer impact state the same values as
+      the corresponding JSON fields rather than differing from them.

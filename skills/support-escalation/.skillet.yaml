@@ -1,0 +1,32 @@
+# Default harness for eval trials. Deliberately NOT the model that authored
+# spec.md and evals/cases/ — those were written by Opus 5, so grading them with
+# Opus would be the author marking their own homework.
+#
+# This is also required rather than optional: skillet's built-in default is the
+# `codex` harness, and picking a harness explicitly is what makes the cross-run
+# protocol below reproducible.
+harness: claude:sonnet
+
+concurrency: 4
+
+# Direct execution. Switch to `docker` before running any eval whose fixtures or
+# skill text came from outside this repo.
+sandbox: none
+
+# ── Judge/subject collision and the cross-run protocol ───────────────────────
+#
+# skillet 1.7.0 has no judge-model override. worker.js builds the judge with
+# `runHarness(cfg.harness, judgeDir, …)` — the same harness AND the same model as
+# the trial, differing only by a fresh temp dir. So any single run has the model
+# grading its own output, and `harness:` above cannot fix that on its own.
+#
+# Until skillet grows a judge-harness key, run the suite twice under independent
+# harnesses and diff the results. Agreement is evidence; disagreement localises
+# which behaviours are model-sensitive rather than genuinely passing:
+#
+#   skillet eval --harness claude:sonnet --out results/sonnet
+#   skillet eval --harness codex         --out results/codex
+#
+# Treat any behaviour that passes under one harness and fails under the other as
+# unproven, not as a 50% pass. `results/` is scratch — it holds trial transcripts
+# derived from the fixtures, so it must not be committed.

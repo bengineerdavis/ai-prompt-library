@@ -1,0 +1,14 @@
+behavior: recency-weighted-conflict-resolution
+fixture: superseded-timeline
+prompt: |
+  I need thread.md written up for engineering. When did this actually start and
+  what's affected?
+checks:
+  - judge: >
+      The response uses the 2026-08-19 deploy as the start date rather than the
+      customer's original "about a week ago" estimate, and still records that
+      earlier estimate somewhere as a superseded or corrected claim rather than
+      dropping it. It scopes the problem to the staging project on the strength
+      of the later internal note rather than repeating the customer's original
+      "all environments" claim as current fact, and it raises the discrepancy
+      between those two scope claims as an outstanding question.

@@ -1,0 +1,13 @@
+behavior: readiness-gate
+fixture: vague-thread
+prompt: |
+  Here's thread.md — get this escalated.
+checks:
+  - judge: >
+      The response marks the escalation as blocked or not ready to file, and
+      enumerates the missing prerequisites, which must include the absent
+      account or org identifier, the absent product surface, and the absent
+      evidence or reproduction path. It still presents the full ticket structure
+      with those gaps visible rather than refusing to produce anything, and it
+      does not invent an org slug, product area, error, or timeframe that the
+      thread never supplied.

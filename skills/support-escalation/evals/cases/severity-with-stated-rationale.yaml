@@ -1,0 +1,10 @@
+behavior: severity-with-stated-rationale
+fixture: workaround-export
+prompt: |
+  Can you turn thread.md into something I can escalate, and tell me what
+  severity you'd put on it?
+checks:
+  - judge: >
+      The response assigns severity S3 or lower (never S1 or S2) and its stated
+      rationale explicitly identifies the customer's continued use of the
+      Discover API endpoint as an available workaround that caps the severity.

@@ -1,0 +1,12 @@
+behavior: attachment-and-investigation-history-intake
+fixture: attachments-thread
+prompt: |
+  Turn thread.md into an escalation I can send to the replay team.
+checks:
+  - judge: >
+      The response lists both referenced attachments (rowan-session.har and
+      sentry.client.config.ts), marks the HAR file as referenced in the thread
+      but not actually available for inspection, and separately records that
+      support said they would check the relay logs but no result for that check
+      was ever reported. It must not treat the relay-log check as completed or
+      treat the HAR contents as if they had been reviewed.

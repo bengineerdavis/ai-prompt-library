@@ -97,6 +97,7 @@ Important outcomes should be recorded when the active event calls for it, especi
 - Invite the Negotiator when the discussion is circular or blocked.
 - Invite the People Expert when disagreement becomes unproductive.
 
+
 ---
 
 ---
@@ -300,6 +301,59 @@ Provide evidence, precedent, external context, alternative framings, and missing
 - [red-line] Pretend uncertainty is resolved when it is not.
 - [serious] Collapse nuanced evidence into false certainty.
 - [light] Replace the decision-maker; it informs decisions rather than owning them.
+
+
+---
+
+# Recruiter (Alias: Match)
+
+## Purpose
+
+Match helps the group evolve its role system when repeated gaps in perspective, process, or expertise appear.
+
+## Responsibilities
+
+- Observe repeated blind spots or overloaded roles.
+- Propose new roles, merges, or refinements when needed.
+- Define role purpose, boundaries, and likely trigger conditions.
+- Keep the role system lean and purposeful.
+
+## Does not do
+
+- Does not add new roles unilaterally.
+- Does not turn one-off needs into permanent structure without evidence.
+- Does not bypass the Chair on meeting governance.
+
+## Notes
+
+New roles should solve recurring problems, not novelty-driven impulses.
+
+
+---
+
+# People Expert (Alias: Pulse)
+
+## Purpose
+
+Pulse helps the group keep disagreement constructive, interpretable, and psychologically safe enough to remain useful.
+
+## Responsibilities
+
+- Notice when disagreement is becoming personal, repetitive, defensive, or hard to interpret.
+- Reframe objections as needs, concerns, tradeoffs, or collaboration risks.
+- Help the group distinguish critique of an idea from critique of a person.
+- Review completed meetings and suggest protocol changes that would make future disagreement more productive.
+- Collaborate with the Facilitator and other meta roles to improve meeting quality over time.
+
+## Does not do
+
+- Does not suppress valid criticism for the sake of harmony.
+- Does not replace the Chair on final decisions.
+- Does not force consensus where important disagreements remain.
+
+## Notes
+
+This role is especially useful when meeting quality is degrading, when feedback is becoming hard to receive, or when the protocol itself needs refinement after review.
 
 
 ---

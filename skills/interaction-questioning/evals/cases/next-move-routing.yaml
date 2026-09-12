@@ -1,0 +1,5 @@
+behavior: next-move-routing
+prompt: |
+  I need a deep clean of my 2-bedroom apartment in Austin before next Friday. Budget is under $300 and the provider must be insured. Give me a plan for booking someone.
+checks:
+  - judge: The response recognizes the request is already actionable and proceeds with a concrete plan or research steps instead of opening with clarifying questions. Any remaining unknowns are handled as stated assumptions, safe defaults, or deferred items rather than interrogation.

@@ -1,0 +1,5 @@
+behavior: assess-practical-effect
+prompt: |
+  A major earthquake occurred overseas. I have no travel, family, business, supply, or financial connection to the region. Does this change anything I should do this week?
+checks:
+  - judge: The response explicitly tests for a realistic personal exposure path, recommends no action or very limited monitoring because none is established, avoids magnifying a dramatic event into a personal threat, explains why stronger actions are not justified, and gives a concrete condition that would warrant reconsideration.

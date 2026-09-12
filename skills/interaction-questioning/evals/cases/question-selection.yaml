@@ -1,0 +1,5 @@
+behavior: question-selection
+prompt: |
+  I want to hire someone to take care of my yard. Honestly I mostly just don't want to think about it anymore.
+checks:
+  - judge: If the response asks a question, it targets a goal-shaping or decision-changing issue (e.g. what outcome the user wants from the service, scope of ongoing maintenance versus one-time cleanup) rather than low-level implementation details or equipment preferences. The response reflects that the user's stated priority is not having to manage the service.

@@ -1,0 +1,5 @@
+behavior: match-the-task
+prompt: |
+  Summarize this supplied article in 4–5 sentences. The article reports that the city council approved its 2027 meeting calendar, lists the meeting dates, and links to the official calendar. I only need the summary.
+checks:
+  - judge: The response gives a faithful concise summary of the supplied material and does not add an unnecessary fact-check, personal action plan, investigation, or generic caveat section. It may briefly attribute the article, but it does not invent facts.

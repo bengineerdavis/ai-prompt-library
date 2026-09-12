@@ -22,6 +22,7 @@ The Analysis skill examines one or more meeting artifacts and turns them into st
 It is designed for self-reflection, process review, role evaluation, and factory-aware follow-up.
 
 Typical inputs include:
+
 - current chat context;
 - meeting minutes;
 - process takeaways;
@@ -32,7 +33,7 @@ Typical inputs include:
 
 Any role may invoke this skill in Markdown:
 
-> `[ANALYSIS — <Role Name>]` scope: <chat | minutes | handoffs | combined>, goal: <one-sentence analysis question>
+> `[ANALYSIS — <Role Name>]` scope: \<chat | minutes | handoffs | combined>, goal: <one-sentence analysis question>
 
 Examples:
 
@@ -47,6 +48,7 @@ Examples:
 
 Name what is being analyzed.
 Examples:
+
 - current chat only;
 - current minutes only;
 - chat + minutes;
@@ -56,6 +58,7 @@ Examples:
 ### Step 2 — Extract the key structure
 
 Summarize the core structure of what happened:
+
 - goal or agenda;
 - active roles;
 - main decisions, deferrals, and open questions;
@@ -76,6 +79,7 @@ For each meaningful observation, classify it as one of:
 ### Step 4 — Rate confidence and reuse value
 
 For each finding, add:
+
 - **Confidence:** high | medium | low
 - **Reuse value:** high | medium | low
 - **Recommended next step:** note only | monitor | handoff candidate | role-review | single update | batch update
@@ -98,6 +102,7 @@ Return findings in Markdown using a format like:
 ```
 
 If appropriate, also include:
+
 - a short summary of key takeaways;
 - a shortlist of candidate factory handoffs;
 - or a note that no structural follow-up is currently warranted.

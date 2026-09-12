@@ -21,8 +21,8 @@ It explains how reusable events, roles, skills, bundles, sessions, and saved dat
 The library should support three related activities:
 
 1. defining reusable interaction types,
-2. combining those reusable parts into sessions,
-3. improving the library itself over time.
+1. combining those reusable parts into sessions,
+1. improving the library itself over time.
 
 To do that well, the collection needs a stable structural model.
 
@@ -209,15 +209,15 @@ panel-of-judges/
 
 Use these default rules.
 
-| Artifact type | Default location | Rationale |
-|---|---|---|
-| Event protocol | `events/<event-type>/` | Defines a reusable interaction type |
-| Event bundle | `events/<event-type>/bundles/` | Configures how that event is run |
-| Event session data | `events/<event-type>/data/` | Stores outputs from real runs of that event |
-| Role | `roles/` or role subdirectories | Reusable participant definition |
-| Skill | `skills/` | Reusable capability |
-| Template | `templates/` | Reusable authoring scaffold |
-| Shared context | `context/` | Collection-wide guidance or reference |
+| Artifact type      | Default location                | Rationale                                   |
+| ------------------ | ------------------------------- | ------------------------------------------- |
+| Event protocol     | `events/<event-type>/`          | Defines a reusable interaction type         |
+| Event bundle       | `events/<event-type>/bundles/`  | Configures how that event is run            |
+| Event session data | `events/<event-type>/data/`     | Stores outputs from real runs of that event |
+| Role               | `roles/` or role subdirectories | Reusable participant definition             |
+| Skill              | `skills/`                       | Reusable capability                         |
+| Template           | `templates/`                    | Reusable authoring scaffold                 |
+| Shared context     | `context/`                      | Collection-wide guidance or reference       |
 
 ## Sessions and saved data
 
@@ -332,13 +332,13 @@ The goal is to keep event-local data relatively flat while preserving enough fil
 
 Use these conventions by default.
 
-| Part | Rule | Example |
-|---|---|---|
-| Event type | Use the canonical event directory name | `advisory-meeting` |
-| Session id | Use a sortable stable id | `001`, `2026-07-16-001` |
-| Bundle key | Use `default` or variant suffix | `default`, `with-research` |
-| Artifact kind | Use a singular stable label | `minutes`, `notes`, `handoff`, `followup` |
-| Extension | Use markdown for now | `.md` |
+| Part          | Rule                                   | Example                                   |
+| ------------- | -------------------------------------- | ----------------------------------------- |
+| Event type    | Use the canonical event directory name | `advisory-meeting`                        |
+| Session id    | Use a sortable stable id               | `001`, `2026-07-16-001`                   |
+| Bundle key    | Use `default` or variant suffix        | `default`, `with-research`                |
+| Artifact kind | Use a singular stable label            | `minutes`, `notes`, `handoff`, `followup` |
+| Extension     | Use markdown for now                   | `.md`                                     |
 
 Default filename formula:
 
@@ -359,10 +359,10 @@ advisory-meeting-002-with-research-handoff-v2.md
 Use these rules when deciding where something belongs.
 
 1. If it defines interaction flow and a categorical goal, it is probably an **event**.
-2. If it defines a reusable participant perspective, it is probably a **role**.
-3. If it defines a reusable capability or method, it is probably a **skill**.
-4. If it assembles reusable artifacts into a runnable setup, it is probably a **bundle**.
-5. If it records one actual run or follow-up from that run, it is probably **data**.
+1. If it defines a reusable participant perspective, it is probably a **role**.
+1. If it defines a reusable capability or method, it is probably a **skill**.
+1. If it assembles reusable artifacts into a runnable setup, it is probably a **bundle**.
+1. If it records one actual run or follow-up from that run, it is probably **data**.
 
 ## Factory use
 

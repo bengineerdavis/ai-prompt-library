@@ -164,7 +164,7 @@ Include those files in new sessions through `include.context` paths relative to 
 ## Use model
 
 1. Pick an event type.
-2. Select the roles needed for that event.
-3. State the task, goal, and context.
-4. Let roles generate, critique, compare, refine, or evaluate.
-5. Record decisions, tradeoffs, and follow-up work.
+1. Select the roles needed for that event.
+1. State the task, goal, and context.
+1. Let roles generate, critique, compare, refine, or evaluate.
+1. Record decisions, tradeoffs, and follow-up work.

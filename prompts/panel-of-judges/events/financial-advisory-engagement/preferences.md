@@ -5,14 +5,14 @@
 > Do NOT bake preferences into event.md or role files — keep them here so they
 > can be updated without touching any other file.
 
----
+______________________________________________________________________
 
 ## Identity and location
 
 - Based in Concord, California, US.
 - Bay Area income range (~120k household).
 
----
+______________________________________________________________________
 
 ## Planning philosophy
 
@@ -21,7 +21,7 @@
 - Values liquidity and structural diversification over chasing yield.
 - Actively concerned about US political and monetary instability; wants non-US exposure and currency diversification as a structural hedge, not a short-term trade.
 
----
+______________________________________________________________________
 
 ## Retirement and income goals
 
@@ -30,7 +30,7 @@
 - Lifestyle target in today's dollars: ~$100k/year equivalent purchasing power in retirement.
 - Income while working: approximately low-to-mid six figures (Bay Area).
 
----
+______________________________________________________________________
 
 ## Liquidity and emergency reserves
 
@@ -38,19 +38,19 @@
   - Bucket 1 (0–12 months): FDIC-insured cash, money market, or very short Treasuries — immediately accessible, no loss risk.
   - Bucket 2 (years 2–3, up to 5): short-duration, high-quality bond funds or CDs to refill Bucket 1.
   - Bucket 3 (long-term): diversified stock and bond index funds for growth.
-- Emergency fund goal: eventually covers HSA deductibles + 1–2 full years of household expenses.
+- Emergency fund goal: eventually covers HAS deductibles + 1–2 full years of household expenses.
 - Because of the size required, the emergency fund must be in tax-advantaged or at minimum inflation-beating instruments.
 - Existing assets include: I-Bonds (treated as Bucket 2/3 inflation hedge), consolidated 401k(s), small cash position.
 
----
+______________________________________________________________________
 
 ## Tax minimization
 
 - Federal tax minimization is a top priority.
-- Prefers contribution ordering: HSA first (triple tax advantage), then 401k/traditional, then Roth, then taxable — but open to Roth conversions for long-term bracket management.
+- Prefers contribution ordering: HAS first (triple tax advantage), then 401k/traditional, then Roth, then taxable — but open to Roth conversions for long-term bracket management.
 - No desire to share exact financials; discussions use generalized ranges and percentages.
 
----
+______________________________________________________________________
 
 ## College and education support
 
@@ -59,7 +59,7 @@
 - College support must not compromise personal retirement safety.
 - Preferred vehicles: 529 plans (owned by user), or taxable investment accounts earmarked per child.
 
----
+______________________________________________________________________
 
 ## AI and tech exposure
 
@@ -69,7 +69,7 @@
 - Sleeve must be implemented via diversified vehicles (ETFs, broad sector funds) rather than concentrated single names, unless explicitly decided otherwise.
 - Rebalancing rules required: trim sleeve when it exceeds threshold; rebalance annually at minimum.
 
----
+______________________________________________________________________
 
 ## Meeting and communication preferences
 
@@ -80,7 +80,7 @@
 - Values scannability: short sections, bullets, and optional tables over dense prose.
 - Epistemic honesty expected: advisors should flag uncertainty and caveats, not over-promise.
 
----
+______________________________________________________________________
 
 ## Current financial baseline (generalized)
 

@@ -35,12 +35,14 @@ The goal is better judgment, clearer tradeoffs, and more durable follow-up work 
 ## Active roles
 
 Default:
+
 - Chair
 - Facilitator
 - Note-Taker
 - A small set of advisors or judges relevant to the agenda
 
 Optional:
+
 - Recruiter, when role coverage, specialist gaps, or repeated blind spots may matter
 - Deep Researcher, when missing facts could materially change the recommendation
 - People Expert, when disagreement quality or interpersonal interpretation is affecting the work
@@ -51,23 +53,25 @@ Optional:
 ## Flow
 
 1. State the task, desired output, and relevant constraints.
-2. Let the Facilitator confirm the agenda, active roles, and meeting structure.
-3. Run the main advisory discussion: questions, critique, alternatives, tradeoffs, synthesis.
-4. Record decisions, deferrals, action items, and open questions as they emerge.
-5. Run a short closing feedback phase on process and role effectiveness.
-6. Review any factory handoff candidates and decide whether they should be acted on later.
-7. Close with confirmed minutes and next steps.
+1. Let the Facilitator confirm the agenda, active roles, and meeting structure.
+1. Run the main advisory discussion: questions, critique, alternatives, tradeoffs, synthesis.
+1. Record decisions, deferrals, action items, and open questions as they emerge.
+1. Run a short closing feedback phase on process and role effectiveness.
+1. Review any factory handoff candidates and decide whether they should be acted on later.
+1. Close with confirmed minutes and next steps.
 
 ## Feedback phase
 
 <!-- REVIEW: New reusable section. The intent is to normalize end-of-meeting feedback without requiring every meeting to become a long retrospective. -->
 
 The Facilitator should reserve a short closing feedback phase when:
+
 - the meeting surfaced repeated friction, confusion, or role mismatch;
 - a support or meta-role observed reusable improvement opportunities; or
 - the principal wants a brief review of what made the meeting effective or inefficient.
 
 During this phase:
+
 - the Facilitator gathers concise process feedback;
 - the Chair may comment on goal-fit, decision clarity, and whether the meeting stayed aligned to the intended purpose;
 - the Recruiter may comment on role coverage, overload, or missing specialization;
@@ -81,12 +85,14 @@ During this phase:
 When the meeting identifies a reusable improvement opportunity affecting an event type, role, specialist, skill, template, bundle, or factory workflow, that opportunity should be captured as a **factory handoff candidate**.
 
 Factory handoff candidates should:
+
 - be recorded in Markdown in the meeting minutes;
 - include enough context that a later factory session can act without reconstructing the full meeting from memory;
 - remain reviewable by the principal after the fact;
 - be treated as proposed follow-up work, not as live edits to collection artifacts unless the Chair explicitly authorizes an in-meeting structural change.
 
 The Chair should decide for each candidate whether it is:
+
 - an in-meeting adjustment,
 - a deferred follow-up item,
 - or a separate factory/meta-session input.

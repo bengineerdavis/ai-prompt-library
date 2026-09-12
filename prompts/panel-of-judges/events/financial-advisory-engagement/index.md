@@ -4,7 +4,7 @@
 **Principal location:** Concord, CA (Bay Area)
 **Collection version:** 1.0
 
----
+______________________________________________________________________
 
 ## Quick start
 
@@ -21,7 +21,7 @@
 
 Output is written to `generated/session.txt`. Paste into your LLM chat session.
 
----
+______________________________________________________________________
 
 ## File map
 
@@ -65,20 +65,20 @@ Output is written to `generated/session.txt`. Paste into your LLM chat session.
     └── role-template.md
 ```
 
----
+______________________________________________________________________
 
 ## Advisor roster for this engagement
 
-| Slug | Domain | Real-world status |
-|---|---|---|
-| `wealth-planner` | Holistic planning, buckets, allocation | TBD — to be recruited |
-| `tax-strategist` | Tax minimization, contribution ordering | TBD — to be recruited |
+| Slug              | Domain                                    | Real-world status     |
+| ----------------- | ----------------------------------------- | --------------------- |
+| `wealth-planner`  | Holistic planning, buckets, allocation    | TBD — to be recruited |
+| `tax-strategist`  | Tax minimization, contribution ordering   | TBD — to be recruited |
 | `college-advisor` | Education funding, 529s, per-child policy | TBD — to be recruited |
-| `ai-tech-advisor` | AI/tech sleeve, thematic risk | TBD — to be recruited |
+| `ai-tech-advisor` | AI/tech sleeve, thematic risk             | TBD — to be recruited |
 
 All definitions are in `roles/advisors.md`.
 
----
+______________________________________________________________________
 
 ## Key design decisions
 

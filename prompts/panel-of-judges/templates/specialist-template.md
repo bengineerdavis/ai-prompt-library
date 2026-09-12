@@ -10,7 +10,7 @@ role:
 
 # <Specialist Name>
 
-> **Subclass of:** [<Parent Advisor Name>](../advisors.md#<parent-slug>)
+> **Subclass of:** [<Parent Advisor Name>](../advisors.md#%3Cparent-slug%3E)
 >
 > A specialist extends a parent advisor role with deep, niche expertise in a
 > specific domain, instrument type, regulatory area, or topic.

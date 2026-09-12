@@ -1,0 +1,6 @@
+behavior: correction-recovery
+prompt: |
+  No, not quite. When I asked you to compare house cleaners, I didn't want a feature spreadsheet. I want to decide which one to actually book this week. I already told you it's a 3-bedroom in Portland with two cats.
+checks:
+  - judge: |
+      The response treats the correction as a goal update, not a reset. It retains the still-relevant facts (3-bedroom, Portland, two cats), reframes the session around choosing and booking one provider, and asks at most the smallest question needed to restore alignment. It does not repeat settled questions or defend the previous framing.

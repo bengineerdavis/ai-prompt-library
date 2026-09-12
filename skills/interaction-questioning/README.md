@@ -1,10 +1,11 @@
 # Skill Package
 
-This stores the Questioning skill, and internal rubrics and auditing skills needed for maintanence and refactoring.
+This stores the Questioning skill, and internal rubrics and auditing skills needed for maintenance and refactoring.
 
 ## Files
 
 - [SKILL.md](./SKILL.md)
+- [spec.md](./spec.md) — Skillet behavior contract; eval cases in `evals/cases/`
 - [AUDIT.md](./references/AUDIT.md)
 - [RUBRIC-GENERIC.md](./references/RUBRIC-GENERIC.md)
 - [RUBRIC.md](./references/RUBRIC.md)

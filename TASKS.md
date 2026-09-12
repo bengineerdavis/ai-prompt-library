@@ -11,6 +11,13 @@ Nothing scheduled — items land here when picked up.
 
 ## Planned
 
+- Fix the prek hook coverage gap: every commit's hooks report
+  "Running in workspace: .../ai-prompt-library/impromptu" and skip with no
+  files to check — prek resolves to the nested impromptu directory, so
+  trailing-whitespace, end-of-file, markdownlint and the rest never run on
+  real changes (observed 2026-09-12 on both the skills move and the TASKS.md
+  adoption). Done when a commit touching skills/ runs the hooks for real or
+  the workspace resolution is fixed.
 - Run the eval suites for the skills in this repository (`commit-hygiene`, 5
   cases; `pii-redaction`, 6; `review-best-practices`, 5;
   `interaction-questioning`, 14). No case has ever been executed. Re-homed

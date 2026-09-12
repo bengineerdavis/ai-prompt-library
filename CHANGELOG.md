@@ -17,6 +17,24 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+## 2026-09-12 — Task tracking adopted; AI-infra work re-homed here
+
+### Added
+
+- `TASKS.md` — the shared work queue, mirroring the dotfiles repository's
+  conventions (done-conditions, captures committed immediately, owners named).
+- The eval-suite run for this repo's skills, re-homed from the dotfiles repo:
+  the skill-promotion eval gate is policy there, so the verdicts feed it.
+  Blocked on harness credentials (codex not logged in on the Linux box).
+- The recruiter role's adaptation for AI artifacts (it currently screens
+  human financial advisors), the spec-authoring skill for AI artifacts
+  (agent definitions and skills, with refactor evaluation), the evaluation
+  run over existing roles, and the agent→function graduation-threshold
+  research ending in a panel-of-judges council decision — all queued from
+  the author's 2026-09-12 scoping session.
+
+______________________________________________________________________
+
 ## 2026-09-07 — Questioning & Local-Service Procurement Refactor
 
 ### Added

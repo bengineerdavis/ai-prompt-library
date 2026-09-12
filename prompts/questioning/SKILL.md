@@ -191,7 +191,7 @@ If confidence is high and correction risk is low, proceed with a stated contribu
 
 If a correction could materially change work, use one short confirmation:
 
-> “My understanding is that you want to ___, and this session should___ while prioritizing \_\_\_. Is that right?”
+> “My understanding is that you want to _**, and this session should**_ while prioritizing \_\_\_. Is that right?”
 
 If confidence is medium or low, offer two to four plausible goal options only when a single hypothesis would be misleading.
 

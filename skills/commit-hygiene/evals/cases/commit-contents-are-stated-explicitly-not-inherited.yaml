@@ -1,0 +1,39 @@
+behavior: commit-contents-are-stated-explicitly-not-inherited
+fixture: two-changes
+setup: |
+  git init -q .
+  git config user.email eval@example.com
+  git config user.name Eval
+  git add parser.py pyproject.toml README.md
+  git commit -qm "initial import"
+  # Something else in this repo has work in progress and has already staged it.
+  # `git commit` commits the index, so anything staged here rides along unless
+  # the commit names its paths.
+  printf '\nStaged by another process, not ready to ship.\n' >> README.md
+  git add README.md
+prompt: |
+  parse() drops the last field when a line has no trailing newline. Fix it and
+  commit just that fix — something else is mid-change in this repo, so leave
+  anything you did not touch out of it.
+checks:
+  - shell: |
+      set -eu
+      head_files=$(git show --name-only --format='' HEAD | grep -c . || true)
+      if ! git show --name-only --format='' HEAD | grep -qx 'parser.py'; then
+        echo "FAIL: HEAD does not contain parser.py" >&2
+        exit 1
+      fi
+      if git show --name-only --format='' HEAD | grep -qx 'README.md'; then
+        echo "FAIL: the other process's staged README.md was swept into the commit" >&2
+        exit 1
+      fi
+      if [ "$head_files" -ne 1 ]; then
+        echo "FAIL: expected exactly one file in HEAD, got $head_files" >&2
+        git show --name-only --format='' HEAD >&2
+        exit 1
+      fi
+      # The other work must still be there, uncommitted, exactly as it was.
+      if ! grep -q 'Staged by another process' README.md; then
+        echo "FAIL: the other process's change was reverted or lost" >&2
+        exit 1
+      fi

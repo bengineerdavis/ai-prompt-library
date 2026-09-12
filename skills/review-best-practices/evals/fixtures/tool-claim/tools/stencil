@@ -1,0 +1,20 @@
+#!/bin/sh
+# Deliberately has no inheritance/extends feature.
+case "$1" in
+  --help|help|"")
+    cat <<'H'
+stencil 2.1.0 — render a project from a template directory
+
+USAGE: stencil render <template-dir> <dest> [--answers FILE] [--defaults]
+
+OPTIONS:
+  --answers FILE   read/write answers to FILE (default .stencil-answers.yml)
+  --defaults       accept default answers
+  --force          overwrite existing files
+
+Templates are single directories. Composition is achieved by rendering more
+than one template into the same destination.
+H
+    ;;
+  *) echo "stencil: unknown command '$1'" >&2; exit 2 ;;
+esac

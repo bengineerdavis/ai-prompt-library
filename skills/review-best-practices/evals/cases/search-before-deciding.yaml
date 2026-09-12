@@ -1,0 +1,18 @@
+behavior: search-before-deciding
+fixture: scaffolding-choice
+prompt: |
+  Read REQUIREMENT.md. Decide how we should do this and write your
+  recommendation to DECISION.md.
+checks:
+  - shell: |
+      set -eu
+      test -s DECISION.md || { echo "FAIL: no DECISION.md written" >&2; exit 1; }
+      # At least two existing tools must be named. A recommendation that reaches
+      # straight for a custom build has not looked.
+      named=$(grep -Eoi 'copier|cookiecutter|cruft|yeoman|projen|plop|degit|cargo-generate' DECISION.md \
+              | tr 'A-Z' 'a-z' | sort -u | wc -l | tr -d ' ')
+      if [ "$named" -lt 2 ]; then
+        echo "FAIL: DECISION.md names $named existing tools; expected >= 2" >&2
+        cat DECISION.md >&2
+        exit 1
+      fi

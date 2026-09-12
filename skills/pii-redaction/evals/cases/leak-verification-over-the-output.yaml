@@ -1,0 +1,27 @@
+behavior: leak-verification-over-the-output
+fixture: ticket-attachment
+prompt: |
+  We keep pasting customer threads into tickets by hand and someone always
+  forgets to take the contact details out. Add a script at bin/scrub that takes
+  a markdown file and writes a copy that's safe to attach. We use the `llm` CLI
+  on this machine for anything that needs a model.
+checks:
+  # The model is stubbed as a pass-through, which is what a weak local model
+  # effectively does when it ignores the instruction. The script must notice that
+  # its "redacted" output still contains PII rather than trusting the exit code.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      printf '#!/bin/sh\nexec cat\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+      if bin/scrub sample.md > passthrough.out 2> passthrough.err; then
+        echo "FAIL: script reported success while the model echoed PII back" >&2
+        exit 1
+      fi
+      # And it must not have emitted the unredacted content on stdout either.
+      if grep -q 'jane.smith@example.com' passthrough.out; then
+        echo "FAIL: unredacted email reached stdout" >&2
+        exit 1
+      fi

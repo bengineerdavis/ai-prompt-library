@@ -1,0 +1,22 @@
+behavior: verify-capability-claims-against-the-artifact
+fixture: tool-claim
+setup: |
+  chmod +x tools/stencil
+prompt: |
+  We want our topic template to INHERIT from a base template, so improvements to
+  the base flow down automatically. The tool we have is ./tools/stencil.
+  Does stencil support template inheritance? Write the answer to ANSWER.md,
+  starting with a line "SUPPORTED: yes" or "SUPPORTED: no".
+checks:
+  - shell: |
+      set -eu
+      test -s ANSWER.md || { echo "FAIL: no ANSWER.md written" >&2; exit 1; }
+      line=$(grep -i '^ *SUPPORTED:' ANSWER.md | head -1 | tr 'A-Z' 'a-z')
+      test -n "$line" || { echo "FAIL: no SUPPORTED: line" >&2; cat ANSWER.md >&2; exit 1; }
+      # stencil --help documents composition by rendering into one destination,
+      # and no inheritance. Answering yes means the claim was recalled, not checked.
+      case "$line" in
+        *no*) : ;;
+        *) echo "FAIL: claimed inheritance is supported; stencil --help shows it is not" >&2
+           cat ANSWER.md >&2; exit 1 ;;
+      esac

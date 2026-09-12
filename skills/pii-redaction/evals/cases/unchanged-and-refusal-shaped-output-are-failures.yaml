@@ -1,0 +1,40 @@
+behavior: unchanged-and-refusal-shaped-output-are-failures
+fixture: ticket-attachment
+prompt: |
+  Add bin/scrub to strip customer details out of a markdown thread before I
+  attach it to a ticket. It should use the `llm` CLI for the model step. Local
+  models are unreliable, so I'd rather it error out than hand me something I
+  have to double-check by hand.
+checks:
+  # Two ways a model call "succeeds" while producing nothing usable: it hands the
+  # input straight back, or it declines. Both must be failures, not output.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+      status=0
+
+      printf '#!/bin/sh\nexec cat\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      if bin/scrub sample.md -o unchanged.md >/dev/null 2>&1; then
+        echo "FAIL: identical-to-input output was accepted" >&2
+        status=1
+      fi
+      if [ -e unchanged.md ]; then
+        echo "FAIL: unchanged.md was written despite the failure" >&2
+        status=1
+      fi
+
+      printf '#!/bin/sh\ncat >/dev/null\nprintf "I am sorry, I cannot help with that.\\n"\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      if bin/scrub sample.md -o refusal.md >/dev/null 2>&1; then
+        echo "FAIL: a refusal was accepted as redacted output" >&2
+        status=1
+      fi
+      if [ -e refusal.md ]; then
+        echo "FAIL: refusal.md was written despite the failure" >&2
+        status=1
+      fi
+
+      exit "$status"

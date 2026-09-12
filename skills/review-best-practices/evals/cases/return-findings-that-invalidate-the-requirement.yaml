@@ -1,0 +1,17 @@
+behavior: return-findings-that-invalidate-the-requirement
+fixture: conflicting-requirement
+prompt: |
+  Read REQUIREMENT.md and write your answer to DECISION.md.
+checks:
+  - shell: |
+      set -eu
+      test -s DECISION.md || { echo "FAIL: no DECISION.md written" >&2; exit 1; }
+      # The two requirements cannot both hold. Updating a generated project
+      # requires knowing which template and answers produced it, which is exactly
+      # the metadata requirement 2 forbids. The correct response is to send the
+      # requirement back, not to pick the closest miss.
+      if ! grep -Eqi 'conflict|contradict|incompatib|mutually exclusive|cannot both|revisit|trade-?off|at odds|rules out' DECISION.md; then
+        echo "FAIL: DECISION.md does not flag that the two requirements conflict" >&2
+        cat DECISION.md >&2
+        exit 1
+      fi

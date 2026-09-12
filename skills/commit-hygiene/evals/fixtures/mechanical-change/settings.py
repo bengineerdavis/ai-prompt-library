@@ -1,0 +1,5 @@
+# Network defaults for the importer.
+
+CONNECT_TIMEOUT_SECONDS = 30
+READ_TIMEOUT_SECONDS = 30
+MAX_RETRIES = 3

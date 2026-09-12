@@ -41,12 +41,12 @@ everything is Markdown; the only root executable is `bundle.py`.
 
 New skills follow the Agent Skills format: a directory named after the skill
 containing `SKILL.md` with YAML frontmatter (`name`, `description`, `license`,
-`metadata` with `version` and `supersedes` — see `prompts/questioning/SKILL.md`),
+`metadata` with `version` and `supersedes` — see `skills/interaction-questioning/SKILL.md`),
 plus optional `references/` and `assets/` subdirectories. Bump `metadata.version`
 and set `supersedes` when editing an existing skill.
 
 Skills maintained with the Skillet flow (`prompts/skillet/SKILL.md`, e.g.
-`prompts/questioning/`) keep a `spec.md` behavior contract and `evals/cases/*.yaml`.
+`skills/interaction-questioning/`) keep a `spec.md` behavior contract and `evals/cases/*.yaml`.
 Rules that bite:
 
 - Always run Skillet through `npx -y @sentry/skillet@latest` (never a bare

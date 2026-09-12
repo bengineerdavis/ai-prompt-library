@@ -81,3 +81,12 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Fixed
 
 - Improved version visibility so the latest audit artifact can be identified at a glance.
+
+## [Unreleased] - 2026-09-12
+
+### Changed
+
+- Moved from `prompts/questioning/` to `skills/interaction-questioning/` so the
+  skill follows the same layout as the other skillet-flow skills and is
+  discoverable by `dotagents` when this repository is used as a source. No
+  behavior change; version stays 2.3.2.

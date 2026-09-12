@@ -5,6 +5,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-09-12 — Questioning skill promoted into `skills/`
+
+### Changed
+
+- `prompts/questioning/` moved to `skills/interaction-questioning/`, matching the
+  layout the other skillet-flow skills use (`spec.md`, `SKILL.md`, `evals/cases/`)
+  and making the skill discoverable by `dotagents` from this repository as a
+  source. No skill content changed; version stays 2.3.2. References updated in
+  `AGENTS.md`. Path mentions inside historical entries below are left as written.
+
+______________________________________________________________________
+
 ## 2026-09-07 — Questioning & Local-Service Procurement Refactor
 
 ### Added

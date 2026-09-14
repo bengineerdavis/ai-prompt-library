@@ -11,6 +11,26 @@ Nothing scheduled — items land here when picked up.
 
 ## Planned
 
+- Council review: multi-machine privacy design for the dotfiles repo. The
+  author's requirement, refined 2026-09-12: committed artifacts must be
+  environment-general — no machine identification and no obfuscation signaling
+  (a hostile reader deduces nothing about topology, machine count, or the
+  existence of sensitive work); ZDR engagements carry handover context locally,
+  discardable, promotable only after pseudo-anonymization via the
+  pii-redactor skill and an explicit author selection. The research record is
+  written and waiting: `dotfiles/docs/MULTI-MACHINE.md` in the dotfiles repo
+  (requirement, audited leaks, survey, design, rejections, four open
+  questions). **Workflow for whoever picks this up: (1) run
+  `interaction-questioning` first — stress the requirement and the four open
+  questions, add anything the research missed, and send back anything
+  mis-framed per the review-best-practices pairing; (2) record the refined
+  research request as the council's input document; (3) convene a
+  panel-of-judges advisory council (bundle.advisory-meeting-with-research
+  shape: facilitator, note-taker, a privacy/due-diligence advisor; consult the
+  recruiter on whether a standing privacy-advisor role should exist — first
+  dogfood of its queued adaptation); (4) verdicts and rejections go back into
+  MULTI-MACHINE.md's council section. Done when the four open questions each
+  have a council answer recorded there, or a marked refusal to answer.**
 - Fix the prek hook coverage gap: every commit's hooks report
   "Running in workspace: .../ai-prompt-library/impromptu" and skip with no
   files to check — prek resolves to the nested impromptu directory, so

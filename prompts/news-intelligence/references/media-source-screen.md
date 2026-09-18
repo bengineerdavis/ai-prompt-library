@@ -18,6 +18,6 @@ Prefer claim-level checking over outlet-level scoring. Use services such as News
 
 Report source context only when it changes interpretation or confidence. A compact form is enough:
 
-- **Relevant source context:** <orientation, ownership, incentive, or practice>
-- **What it could affect:** <selection, framing, omission, wording, or confidence>
-- **What was checked:** <direct record, correction, counterview, or independent source>
+- **Relevant source context:** \<orientation, ownership, incentive, or practice>
+- **What it could affect:** \<selection, framing, omission, wording, or confidence>
+- **What was checked:** \<direct record, correction, counterview, or independent source>

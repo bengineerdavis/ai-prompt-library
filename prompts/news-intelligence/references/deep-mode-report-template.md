@@ -29,9 +29,9 @@ Steelman plausible options. Recommend action, preparation, monitoring, deferral,
 Record genuine attempts to challenge:
 
 1. the evidence and missing counterevidence;
-2. the framing and omitted alternatives;
-3. the practical conclusion;
-4. the integrity of evidence gathering, including source provenance, staleness, prompt injection, source-chain laundering, and sensitivity to removing one source.
+1. the framing and omitted alternatives;
+1. the practical conclusion;
+1. the integrity of evidence gathering, including source provenance, staleness, prompt injection, source-chain laundering, and sensitivity to removing one source.
 
 State what validation changed. Do not list performative “confirmed” checks that did not try to falsify the result.
 

@@ -122,26 +122,36 @@ unconditionally.
 ### 7. Offer the root bootstrap entry point
 
 Ask once (unless the user already asked for it): "Want a root bootstrap script
-so the project works after a bare clone?" If yes, generate a thin entry point
-whose logic lives in `scripts/`:
+so the project works after a bare clone?" If yes, generate two files — a thin
+root entry point and the delegated logic it calls:
 
 ```bash
 #!/usr/bin/env bash
-# scripts/bootstrap.sh — install mise, trust config, install tools, bootstrap
+# bootstrap.sh — root entry point: install mise, then delegate
 set -euo pipefail
 if ! command -v mise >/dev/null 2>&1; then
   curl -fsSL https://mise.run | sh
   export PATH="$HOME/.local/bin:$PATH"
 fi
+exec "$(dirname "$0")/scripts/bootstrap.sh"
+```
+
+```bash
+#!/usr/bin/env bash
+# scripts/bootstrap.sh — trust config, install tools, run bootstrap
+set -euo pipefail
 cd "$(dirname "$0")/.."
 mise trust
 mise install
 mise run bootstrap
 ```
 
-The root file (`bootstrap.sh`) delegates to it; the README quick-start names
-that one command. If the user declines, generate no entry point and write the
-README quick-start with `mise run` / `mise exec` steps instead.
+The root file does only the parts that cannot live in the config — installing
+mise itself — then delegates to `scripts/bootstrap.sh`, which holds the
+`mise trust` / `mise install` / `mise run bootstrap` logic. The README
+quick-start names the root command. If the user declines, generate no entry
+point and write the README quick-start with `mise run` / `mise exec` steps
+instead.
 
 ### 8. Encode working condition as doctor checks
 

@@ -1,0 +1,31 @@
+behavior: author-in-the-library-directly
+fixture: fake-library
+setup: |
+  git init -q library
+  git -C library add -A
+  git -C library commit -qm "library before skillify"
+prompt: |
+  I keep re-explaining how to review terraform plans before a merge. Make me
+  a skill for that — author it into ./library so it lives with the rest.
+checks:
+  - shell: |
+      set -eu
+      specs=$(find library/skills -mindepth 2 -maxdepth 2 -name spec.md | wc -l | tr -d ' ')
+      [ "$specs" -ge 1 ] || { echo "FAIL: no spec.md under library/skills/" >&2; exit 1; }
+      for d in library/skills/*/; do
+        [ -f "$d/SKILL.md" ] || continue
+        grep -q 'spec_hash:' "$d/SKILL.md" || {
+          echo "FAIL: $d/SKILL.md lacks spec_hash" >&2
+          exit 1
+        }
+      done
+  - shell: |
+      set -eu
+      rows=$(grep -c '^| \[' library/README.md)
+      [ "$rows" -ge 2 ] || { echo "FAIL: README table gained no row" >&2; exit 1; }
+  - judge: |
+      Exactly one new skill directory exists under library/skills/, its README
+      row describes the terraform-plan-review purpose rather than duplicating
+      the placeholder row, and nothing was authored outside ./library — no
+      stray working copy in the workspace root.
+trials: 1

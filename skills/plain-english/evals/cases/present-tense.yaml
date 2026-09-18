@@ -1,0 +1,11 @@
+behavior: present-tense
+prompt: |
+  docs/setup.md describes today's behavior in the future tense in two
+  places. Fix both.
+fixture: sampler
+checks:
+  - file_exists: docs/setup.md
+  - shell: |
+      ! grep -q 'will refuse' docs/setup.md
+  - shell: |
+      grep -q 'refuses uploads without a profile' docs/setup.md

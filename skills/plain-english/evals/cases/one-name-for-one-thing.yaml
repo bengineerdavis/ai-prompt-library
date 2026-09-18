@@ -1,0 +1,11 @@
+behavior: one-name-for-one-thing
+prompt: |
+  The doc below keeps renaming the same artifact. Pick the dominant term and
+  use it consistently.
+fixture: sampler
+checks:
+  - file_exists: docs/profile-guide.md
+  - judge: |
+      The document now uses exactly one term for the artifact (chosen from the
+      document's own dominant usage), the sentence count is unchanged, and no
+      sentence gained or lost information.

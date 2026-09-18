@@ -1,0 +1,15 @@
+behavior: second-person-for-instructions
+prompt: |
+  docs/setup.md keeps referring to the reader in the third person. Address
+  the reader directly.
+fixture: sampler
+checks:
+  - file_exists: docs/setup.md
+  - shell: |
+      ! grep -qiE 'the user should' docs/setup.md
+  - shell: |
+      grep -qiE '^(then |you should )?run the migrations' docs/setup.md
+  - judge: |
+      The migration instruction now addresses the reader as "you" or as an
+      imperative, and the runbook document's instruction about making sure no
+      export is running also addresses the reader directly.

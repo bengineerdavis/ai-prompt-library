@@ -1,0 +1,13 @@
+behavior: conditions-before-instructions
+prompt: |
+  docs/setup.md buries its condition after the instruction. Fix that sentence,
+  and keep the runbook's destructive step attached to the same condition.
+fixture: sampler
+checks:
+  - file_exists: docs/setup.md
+  - shell: |
+      grep -qiE 'if the retention policy expired the mapping file, (then )?delete' docs/setup.md
+  - judge: |
+      The sentence about deleting the mapping file now states the condition
+      before the instruction, and the runbook document's conditional and
+      instructional content still matches the original obligation.

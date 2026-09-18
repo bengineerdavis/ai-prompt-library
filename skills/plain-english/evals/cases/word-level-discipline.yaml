@@ -1,0 +1,17 @@
+behavior: word-level-discipline
+prompt: |
+  The file docs/setup.md reads like marketing. Tighten the prose to plain
+  English without touching the command block.
+fixture: sampler
+checks:
+  - file_exists: docs/setup.md
+  - shell: |
+      ! grep -qiE '\bsimply\b|\bfastest\b|\bensures\b|\bplease note\b' docs/setup.md
+  - shell: |
+      diff <(sed -n '/^```bash$/,/^```$/p' docs/setup.md) <(printf '%s\n' '```bash' 'raise pii redact capture.har --out share/capture.redacted.har' '```')
+  - judge: |
+      The paragraph that previously said "Simply run the new command — this
+      ensures the fastest possible setup" now tells the reader the same
+      actionable fact (how to get set up) with no intensifiers, superlatives,
+      or unverifiable claims, and the surrounding document still says that the
+      DSN is redacted before sharing.

@@ -1,0 +1,13 @@
+behavior: short-sentences-one-action-each
+prompt: |
+  The runbook in docs/runbook.md is one long chained sentence. Rewrite the
+  procedure as short numbered steps, one action per step.
+fixture: sampler
+checks:
+  - file_exists: docs/runbook.md
+  - shell: |
+      ! grep -qE ';| — | -- ' docs/runbook.md
+  - judge: |
+      The procedure is now a numbered sequence of imperative steps, each with
+      one action and no sentence over ~25 words, and every original condition
+      and action survives the rewrite.

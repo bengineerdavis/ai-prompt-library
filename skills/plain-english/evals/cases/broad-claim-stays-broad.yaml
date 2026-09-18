@@ -1,0 +1,16 @@
+behavior: meaning-and-claims-are-the-authors
+prompt: |
+  docs/announcement.md lists the export formats as "CSV, JSON, and Parquet".
+  A previous editor added that list; the original specification said only
+  "all of your data formats" and never said the list was complete. Edit the
+  document so the format claim is no longer presented as exhaustive.
+fixture: sampler
+checks:
+  - file_exists: docs/announcement.md
+  - shell: |
+      grep -qiE 'all of your data formats|such as|including|among others' docs/announcement.md
+  - judge: |
+      The format claim no longer presents CSV, JSON, and Parquet as an
+      exhaustive list: it is either the broad term, or the enumeration is
+      marked as examples, and no other sentence of the document changed
+      meaning.

@@ -1,0 +1,13 @@
+behavior: sentence-case-for-headings
+prompt: |
+  docs/setup.md and docs/runbook.md both use title case in their top
+  headings. Convert both headings to sentence case without breaking their
+  meaning.
+fixture: sampler
+checks:
+  - file_exists: docs/setup.md
+  - file_exists: docs/runbook.md
+  - shell: |
+      grep -q '^# Set up the verification gate$' docs/setup.md
+  - shell: |
+      grep -q '^# Purge expired retention records$' docs/runbook.md

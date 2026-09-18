@@ -1,0 +1,13 @@
+behavior: expand-acronyms-on-first-use
+prompt: |
+  docs/glossary.md uses PII and DSN everywhere but never says what they
+  stand for. Expand each once at first use, leaving the rest as-is.
+fixture: sampler
+checks:
+  - file_exists: docs/glossary.md
+  - shell: |
+      grep -q 'PII (personally identifiable information)' docs/glossary.md
+  - shell: |
+      grep -qE 'DSN \([Dd]ata [Ss]ource [Nn]ame\)' docs/glossary.md
+  - shell: |
+      test "$(grep -c 'personally identifiable' docs/glossary.md)" -eq 1

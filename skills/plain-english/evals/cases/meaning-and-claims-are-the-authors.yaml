@@ -1,0 +1,21 @@
+behavior: meaning-and-claims-are-the-authors
+prompt: |
+  docs/announcement.md describes an export feature. Edit it to plain
+  English. You know nothing about this feature beyond what the text says —
+  do not research or assume how it works.
+fixture: sampler
+checks:
+  - file_exists: docs/announcement.md
+  - shell: |
+      # No mechanism invented: "quarantine", "checksum", "verify" and similar
+      # specifics the source never named must not appear.
+      ! grep -qiE 'quarantin|checksum|verif|backup|snapshot|incremental' docs/announcement.md
+  - shell: |
+      # The vague breadth stays: no exhaustive-sounding enumeration that the
+      # source did not carry.
+      ! grep -qiE 'datasets, schemas, and|files, folders, and' docs/announcement.md
+  - judge: |
+      The edited announcement keeps the original claims at their original
+      breadth: the no-data-loss claim is stated plainly (hedged, not
+      guaranteed), the export command instruction survives, and no sentence
+      describes a mechanism the original did not name.

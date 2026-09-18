@@ -72,7 +72,7 @@ mkdir -p "$docs_dir"
 fetch() { # fetch <repo-path> <dest>
   mkdir -p "$(dirname "$2")"
   curl -fsS "$base/$1" -o "$2"
-  printf '| `%s` | `%s` |\n' "$2" "$base/$1" >> "$provenance"
+  printf '| `%s` | `%s` |\n' "${2#"$here"/}" "$base/$1" >> "$provenance"
 }
 
 for page in $pages; do
@@ -81,6 +81,7 @@ done
 fetch "schema/mise.json" "$docs_dir/schema-mise.json"
 
 curl -fsS https://mise.jdx.dev/llms.txt -o "$index_file"
-printf '| `%s` | https://mise.jdx.dev/llms.txt |\n' "$index_file" >> "$provenance"
+printf '| `llms-index.txt` | https://mise.jdx.dev/llms.txt |\n' >> "$provenance"
 
-printf 'refreshed %s files from %s\n' "$(echo "$pages" | wc -w | tr -d ' ')" "$ref"
+n_pages="$(echo "$pages" | wc -w | tr -d ' ')"
+printf 'refreshed %s files from %s\n' "$((n_pages + 2))" "$ref"

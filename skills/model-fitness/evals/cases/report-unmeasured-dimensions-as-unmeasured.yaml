@@ -1,0 +1,12 @@
+behavior: report-unmeasured-dimensions-as-unmeasured
+fixture: bench-run
+prompt: |
+  chat-run.json has speed and size for candidate-a but we never ran a
+  long-context recall case. Write the adoption recommendation.
+checks:
+  - judge: >-
+      The recommendation names long-context recall as unmeasured rather than
+      omitting it, and marks the recommendation provisional with that specific
+      gap identified. It does not present the speed and size results as a
+      fitness verdict, and does not imply the missing dimension is unimportant
+      or safe to assume.

@@ -1,0 +1,12 @@
+behavior: state-the-measurement-beside-every-claim
+fixture: bench-run
+prompt: |
+  Summarise chat-run.json for the manifest — did candidate-a beat incumbent-b?
+checks:
+  - judge: >-
+      Every comparative claim is accompanied by what produced it: the exact
+      model tags, the date, and the conditions that affect the numbers
+      (quantisation, context, and that nothing else was resident). The summary
+      does not assert "faster" or "better at following instructions" as a bare
+      claim. Naming the source file alone is not sufficient — the conditions
+      themselves are stated.

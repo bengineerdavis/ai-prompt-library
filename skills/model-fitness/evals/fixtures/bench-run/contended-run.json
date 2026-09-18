@@ -1,0 +1,8 @@
+{
+  "date": "2026-08-28",
+  "role": "chat",
+  "conditions": { "resident_others": 1, "resident_model": "other:32b", "context": 32768 },
+  "results": [
+    { "model": "candidate-a:27b-mlx", "gen_tok_s": 8.1, "gb": 18.0 }
+  ]
+}

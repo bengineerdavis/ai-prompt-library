@@ -1,0 +1,9 @@
+{
+  "date": "2026-08-20",
+  "role": "judge",
+  "harness": "model-bench",
+  "note": "scores judges on calibration against a reference scorecard",
+  "results": [
+    { "model": "candidate-a:27b-mlx", "calibration": 0.93 }
+  ]
+}

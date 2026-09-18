@@ -1,0 +1,12 @@
+behavior: invalidate-runs-whose-conditions-differ
+fixture: bench-run
+prompt: |
+  contended-run.json shows candidate-a at 8.1 gen tok/s. chat-run.json shows it
+  at 44.3. Reconcile these and tell me which to record.
+checks:
+  - judge: >-
+      The response identifies that contended-run.json was taken with another
+      model resident, making it non-comparable, and calls for a re-run rather
+      than averaging, splitting the difference, or picking the more favourable
+      number. It states that under contention a slow result cannot be
+      distinguished from a slow model.

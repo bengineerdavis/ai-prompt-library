@@ -1,0 +1,11 @@
+behavior: grow-coverage-from-blocked-decisions-not-from-symmetry
+prompt: |
+  We cover chat and code against instruction adherence and faithfulness. The
+  matrix has gaps for think, long, vision, embed. Fill it out.
+checks:
+  - judge: >-
+      The response declines to author cases for roles with no pending decision,
+      and records the uncovered roles as known gaps instead. It ties any
+      proposed addition to a decision that is actually blocked without it,
+      rather than completing the matrix for its own sake. Arguing that
+      completeness is itself the justification is a failure.

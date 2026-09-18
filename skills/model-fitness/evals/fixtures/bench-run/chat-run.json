@@ -1,0 +1,12 @@
+{
+  "date": "2026-08-28",
+  "machine": "36GB Apple Silicon, unified memory",
+  "role": "chat",
+  "conditions": { "resident_others": 0, "context": 32768, "server": "0.33.0" },
+  "results": [
+    { "model": "candidate-a:27b-mlx", "quant": "nvfp4", "gen_tok_s": 44.3,
+      "gb": 18.0, "instruction_adherence": 0.95, "faithfulness": 0.88 },
+    { "model": "incumbent-b:27b-mlx", "quant": "nvfp4", "gen_tok_s": 19.7,
+      "gb": 20.0, "instruction_adherence": 0.91, "faithfulness": 0.86 }
+  ]
+}

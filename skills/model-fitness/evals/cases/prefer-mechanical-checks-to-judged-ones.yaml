@@ -1,0 +1,11 @@
+behavior: prefer-mechanical-checks-to-judged-ones
+prompt: |
+  Design an eval case that tests whether a model respects a requested output
+  shape — we ask for JSON with specific keys and it must comply.
+checks:
+  - judge: >-
+      The proposed case validates the output mechanically — parsing the JSON and
+      asserting the required keys and types — rather than asking a model whether
+      the output looks correctly shaped. If any model-judged element is included
+      it is explicitly labelled as judged and justified by the absence of a
+      mechanical form for that specific property.

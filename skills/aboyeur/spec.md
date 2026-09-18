@@ -105,9 +105,10 @@ emitting unrelated one-line tasks.
 
 ### Behavior: Long inline scripts move to files
 
-The agent SHALL move any task command longer than a short one-liner out of
-`run` strings and into a script file: `scripts/` when the file belongs in the
-repository, `.scripts/` when it is local-only. TOML tasks reference them with
+The agent SHALL move any task command longer than roughly ten lines — or with
+branching, loops, or a here-document — out of `run` strings and into a script
+file: `scripts/` when the file belongs in the repository, `.scripts/` when it
+is local-only. TOML tasks reference them with
 `file = "scripts/<name>.sh"`, provide a Windows sibling (`run_windows` or a
 `.ps1` file) when Windows matters, and scripts carry a shebang.
 
@@ -121,17 +122,26 @@ repository, `.scripts/` when it is local-only. TOML tasks reference them with
 
 The agent SHALL declare host-level prerequisites discovered in the repository
 (git, a C compiler, curl, build libraries) under `[bootstrap.packages]` using
-per-manager keys such as `brew:git`, `apt:git`, `dnf:git`, `apk:git`, and
-`winget:` entries, and SHALL name a final `[tasks.bootstrap]` step that runs
-after `mise bootstrap` installs tools and packages. Platform-specific handling
-(for example, Apple clang supplied by Xcode Command Line Tools on macOS) SHALL
-be encoded in the relevant task or check, not left as prose.
+per-manager keys such as `brew:git`, `apt:git`, `dnf:git`, `apk:git`,
+`pacman:git`, and `winget:` entries — with a per-package `os` selector when an
+entry applies to fewer platforms than its manager — and SHALL name a final
+`[tasks.bootstrap]` step that runs after `mise bootstrap` installs tools and
+packages. Platform-specific handling that no package manager can install (for
+example, Apple clang supplied by Xcode Command Line Tools on macOS) SHALL be
+encoded in a guarded `[bootstrap.hooks.<phase>]` entry or in the relevant task
+or check, not left as prose.
 
 #### Scenario: setup.sh states its requirements
 
 - **GIVEN** a repo whose setup script says "Needs: cmake, a C compiler, git, network"
 - **WHEN** the agent declares bootstrap packages
-- **THEN** `[bootstrap.packages]` contains per-manager entries for git, curl, and a C compiler for the Linux families and Homebrew for macOS, and the C-compiler resolution on macOS (Xcode CLT or brew llvm) is handled by a task rather than assumed.
+- **THEN** `[bootstrap.packages]` contains per-manager entries for git, curl, and a C compiler across the Linux package-manager families and Homebrew on macOS.
+
+#### Scenario: The macOS C compiler has no package
+
+- **GIVEN** a repo whose macOS builds need Apple clang, which no bootstrap package manager provides
+- **WHEN** the agent declares bootstrap packages
+- **THEN** a guarded `[bootstrap.hooks.pre-packages]` entry runs `xcode-select --install` only on Darwin when clang is missing — so repeated bootstraps are safe — while the Linux families get clang from their package managers.
 
 ### Behavior: Optional root bootstrap entry point
 

@@ -1,7 +1,7 @@
 ---
 name: aboyeur
 description: Generates and maintains mise.toml for a git repo by reading the repo's own files — declared tools, env, wired tasks, system packages, cross-platform working-condition checks, and an optional zero-knowledge bootstrap entry point. Use when asked to set up mise for a repo, miseify it, automate its setup or dependency requirements, make its commands work on macOS/Linux/Windows, or make a fresh clone build itself; not for merely running existing tasks or global mise settings.
-spec_hash: 83b808965993
+spec_hash: 21b4a0e3aa90
 ---
 
 # Aboyeur
@@ -79,8 +79,9 @@ preserves order. `mise tasks deps` shows the graph.
 
 ### 5. Refactor inline scripts into files
 
-Any task command longer than a short one-liner moves out of `run` and into a
-script file in the layer chosen in step 2. Reference it from a thin TOML task:
+Any task command past roughly ten lines — or with branching, loops, or a
+here-document — moves out of `run` and into a script file in the layer chosen
+in step 2. Reference it from a thin TOML task:
 
 ```toml
 [tasks.build]
@@ -96,28 +97,43 @@ headers; mise runs tasks from the config root, and `MISE_PROJECT_ROOT` /
 ### 6. Declare `[bootstrap.packages]`
 
 Host prerequisites named by the repo (git, a C compiler, curl, build libs) go
-under per-manager keys, and a final `[tasks.bootstrap]` step runs after mise
-has installed tools and packages. Platform-specific handling belongs in a task
-or check, not prose:
+under per-manager keys — `brew:` for macOS, `apt:`/`dnf:`/`apk:`/`pacman:` for
+the Linux families, `winget:` on Windows — with a per-package `os` selector
+when an entry should apply to fewer platforms than its manager
+(`references/docs/bootstrap/packages/index.md`). A final `[tasks.bootstrap]`
+step runs after mise has installed tools and packages. Platform bits that no
+package manager can install go in a `[bootstrap.hooks.<phase>]` entry, guarded
+because hooks run on every bootstrap:
 
 ```toml
 [bootstrap.packages]
-"brew:git" = "latest"
+"brew:git" = { os = "macos" }
 "apt:git" = "latest"
 "dnf:git" = "latest"
 "apk:git" = "latest"
+"pacman:git" = "latest"
 "apt:clang" = "latest"
 "dnf:clang" = "latest"
 "apk:clang" = "latest"
+"pacman:clang" = "latest"
+
+[bootstrap.hooks.pre-packages]
+# No package manager installs the macOS C compiler; Xcode CLT does. Guarded so
+# it is safe to repeat.
+run = '''
+if [ "$(uname -s)" = "Darwin" ] && ! command -v clang >/dev/null 2>&1; then
+  xcode-select --install
+fi
+'''
 
 [tasks.bootstrap]
 description = "Run after mise bootstrap installs tools + packages"
 run = "mise run setup"
 ```
 
-On macOS the C compiler is Apple clang from Xcode Command Line Tools; resolve
-or verify it in the setup/check path rather than adding a brew clang package
-unconditionally.
+Do not add a `brew:llvm`-style compiler package unconditionally to cover macOS;
+the hook above handles Apple clang, and `mise bootstrap packages status`
+reports what each manager would do on the current platform.
 
 ### 7. Offer the root bootstrap entry point
 

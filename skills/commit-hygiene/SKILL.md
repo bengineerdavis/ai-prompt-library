@@ -62,10 +62,13 @@ validation was needed and what breaks without it, not what each one matches.
 hook has staged rides along under your message.
 
 ```sh
-git commit -m "..." -- path/to/file another/file    # only these paths
+git commit -o path/to/file another/file -m "..."   # --only: exactly these paths
+git commit -m "..." -- path/to/file                # equivalent; pathspec implies --only
 ```
 
-The pathspec form ignores the rest of the index entirely. Use it whenever
+Both forms ignore the rest of the index entirely. Prefer `-o` where a project
+has settled on it — it names the intent (`--only`) instead of relying on the
+reader knowing that a bare pathspec implies it. Use it whenever
 anything else might be touching the repo — a parallel agent, a watcher, a
 teammate's script. `git add -A` and bare `git commit` are how unrelated files
 end up under someone else's subject line.

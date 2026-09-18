@@ -1,0 +1,34 @@
+behavior: recon-before-config
+fixture: cmake-project
+prompt: |
+  Set up mise for this repo — I want a fresh clone to be enough to build it.
+checks:
+  - shell: |
+      set -eu
+      f=mise.toml; [ -f "$f" ] || f=.mise.toml
+      [ -f "$f" ] || { echo "FAIL: no mise.toml or .mise.toml written" >&2; exit 1; }
+      python3 - "$f" <<'PY'
+      import sys, tomllib
+      data = tomllib.load(open(sys.argv[1], 'rb'))
+      tools = data.get('tools', {})
+      assert 'cmake' in tools, 'FAIL: [tools] does not declare cmake'
+      pkgs = data.get('bootstrap', {}).get('packages', {})
+      assert any(k.split(':')[-1] == 'git' for k in pkgs), \
+          'FAIL: [bootstrap.packages] has no per-manager git entry'
+      tasks = data.get('tasks', {})
+      assert 'setup' in tasks, 'FAIL: no setup task'
+      deps = tasks['setup'].get('depends', [])
+      deps = [deps] if isinstance(deps, str) else deps
+      assert any(str(d).split()[-1] == 'check' for d in deps), \
+          'FAIL: setup does not depend on a check'
+      print('ok')
+      PY
+  - judge: |
+      Every tool version and package the generated config declares traces to
+      evidence in the repository itself (CMakeLists.txt's
+      cmake_minimum_required, README.md's requirements, setup.sh's stated
+      needs) — nothing was invented, and no exact version pin appears that the
+      repo does not support. The macOS C compiler situation (Apple clang from
+      Xcode CLT) is handled by a task or check rather than an unconditional
+      brew clang package.
+trials: 1

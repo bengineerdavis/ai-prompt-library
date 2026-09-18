@@ -1,0 +1,26 @@
+behavior: long-inline-scripts-move-to-files
+fixture: messy-mise
+prompt: |
+  The setup task in this mise file is an unreadable blob of inline shell.
+  Clean it up.
+checks:
+  - file_exists: scripts/setup.sh
+  - shell: |
+      set -eu
+      f=mise.toml; [ -f "$f" ] || f=.mise.toml
+      [ -f "$f" ] || { echo "FAIL: mise config missing" >&2; exit 1; }
+      python3 - "$f" <<'PY'
+      import sys, tomllib
+      task = tomllib.load(open(sys.argv[1], 'rb'))['tasks']['setup']
+      assert task.get('file'), 'FAIL: setup task still inlines its command'
+      run = task.get('run')
+      if run is not None and len(str(run)) > 120:
+          raise SystemExit('FAIL: run still carries the script body')
+      print('ok')
+      PY
+  - judge: |
+      The extracted script preserves every original setup step — create the
+      virtualenv, sync dependencies, install the pre-commit hook, run the
+      pytest collection — and drops nothing and invents nothing. The task
+      metadata (description) survived the refactor.
+trials: 1

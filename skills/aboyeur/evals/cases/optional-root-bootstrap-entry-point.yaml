@@ -1,0 +1,25 @@
+behavior: optional-root-bootstrap-entry-point
+fixture: cmake-project
+prompt: |
+  Can you make it so anyone who clones this repo runs one command and it just
+  works? They probably don't even have mise installed.
+checks:
+  - file_exists: scripts/bootstrap.sh
+  - shell: |
+      set -eu
+      found=""
+      for f in *.sh; do
+        [ -f "$f" ] || continue
+        if grep -q 'mise\.run' "$f"; then found="$f"; break; fi
+      done
+      [ -n "$found" ] || {
+        echo "FAIL: no root entry point installs mise from the official path" >&2
+        exit 1
+      }
+  - judge: |
+      The root entry point is thin: it installs mise when missing (the official
+      mise.run path), then trusts the config, runs mise install, and invokes
+      the project's bootstrap task — while the real logic lives in scripts/.
+      The README's quick-start names that single command, so no setup
+      knowledge beyond the command is required.
+trials: 1

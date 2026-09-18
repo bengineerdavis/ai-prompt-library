@@ -1,0 +1,25 @@
+behavior: versioned-versus-local-is-an-explicit-choice
+fixture: cmake-project
+prompt: |
+  Add mise for this project, but just for my machine — I don't want any of it
+  showing up in the repo.
+checks:
+  - file_exists: mise.local.toml
+  - shell: |
+      set -eu
+      if [ -f mise.toml ] || [ -f .mise.toml ]; then
+        echo "FAIL: a versioned mise.toml was written for a local-only ask" >&2
+        exit 1
+      fi
+  - shell: |
+      set -eu
+      grep -q 'mise\.local\.toml' .gitignore || {
+        echo "FAIL: .gitignore does not cover mise.local.toml" >&2
+        exit 1
+      }
+  - judge: |
+      Any script the generated config references lives under .scripts/ (the
+      local-only layer), and nothing in the config or the workspace references
+      a versioned scripts/ directory. The local layer is self-consistent: if a
+      local lockfile was created, it is also gitignored.
+trials: 1

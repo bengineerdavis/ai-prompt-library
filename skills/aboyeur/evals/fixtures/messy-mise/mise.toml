@@ -1,0 +1,23 @@
+[tools]
+python = "3.12"
+
+[tasks.setup]
+description = "Set up the project"
+run = '''
+set -eu
+uv venv
+uv sync
+if [ ! -f .git/hooks/pre-commit ]; then
+  uv run pre-commit install
+fi
+uv run python -m pytest --collect-only -q
+printf 'setup complete\n'
+'''
+
+[tasks.test]
+description = "Run the test suite"
+run = "uv run pytest"
+
+[tasks.lint]
+description = "Lint the project"
+run = "uv run ruff check ."

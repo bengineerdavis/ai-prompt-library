@@ -1,0 +1,43 @@
+behavior: working-condition-is-verified-cross-platform
+fixture: cmake-project
+prompt: |
+  Set up mise for this repo, and make sure the config verifies the environment
+  actually works on macOS, Linux, and Windows — not just on whatever machine
+  generated it.
+checks:
+  - shell: |
+      set -eu
+      f=mise.toml; [ -f "$f" ] || f=.mise.toml
+      [ -f "$f" ] || { echo "FAIL: no mise config written" >&2; exit 1; }
+      python3 - "$f" <<'PY'
+      import sys, tomllib
+      data = tomllib.load(open(sys.argv[1], 'rb'))
+      checks = data.get('doctor', {}).get('checks', {})
+      assert checks, 'FAIL: no [doctor.checks] entries'
+      def platforms(c):
+          o = c.get('os', [])
+          return {o} if isinstance(o, str) else set(o)
+      covered = set()
+      for c in checks.values():
+          covered |= platforms(c)
+      assert {'linux', 'macos'} <= covered, \
+          f'FAIL: checks cover {sorted(covered)}, need linux + macos'
+      print('ok')
+      PY
+  - shell: |
+      set -eu
+      f=mise.toml; [ -f "$f" ] || f=.mise.toml
+      python3 - "$f" <<'PY'
+      import sys, tomllib
+      tasks = tomllib.load(open(sys.argv[1], 'rb')).get('tasks', {})
+      assert any('mise doctor project' in str(t.get('run', '')) for t in tasks.values()), \
+          'FAIL: no task runs mise doctor project'
+      print('ok')
+      PY
+  - judge: |
+      Requirements that cannot hold on Windows (for example, checks that shell
+      out to pkg-config or other Unix tools) are os-gated so Windows reports
+      them as skipped rather than failed, and every check's hint names the
+      remedy for its failure. Version-range requirements are actually verified
+      by the check's run, not merely asserted in its description.
+trials: 1

@@ -39,22 +39,35 @@ reference, so renaming a behavior means updating its case.
 
 ## Referencing a skill from a local environment
 
-Nothing here installs itself — this repo stays the single source of truth and
-consumers point at it. To use one with Claude Code, symlink it into the
-user-level skill directory it already discovers:
+Skills distribute through [dotagents](https://github.com/getsentry/dotagents):
+`~/.agents/agents.toml` declares the sources — this repo is trusted and
+wildcarded — and `agents.lock` pins the resolved commit. dotagents installs
+skills into the canonical store `~/.agents/skills/` and symlinks them into each
+agent runtime's skills directory; `~/.claude/skills` is itself a symlink to
+`~/.agents/skills`.
+
+Because dotagents resolves from this repo's GitHub remote at a commit, a new or
+changed skill only installs after it is committed **and pushed**, then:
 
 ```bash
-mkdir -p ~/.claude/skills
-ln -s ~/code/personal/ai-prompt-library/skills/pii-redaction ~/.claude/skills/pii-redaction
+dotagents install      # resolves the pushed commit, updates agents.lock, wires the links
+dotagents list         # confirm the skill is declared
+dotagents doctor --fix # repair wiring if anything looks off
 ```
 
-A symlink rather than a copy: edits land in the library, get committed here, and
-every environment picks them up. `~/.claude/` is deliberately not managed by
-chezmoi (it is ignored as dev tooling), so the link is per-machine setup.
+The decision record — dotagents over skills.sh and per-tool config — lives in
+`dotfiles/docs/AGENT-ARTIFACTS.md` in the dotfiles repo.
 
 ## Skills
 
-| Skill                             | Purpose                                                                                                                 |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [pii-redaction](pii-redaction/)   | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed. |
-| [commit-hygiene](commit-hygiene/) | One logical change per commit, message sized to the change, commit by path, verify the contents afterwards.             |
+| Skill                                        | Purpose                                                                                                                  |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [aboyeur](aboyeur/)                          | Reads a repo's own files and generates its `mise.toml`: tools, env, wired tasks, system packages, cross-platform checks.  |
+| [commit-hygiene](commit-hygiene/)            | One logical change per commit, message sized to the change, commit by path, verify the contents afterwards.              |
+| [interaction-questioning](interaction-questioning/) | Discovers and confirms the user's real goal with adaptive, one-question-at-a-time questioning.                     |
+| [model-fitness](model-fitness/)              | Decides whether a model is fit for a named role from measurements on the deciding machine, not published benchmarks.      |
+| [pii-redaction](pii-redaction/)              | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed.   |
+| [plain-english](plain-english/)              | Edits technical prose to the Google Developer Documentation Style Guide core.                                             |
+| [review-best-practices](review-best-practices/) | Researches what exists, ranks options against the requirement, records what was rejected before a plan commits.         |
+| [skillify](skillify/)                        | Authors a skill with skillet and lands it in this library, stopping at the dotagents review gate.                          |
+| support-escalation                           | Spec + evals only — the `escalate` behavior contract; no SKILL.md rendered yet.                                           |

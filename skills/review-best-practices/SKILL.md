@@ -36,14 +36,14 @@ costs more.
 1. **Name the requirement first, in one sentence**, before searching. Include
    the capability that would disqualify a candidate. Searching before you know
    what would eliminate an option produces a survey, not a decision.
-2. **Search at least three kinds of source.** Established tools; relevant
+1. **Search at least three kinds of source.** Established tools; relevant
    standards or specifications; what practitioners report actually doing. Each
    is blind to what the others see — a tool search misses that everyone
    abandoned it, a standards search misses that nothing implements it.
-3. **Verify any capability that matters.** Check the tool's source, its
+1. **Verify any capability that matters.** Check the tool's source, its
    `--help`, or run it. Do not rely on recall.
-4. **Rank against the requirement**, leading with the disqualifying capability.
-5. **Decide**, and record the rejected options with the reason for each.
+1. **Rank against the requirement**, leading with the disqualifying capability.
+1. **Decide**, and record the rejected options with the reason for each.
 
 Time-box it. A search that finds nothing is a finished search — say so and build.
 

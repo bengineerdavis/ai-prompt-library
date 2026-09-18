@@ -8,7 +8,7 @@ checks:
       test -s DECISION.md || { echo "FAIL: no DECISION.md written" >&2; exit 1; }
       # Rejected options must be named AND given a reason. A decision that lists
       # only the winner is indistinguishable from never having searched.
-      grep -Eqi 'reject|not chosen|ruled out|discounted|why not|alternativ|considered' DECISION.md || {
+      grep -Eqi 'reject|not chosen|ruled out|discounted|why not|alternative|considered' DECISION.md || {
         echo "FAIL: DECISION.md records no rejected options" >&2; cat DECISION.md >&2; exit 1; }
       named=$(grep -Eoi 'copier|cookiecutter|cruft|yeoman|projen|plop|degit|cargo-generate' DECISION.md \
               | tr 'A-Z' 'a-z' | sort -u | wc -l | tr -d ' ')

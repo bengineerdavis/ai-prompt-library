@@ -8,16 +8,20 @@ Everything below has been run and verified on this machine.
 
 ## Runtime assets already in place
 
-    ~/.config/support-escalation/system.txt    the escalation prompt (derived from spec.md)
-    ~/.config/support-escalation/schema.json   the 15-field JSON schema
+```
+~/.config/support-escalation/system.txt    the escalation prompt (derived from spec.md)
+~/.config/support-escalation/schema.json   the 15-field JSON schema
+```
 
 ## The verified core command
 
 This exact invocation works today. It is the thing to hand `binned`:
 
-    llm -n -m granite4.1:30b-q4_K_M \
-      -s "$(cat ~/.config/support-escalation/system.txt)" \
-      --schema ~/.config/support-escalation/schema.json
+```
+llm -n -m granite4.1:30b-q4_K_M \
+  -s "$(cat ~/.config/support-escalation/system.txt)" \
+  --schema ~/.config/support-escalation/schema.json
+```
 
 `-n` is `--no-log` and is **not optional**. Without it `llm` writes full prompt
 and response bodies to its local database indefinitely, which is retention no
@@ -25,15 +29,17 @@ policy layer authorises for customer material. See the constraint in `spec.md`.
 
 ## Generate the script
 
-    eval "$(ollama-role env)"   # so the generated script can see OLLAMA_ROLE_*
+```
+eval "$(ollama-role env)"   # so the generated script can see OLLAMA_ROLE_*
 
-    binned "read a support thread from stdin and produce a support escalation
-    ticket: pipe the thread into llm -n with the system prompt at
-    ~/.config/support-escalation/system.txt and the JSON schema at
-    ~/.config/support-escalation/schema.json, then render the resulting JSON
-    into a markdown ticket. Default to the local model from ollama-role;
-    fall back only to the ZDR endpoint in OLLAMA_ROLE_ESCALATE with
-    -o provider '{\"zdr\":true}'; emit JSON with --json, markdown otherwise."
+binned "read a support thread from stdin and produce a support escalation
+ticket: pipe the thread into llm -n with the system prompt at
+~/.config/support-escalation/system.txt and the JSON schema at
+~/.config/support-escalation/schema.json, then render the resulting JSON
+into a markdown ticket. Default to the local model from ollama-role;
+fall back only to the ZDR endpoint in OLLAMA_ROLE_ESCALATE with
+-o provider '{\"zdr\":true}'; emit JSON with --json, markdown otherwise."
+```
 
 `binned` will detect the `llm` call and ask which model alias the generated
 script should use — that is the prompt you need to be present for. Add `-y` to
@@ -61,12 +67,12 @@ Same fixture, both models:
 
 Same fixture, one trial each — **provisional, pending re-measurement**:
 
-| | `granite4:32b-a9b-h` (`long`) | `granite4.1:30b-q4_K_M` |
-|---|---|---|
-| HAR marked unavailable | ✗ claimed it had it | ✓ |
-| Asked for the HAR | ✗ | ✓ |
-| Caught the abandoned relay-log check | ✓ | ✓ |
-| Wall clock | *not measured* | *not measured* |
+|                                      | `granite4:32b-a9b-h` (`long`) | `granite4.1:30b-q4_K_M` |
+| ------------------------------------ | ----------------------------- | ----------------------- |
+| HAR marked unavailable               | ✗ claimed it had it           | ✓                       |
+| Asked for the HAR                    | ✗                             | ✓                       |
+| Caught the abandoned relay-log check | ✓                             | ✓                       |
+| Wall clock                           | *not measured*                | *not measured*          |
 
 > **Timings withheld.** The machine was serving other model workloads during
 > these runs, so the wall-clock figures collected were contention noise, not a
@@ -101,5 +107,7 @@ now installed as the second harness for the cross-run protocol — skillet 1.7.0
 grades each case with the same model that ran it, so a single run always
 self-grades. See the comment block in `.skillet.yaml` for the two commands.
 
-    skillet validate      # spec grammar + eval coverage — currently clean
-    skillet eval --dry    # flags vacuous checks before spending tokens
+```
+skillet validate      # spec grammar + eval coverage — currently clean
+skillet eval --dry    # flags vacuous checks before spending tokens
+```

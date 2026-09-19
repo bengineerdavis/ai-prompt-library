@@ -12,13 +12,19 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
   (MIT), extract into general practices, land as skills + reference rules in
   `skills/research/`. Decisions locked with the author: validator is the
   calibrated fusion council (not a single agent); first pilot is the
-  dotfiles `requirements.yml` pin policy. Done when: (1) the three
-  reference rules + research skill + two dispatch templates are authored
-  with MIT attribution; (2) one council round has attacked the draft;
-  (3) the pilot has run end to end — real report, validation, and the
-  no-evidence path deliberately exercised (a mechanism that can decline is
-  proven to relent). Formal skillet spec + evals: queued decision, pilot is
-  interim evidence. [agent: chezmoi session]
+  dotfiles `requirements.yml` pin policy. **DONE (2026-09-19):** the three
+  reference rules + research skill + two dispatch templates + report
+  template authored with MIT attribution (0aa0e2b); one council round
+  attacked the draft, all findings applied — trust classes split state from
+  self-description (governance docs are provided-class; session artifacts
+  are derived), the codebase lane is its own dispatch, failed analysts are
+  no-evidence-labeled findings, claim tagging is mechanical, judge budget
+  decouples by band (dda72c4). **REMAINS:** the pilot end to end — the pin
+  question PLUS an engineered no-evidence sub-angle (the pin question has
+  abundant web evidence; the defer-with-reopen path must be exercised
+  deliberately), following skills/research/SKILL.md as written. Formal
+  skillet spec + evals: queued decision, pilot is interim evidence.
+  [agent: chezmoi session]
 
 ## Planned
 

@@ -28,8 +28,15 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
   unsettled on automation appetite / grade-linkage / staleness). The run
   also caught a real process gap: the web-isolation contract is not
   mechanically enforced by the dispatch machinery (subagents run inside the
-  repo with file tools) — fix queued with the skill. Formal skillet spec +
-  evals: queued decision, pilot is interim evidence.
+  repo with file tools) — fix queued with the skill. **Eval decision
+  (2026-09-19, made by the evidence rule itself):** formal skillet eval
+  cases are DEFERRED with a reopen trigger — one pilot is thin class
+  understanding, and the house doctrine writes cases from a problem class,
+  not a single run. Reopen after 3 real pilots or the first real failure
+  class; pilot 1 stands as interim evidence. The isolation constraint is
+  now recorded in the SKILL.md (brief-level, not mechanical, with the
+  current dispatch machinery; compensating controls in place; mechanical
+  enforcement queued for the R&D factory).
   [agent: chezmoi session]
 
 ## Planned

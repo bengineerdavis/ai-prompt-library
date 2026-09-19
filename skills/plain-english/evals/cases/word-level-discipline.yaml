@@ -8,7 +8,9 @@ checks:
   - shell: |
       ! grep -qiE '\bsimply\b|\bfastest\b|\bensures\b|\bplease note\b' docs/setup.md
   - shell: |
-      diff <(sed -n '/^```bash$/,/^```$/p' docs/setup.md) <(printf '%s\n' '```bash' 'raise pii redact capture.har --out share/capture.redacted.har' '```')
+      # The command block is byte-identical. Written for sh: no process
+      # substitution, which the harness shell cannot parse.
+      test "$(sed -n '/^```bash$/,/^```$/p' docs/setup.md)" = "$(printf '%s\n' '```bash' 'raise pii redact capture.har --out share/capture.redacted.har' '```')"
   - judge: |
       The paragraph that previously said "Simply run the new command — this
       ensures the fastest possible setup" now tells the reader the same

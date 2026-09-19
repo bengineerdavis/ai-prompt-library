@@ -6,8 +6,16 @@ fixture: sampler
 checks:
   - file_exists: docs/glossary.md
   - shell: |
-      grep -q 'PII (personally identifiable information)' docs/glossary.md
+      # Lines joined: the expansion can wrap between the term and its
+      # parenthesised acronym.
+      tr '\n' ' ' < docs/glossary.md | tr -s ' ' \
+        | grep -qiE 'personally identifiable information \(PII\)'
   - shell: |
-      grep -qE 'DSN \([Dd]ata [Ss]ource [Nn]ame\)' docs/glossary.md
+      tr '\n' ' ' < docs/glossary.md | tr -s ' ' \
+        | grep -qiE 'data source name \(DSN\)'
   - shell: |
-      test "$(grep -c 'personally identifiable' docs/glossary.md)" -eq 1
+      # Expanded exactly once. Counts occurrences in the joined text, not
+      # matching lines, so a wrap cannot change the number.
+      test "$(tr '\n' ' ' < docs/glossary.md | tr -s ' ' | grep -oiE 'personally identifiable information' | wc -l | tr -d ' ')" -eq 1
+  - shell: |
+      test "$(tr '\n' ' ' < docs/glossary.md | tr -s ' ' | grep -oiE 'data source name' | wc -l | tr -d ' ')" -eq 1

@@ -1,8 +1,8 @@
 behavior: sentence-case-for-headings
 prompt: |
-  docs/setup.md and docs/runbook.md both use title case in their top
-  headings. Convert both headings to sentence case without breaking their
-  meaning.
+  The top heading in docs/setup.md and docs/runbook.md is wrong on two
+  counts: it is title case, and it opens with an -ing verb. Both name a
+  task. Fix both headings.
 fixture: sampler
 checks:
   - file_exists: docs/setup.md

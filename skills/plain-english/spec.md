@@ -95,8 +95,11 @@ file if the scan finds nothing").
 ### Behavior: Sentence case for headings
 
 The agent SHALL write document titles and section headings in sentence case
-(capitalize the first word and proper nouns only). An existing heading keeps
-its anchor/link targets intact when the tooling derives them from text.
+(capitalize the first word and proper nouns only). A heading that names a
+task SHALL start with a bare infinitive ("Set up the gate", not "Setting up
+the gate"); a heading that names a concept SHALL be a noun phrase that does
+not start with an -ing verb. An existing heading keeps its anchor/link
+targets intact when the tooling derives them from text.
 
 #### Scenario: Title-case heading in a technical document
 
@@ -112,9 +115,17 @@ delete filler (simply, just, easily, obviously, very, "please note");
 marketing adjectives (seamless, robust, powerful, effortless, elegant);
 fat verb constructions ("perform an analysis of" becomes "analyze", "make a
 decision" becomes "decide"); long word choices ("utilize" becomes "use",
-"prior to" becomes "before", "regarding" becomes "about"); and
-ensure/guarantee where nothing can be ensured ("helps prevent", "is designed
-to"). Every remaining claim is one a reader could check.
+"prior to" becomes "before", "regarding" becomes "about").
+
+An ensure/guarantee construction loses the wrapper, never the claim:
+"ensures no data is lost" becomes "No data is lost". The verb was the
+flourish; the proposition is the author's. The agent SHALL NOT decide
+whether a claim is achievable or true — ensurability is a property of the
+system, not of the sentence, and the agent has no access to the system.
+Where the wrapper holds a superlative and no proposition ("ensures the
+fastest possible setup"), the intensifier rule already removes it and no
+claim is lost. An unverifiable claim the agent cannot repair by phrasing
+alone is flagged for the author, never quietly rewritten.
 
 #### Scenario: Filler, a fat verb, and an unverifiable claim in one paragraph
 
@@ -123,7 +134,8 @@ to"). Every remaining claim is one a reader could check.
   setup" and the user asks to edit it to plain English
 - **THEN** the edited text reads "Run the new command to initialize the
   environment" (or names what the command actually does), with no
-  intensifiers, no fat verb, and no claim the reader cannot verify
+  intensifiers and no fat verb — "fastest possible" was a superlative
+  rather than a proposition, so no claim was lost
 
 ### Behavior: Short sentences, one action each
 
@@ -163,16 +175,17 @@ own term and a software-engineering term may legitimately coexist
 
 ### Behavior: Expand acronyms on first use
 
-The agent SHALL expand an acronym at its first use in a document
-("PII (personally identifiable information)") and use the short form after.
-An acronym the document's own audience is assumed to know (API, URL) may
-stand unexpanded.
+The agent SHALL spell out an acronym at its first use in a document and put
+the acronym in parentheses immediately after ("personally identifiable
+information (PII)"), then use the short form alone. The spelled-out form
+stays lowercase unless it is a proper noun. An acronym the document's own
+audience is assumed to know (API, URL) may stand unexpanded.
 
 #### Scenario: An unexpanded acronym used throughout
 
 - **WHEN** a document uses "DSN" eleven times without expansion and the user
   asks to edit it to plain English
-- **THEN** the first occurrence reads "DSN (data source name)" and the
+- **THEN** the first occurrence reads "data source name (DSN)" and the
   remaining ten read "DSN"
 
 ## Constraints
@@ -191,7 +204,11 @@ agent never introduces "easily", "guarantees", or a performance claim the
 source did not make; quoted speech and the user's deliberately preserved
 voice stay untouched. When the original is vague, the edit stays vague: the
 agent replaces fluff with the plainest statement of the same claim, never
-with specifics imported from outside the text. A broad claim ("all of your
+with specifics imported from outside the text. A proposition the source
+asserts survives at its original strength even when an ensure/guarantee
+wrapper carries it: the agent drops the wrapper and keeps the proposition,
+because deleting a claim weakens it and hedging one ("helps prevent", "is
+designed to") weakens it too. A broad claim ("all of your
 identifiers") stays broad — the agent replaces it with an enumeration only
 when the list is known to be complete, and otherwise marks an illustrative
 list as such ("such as").

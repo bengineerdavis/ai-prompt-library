@@ -1,14 +1,24 @@
 behavior: second-person-for-instructions
 prompt: |
-  docs/setup.md keeps referring to the reader in the third person. Address
-  the reader directly.
+  docs/setup.md and docs/runbook.md both refer to the reader in the third
+  person. Address the reader directly in each.
 fixture: sampler
 checks:
   - file_exists: docs/setup.md
   - shell: |
-      ! grep -qiE 'the user should' docs/setup.md
+      # Join lines first: in the fixture "The user should" wraps mid-phrase,
+      # so a line-based grep would never see it and the check would be
+      # vacuous.
+      ! tr '\n' ' ' < docs/setup.md | grep -qiE 'the user should'
   - shell: |
-      grep -qiE '^(then |you should )?run the migrations' docs/setup.md
+      ! tr '\n' ' ' < docs/runbook.md | grep -qiE 'the user should'
+  - shell: |
+      # The instruction survives as an imperative or in second person.
+      # Lines are joined and spaces squeezed: the edit reflows the
+      # paragraph, so the sentence can wrap at any point.
+      joined=$(tr '\n' ' ' < docs/setup.md | tr -s ' ')
+      printf '%s' "$joined" | grep -qiE '(^|[.!?] )(then |first |next )?run the migrations' \
+        || printf '%s' "$joined" | grep -qiE 'you [a-z ]*run the migrations'
   - judge: |
       The migration instruction now addresses the reader as "you" or as an
       imperative, and the runbook document's instruction about making sure no

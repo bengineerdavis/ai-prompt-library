@@ -7,6 +7,9 @@ fixture: sampler
 checks:
   - file_exists: docs/announcement.md
   - shell: |
+      # The edit must actually happen: the source's filler is gone.
+      ! grep -qiE 'seamlessly|simply|\butilize\b|\bensures\b' docs/announcement.md
+  - shell: |
       # No mechanism invented: "quarantine", "checksum", "verify" and similar
       # specifics the source never named must not appear.
       ! grep -qiE 'quarantin|checksum|verif|backup|snapshot|incremental' docs/announcement.md
@@ -14,8 +17,19 @@ checks:
       # The vague breadth stays: no exhaustive-sounding enumeration that the
       # source did not carry.
       ! grep -qiE 'datasets, schemas, and|files, folders, and' docs/announcement.md
+  - shell: |
+      # The no-data-loss proposition survives. Deleting it is weakening it,
+      # and this is the failure mode trials actually produced.
+      tr '\n' ' ' < docs/announcement.md | tr -s ' ' \
+        | grep -qiE 'no data|loses no data|does not lose|never lost|nothing is lost'
+  - shell: |
+      # Nor is it downgraded. Hedging a stated claim weakens it just as
+      # deleting it does; ensurability is not the agent's call.
+      ! tr '\n' ' ' < docs/announcement.md | tr -s ' ' \
+        | grep -qiE 'helps prevent|designed to|aims to|intended to|should prevent'
   - judge: |
       The edited announcement keeps the original claims at their original
-      breadth: the no-data-loss claim is stated plainly (hedged, not
-      guaranteed), the export command instruction survives, and no sentence
-      describes a mechanism the original did not name.
+      breadth and strength: the no-data-loss claim is asserted plainly and
+      is neither dropped nor softened into a hedge, the export command
+      instruction survives, and no sentence describes a mechanism the
+      original did not name.

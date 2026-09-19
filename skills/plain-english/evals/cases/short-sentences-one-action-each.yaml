@@ -6,6 +6,12 @@ fixture: sampler
 checks:
   - file_exists: docs/runbook.md
   - shell: |
+      # The rewrite must actually happen: imperative numbered steps, and the
+      # third-person narration is gone.
+      grep -qE '^[0-9]+\. ' docs/runbook.md
+  - shell: |
+      ! grep -q 'The user should' docs/runbook.md
+  - shell: |
       ! grep -qE ';| — | -- ' docs/runbook.md
   - judge: |
       The procedure is now a numbered sequence of imperative steps, each with

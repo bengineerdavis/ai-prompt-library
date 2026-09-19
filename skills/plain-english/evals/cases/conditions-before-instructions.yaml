@@ -1,12 +1,21 @@
 behavior: conditions-before-instructions
 prompt: |
-  docs/setup.md buries its condition after the instruction. Fix that sentence,
-  and keep the runbook's destructive step attached to the same condition.
+  docs/setup.md and docs/runbook.md both put conditions after the
+  instructions they govern. Move every condition in front of its
+  instruction. Each step keeps the condition it already has — do not swap in
+  a condition from somewhere else.
 fixture: sampler
 checks:
   - file_exists: docs/setup.md
   - shell: |
-      grep -qiE 'if the retention policy expired the mapping file, (then )?delete' docs/setup.md
+      # Lines joined: the rewritten sentence can wrap anywhere.
+      tr '\n' ' ' < docs/setup.md | tr -s ' ' \
+        | grep -qiE 'if the retention policy expired the mapping file, (then )?delete'
+  - shell: |
+      # The runbook keeps its own condition (the job's configuration). A
+      # trial once replaced it with setup.md's retention-expiry condition,
+      # which silently changed the claim.
+      grep -qi 'configur' docs/runbook.md
   - judge: |
       The sentence about deleting the mapping file now states the condition
       before the instruction, and the runbook document's conditional and

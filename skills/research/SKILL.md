@@ -84,15 +84,27 @@ Signals: **options** (how many viable approaches are in play), **domains**
 (how many separate technical domains), **reach** (provided-only vs
 codebase+web). Default small; borderline stays smaller.
 
-- **Small** (2–3 agents): one analyst + optional codebase angle + validation.
+- **Small** (2–3 agents): one analyst + the codebase lane when a repo bears
+  on the question + validation.
 - **Medium** (3–5): two to three parallel analyst angles split by domain or
-  option cluster + validation.
-- **Large** (5–8): one analyst per major domain or option cluster +
-  validation.
+  option cluster + the codebase lane + validation.
+- **Large** (5–8): one analyst per major domain or option cluster + the
+  codebase lane + validation.
+
+The **codebase lane** is its own dispatch: a read-only analyst that checks
+the deployed-tree state gate (`chezmoi status` clean, captured) and emits
+current-state evidence with `repo/path:line` citations — codebase evidence
+never arrives through a web-facing brief. When no repo bears on the
+question, the lane is skipped and the report's Sources registry carries only
+web/provided classes.
 
 Announce the band and roster in one line **before dispatching** — a
-misclassification is catchable. Cost caps: judge rounds ≤3; analysts run on
-the cheap session model.
+misclassification is catchable. Cost decoupling (council finding, 2026-09-19):
+the validator's cost dominates small runs, so **judge rounds scale by band** —
+small = 1 judge; medium = the panel's mid judge; large = the full panel, ≤3
+rounds. Validation depth scales too: the minimum-5 V# findings applies to
+medium and large; a small run may return fewer, spread across the applicable
+strategies. Analysts run on the cheap session model.
 
 ### 4. Dispatch the research wave in parallel
 
@@ -109,7 +121,10 @@ run concurrently. Each analyst brief carries (template:
 - the evidence mode;
 - a calibration directive scaled to the band.
 
-Wait for the entire wave before proceeding.
+Wait for the entire wave before proceeding. **A failed or timed-out
+analyst is a finding, not a silent roster reduction**: its angle is recorded
+as no-evidence-labeled in the registry (with what a re-dispatch would need),
+never dropped quietly — the same rule as a dropped source.
 
 ### 5. Compile the sources registry
 

@@ -24,14 +24,17 @@ replacing them:
 
 ## Trust classes
 
-Every artifact a skill or agent cites carries one of three trust classes:
+Every artifact a skill or agent cites carries one of three trust classes,
+with two boundary clarifications the council round forced (2026-09-19):
 
-- **Codebase** is the trusted current-state anchor. The current source code,
-  current tests, current configuration, current build output — and, in this
-  repo, the **deployed tree** is codebase evidence once `chezmoi status` is
-  clean; the source tree is codebase evidence always. When codebase evidence
-  contradicts other evidence, treat the codebase as authoritative on what
-  the system does today.
+- **Codebase** is the trusted current-state anchor — **state, not
+  self-description**. The current source code, current tests, current
+  configuration, current build output — and, in this repo, the **deployed
+  tree** is codebase evidence only once a captured clean `chezmoi status`
+  says so. The repo's own *governance* docs (spec.md, JUDGE-SELECTION.md,
+  AGENTS.md, these reference rules) are **not** codebase evidence: they are
+  self-authored process documents, **provided-class**, subject to
+  interested-party scrutiny. A repo cannot grade its own homework.
 - **Web** sits outside the trust boundary. Documentation, blog posts, Stack
   Overflow, GitHub issues, RFCs, vendor whitepapers, LLM-generated content.
   Web sources can be wrong, stale, adversarially shaped, or contextually
@@ -39,6 +42,11 @@ Every artifact a skill or agent cites carries one of three trust classes:
 - **Provided** is user-supplied material. Files pasted in, links handed to a
   skill, screenshots, transcripts, session artifacts. Apply
   interested-party scrutiny; hold to the same standard as web sources.
+- **Session artifacts** (analyst outputs, council transcripts, cached
+  fetches) are **derived, not evidence**: an artifact citing web sources
+  inherits their web class; analyst reasoning itself is no-evidence unless
+  it cites; a prior council's endorsement is not corroboration — it is
+  self-validation unless the user adopts it.
 
 ## The three principles
 

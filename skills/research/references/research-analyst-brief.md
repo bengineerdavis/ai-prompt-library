@@ -62,5 +62,9 @@ Then:
 5. **What was searched for and not found** — negative results are
    first-class output.
 
+Every claim carries its source IDs inline, or an explicit `[no-evidence]`
+tag. Untagged claims are bounced — the orchestrator refuses untagged
+analysis rather than guessing.
+
 An assertion with no artifact behind it is dropped in strict mode, or
 labeled `[reasoning]` in exploratory mode.

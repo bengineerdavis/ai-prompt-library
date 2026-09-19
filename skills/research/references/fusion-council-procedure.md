@@ -58,8 +58,8 @@ strategy makes the validation incomplete.
 
 ## The output
 
-- Numbered `V#` findings, minimum 5, spread across the applicable
-  strategies. Each names: the strategy, the hypothesis under test, what was
+- Numbered `V#` findings — minimum 5 at medium and large; at small, fewer
+  are acceptable, spread across the applicable strategies. Each names: the strategy, the hypothesis under test, what was
   investigated, the result (**Confirmed / Refuted / Partially Refuted**),
   and the impact.
 - **Refutations carry counter-evidence at the same rigor as the original

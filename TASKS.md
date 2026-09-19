@@ -19,11 +19,17 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
   self-description (governance docs are provided-class; session artifacts
   are derived), the codebase lane is its own dispatch, failed analysts are
   no-evidence-labeled findings, claim tagging is mechanical, judge budget
-  decouples by band (dda72c4). **REMAINS:** the pilot end to end — the pin
-  question PLUS an engineered no-evidence sub-angle (the pin question has
-  abundant web evidence; the defer-with-reopen path must be exercised
-  deliberately), following skills/research/SKILL.md as written. Formal
-  skillet spec + evals: queued decision, pilot is interim evidence.
+  decouples by band (dda72c4). **PILOT DONE (2026-09-19):**
+  `skills/research/pilots/2026-09-19-requirements-pin.md` — the pin question
+  ran end to end (medium band, 2 web analysts + codebase lane + 1-judge
+  validation), the no-evidence path was exercised for real (the supply-chain
+  attack-surface claim deferred with triggers), and the validator refuted
+  the initial recommendation into an honest no-clear-winner (pin yes; shape
+  unsettled on automation appetite / grade-linkage / staleness). The run
+  also caught a real process gap: the web-isolation contract is not
+  mechanically enforced by the dispatch machinery (subagents run inside the
+  repo with file tools) — fix queued with the skill. Formal skillet spec +
+  evals: queued decision, pilot is interim evidence.
   [agent: chezmoi session]
 
 ## Planned

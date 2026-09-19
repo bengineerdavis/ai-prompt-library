@@ -169,6 +169,15 @@ Git notes follow the same structure rules as commit bodies: a subject-style
 first line, one claim per paragraph, bullets for parallel facts. A wall of
 prose in a note is the same unreadable failure.
 
+Notes do not travel with `git push` by default — `refs/notes/commits` needs
+an explicit refspec (`git push origin main refs/notes/commits`), and forges
+such as GitHub do not render notes at all; only `git log` and
+`git notes show` do. Treat notes as git-local annotations, not a publication
+channel. Note text gets stripspace treatment (trailing whitespace trimmed,
+blank runs collapsed), `append` inserts a blank line between paragraphs, and
+`git notes add` fails when a note already exists — that failure is the
+guardrail the overwrite rule below leans on.
+
 Never overwrite another tool's or session's contribution — a note, a config
 file, a generated artifact — unless the owner asked explicitly. Your own
 freshly-written note may be replaced; anything you did not write gets

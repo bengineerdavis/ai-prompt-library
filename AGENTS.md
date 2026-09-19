@@ -1,5 +1,12 @@
 # AGENTS.md
 
+> **2026-09-18 — one-time sync note, delete after acting:** `main` moved via
+> `git pull --rebase` on a concurrent session (no force-push). If this clone
+> is behind or diverged, run `git pull --rebase` before working. **Whichever
+> machine pulls this note removes it**: delete this block, commit the removal,
+> and push, so it never reaches another clone. Never force-push this
+> repository.
+
 Guidance for agents working in this repository. Content-first prompt library: almost
 everything is Markdown; the only root executable is `bundle.py`.
 

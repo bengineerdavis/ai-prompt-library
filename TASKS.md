@@ -7,7 +7,18 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
 
 ## Now
 
-Nothing scheduled — items land here when picked up.
+- **Build the research swarm — a research-agency process adapted from
+  testdouble/han.** Author request 2026-09-19: study han-research liberally
+  (MIT), extract into general practices, land as skills + reference rules in
+  `skills/research/`. Decisions locked with the author: validator is the
+  calibrated fusion council (not a single agent); first pilot is the
+  dotfiles `requirements.yml` pin policy. Done when: (1) the three
+  reference rules + research skill + two dispatch templates are authored
+  with MIT attribution; (2) one council round has attacked the draft;
+  (3) the pilot has run end to end — real report, validation, and the
+  no-evidence path deliberately exercised (a mechanism that can decline is
+  proven to relent). Formal skillet spec + evals: queued decision, pilot is
+  interim evidence. [agent: chezmoi session]
 
 ## Planned
 

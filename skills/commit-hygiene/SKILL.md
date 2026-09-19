@@ -37,11 +37,62 @@ drive-by fix rode along with a feature.
 | Mechanical — typo, rename, version bump, formatting  | Subject only                                    |
 | Small, single-purpose — one function, a flag, a test | Subject + 1–2 sentences of why                  |
 | Ordinary feature or fix                              | Subject + 1–2 short paragraphs                  |
-| Large or security-sensitive                          | Up to ~200 words — **and reconsider splitting** |
+| Large or security-sensitive                          | Structured body (bullets, full arc) — earned when ONE rationale needs it; still reconsider splitting |
 
-Past roughly 200 words, stop writing and re-read the diff. A body that keeps
-growing is the commit telling you it contains more than one idea. Split it; each
-piece then needs far less explaining, because each one is about a single thing.
+## Structure the body
+
+The blank line is the only delimiter git treats semantically — one
+blank-delimited block, one unit; never blank-separate a continued thought.
+
+**The arc.** A body paragraph serves one of four moves, in this order when
+all apply: the problem (present tense), why the result is better,
+alternatives discarded, review resolutions. The first sentence of each
+paragraph *is* its heading — no markup needed.
+
+- **One claim per paragraph.** Test: a reviewer can title the block with a
+  single problem statement. Two problem statements = two paragraphs — or
+  two commits.
+- **Bullets are parallel items of one claim.** Mixed-kind bullets, or an
+  inventory growing its own navigational section, is a split signal, not
+  structure.
+- **No markdown headers.** Bodies render as 72-column plain text in log,
+  email and tooling, so `##` is inert there — and needing navigational
+  headers is itself evidence the commit holds more than one change. If you
+  reach for `##`, ask whether it is a split. Trailers stay available for
+  machine consumption (`Refs: #123`, `BREAKING CHANGE: ...`) — they parse;
+  decoration does not.
+- **No measured length threshold exists** (the 50/72 limits are interface
+  constraints, not reader-load findings). Bands are observable:
+  *subject-only* when no reviewer question survives the subject; *short*
+  when one paragraph discharges the single claim; *structured* when the one
+  claim has parallel evidence items worth enumerating; *long* when each of
+  the arc's four moves needs its own paragraph for ONE rationale.
+  Per-module sections are not "long" — they are the split signal.
+- **Band check:** subject strain ("and"), more than one type, or more than
+  one rationale → split, don't lengthen. Length is never the fault;
+  multiplicity of rationale is.
+
+## Scope: group, split, or series
+
+One commit = one judgeable claim a reviewer can rule on **without reading
+the patch**.
+
+- **Revert-together:** if either rationale would ever be reverted without
+  the other, it was never one change — split.
+- **Test-together:** each commit builds and passes the suite alone. Commit
+  N needing N−1 green means resequence, squash, or admit it is one change.
+- **Series, not fat commit:** cross-module changes sharing one rationale
+  ship as a series — a shared `area:` prefix, the unifying rationale in the
+  first commit's body, one change per commit. Adjacency is not coupling:
+  tree-wide cleanups ship separately from real work.
+- **Grouping by `git add -p`** is normal practice: one issue per commit,
+  even within one file. Difficulty writing the subject means too many
+  changes.
+
+When the body keeps growing past the arc, re-read the diff: a body that
+needs its own navigation is the commit telling you it contains more than one
+idea. Split it; each piece then needs far less explaining, because each one
+is about a single thing.
 
 Never pad. A one-word typo fix with a three-paragraph body is worse than no
 body: it trains readers to skip your messages.
@@ -110,7 +161,7 @@ independently.
 This skill is portable. Where a repository documents its own commit conventions
 — scope vocabulary, subject format, worked examples from its own history — read
 and follow those; they are more specific. The dotfiles repo keeps its version in
-`docs/CONVENTIONS.md` under "Commit granularity".
+`CONTRIBUTING.md` § "Commit granularity" (a queued move to `docs/COMMITS.md`).
 
 ## Never
 

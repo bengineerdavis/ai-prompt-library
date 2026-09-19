@@ -163,10 +163,25 @@ This skill is portable. Where a repository documents its own commit conventions
 and follow those; they are more specific. The dotfiles repo keeps its version in
 `CONTRIBUTING.md` § "Commit granularity" (a queued move to `docs/COMMITS.md`).
 
+## Notes and other tools' contributions
+
+Git notes follow the same structure rules as commit bodies: a subject-style
+first line, one claim per paragraph, bullets for parallel facts. A wall of
+prose in a note is the same unreadable failure.
+
+Never overwrite another tool's or session's contribution — a note, a config
+file, a generated artifact — unless the owner asked explicitly. Your own
+freshly-written note may be replaced; anything you did not write gets
+appended to (`git notes append`) or left alone, and the question goes to the
+owner. `git notes add` fails when a note exists — that failure is the
+guardrail, not an obstacle to work around with `-f`.
+
 ## Never
 
 - Never sweep unrelated modified files in to get a clean tree.
 - Never stage a whole directory when only some of its files belong to the change.
 - Never lengthen the message to justify an overgrown commit.
+- Never overwrite another tool's or session's contribution without an
+  explicit ask — see § Notes above.
 - Never rebase, amend, or force-push history others may have built on to fix
   scope or wording. Propose the options and let the owner choose.

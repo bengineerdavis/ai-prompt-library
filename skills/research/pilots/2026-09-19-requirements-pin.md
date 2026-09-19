@@ -154,3 +154,18 @@ Galaxy is published; or a measured breakage occurs on this repo.
 2026-09-19. Process deviations and fixes feed back into the skill: the
 isolation enforcement gap (V3) is a dispatch-machinery fix, queued with the
 skill.*
+
+## Decision (2026-09-19, by the author)
+
+The no-clear-winner resolved: **O1 — exact pins** (13.0.1 / 5.2.1) with the
+bump signal wired into the dotfiles repo's `docs/REFERENCES.md` quarterly
+habit; a bump is a deliberate re-grade. **O4 (Renovate) deferred with a
+reopen trigger** — adopt when the collection set grows past a handful, a
+missed-update incident occurs, or the queued scheduled-runner service lands
+and wants a job. Landed in the dotfiles repo: `requirements.yml` (pinned)
+and the REFERENCES row.
+
+The deciding criteria went as the evidence pointed: automation appetite
+(stayed deliberate — every other tool in the repo updates by hand through
+`update.sh`), grade-linkage tightness (exact preserves it), staleness
+tolerance (acceptable — the register's stale-date signal covers it).

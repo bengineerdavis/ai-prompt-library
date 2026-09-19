@@ -35,6 +35,15 @@ those is named and routed, not researched.
   the open web receive no repository contents or user context in their
   briefs — a hostile page has nothing to exfiltrate. Codebase evidence comes
   only from a separate codebase-angle dispatch.
+  **Enforcement status (honest, 2026-09-19):** with the current dispatch
+  machinery (subagents running inside the repo with file tools), isolation
+  is **brief-level, not mechanical** — the pilot caught an analyst reading
+  local files despite the forbidding brief. Compensating controls: the
+  validator's evidence-gathering-integrity strategy re-checks how codebase
+  evidence entered the run, and any breach is disclosed as a validation
+  finding with the evidence reclassified, never silently kept. Mechanical
+  enforcement (a sandboxed dispatcher, or analysts run from a cwd outside
+  the repo) is queued for the R&D factory.
 - **Evidence required by default; the author may trade rigor for freedom.**
   Strict by default (the corroboration gate in `references/evidence-rule.md`).
   An explicit "evidence optional" / "exploratory" permits unevidenced

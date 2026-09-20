@@ -44,16 +44,19 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
 - **Mechanically enforce web-isolation for research analysts.** The pilot
   (2026-09-19, V3) proved the current dispatch machinery cannot enforce the
   contract: a web-briefed analyst ran inside the repo with file tools and
-  read local files despite the forbidding brief; today only brief-level
-  isolation plus the validator's integrity re-check stand. Done when an
-  analyst dispatched for a web angle **cannot** read repository files —
-  proven by a run where the brief forbids it, the machinery makes local
-  reads impossible, and the report still completes. Candidate mechanisms,
-  to be chosen with evidence: a sandboxed dispatcher; analysts run from a
-  cwd outside the repo (with repo material passed by reference only); a
-  post-hoc provenance check that fails the run when a web-briefed analyst
-  cites any local path. Source: skills/research/SKILL.md § Enforcement
-  status; feeds the R&D factory's research method.
+  read local files despite the forbidding brief. **Landed (2026-09-19):**
+  the detective half — `skills/research/tools/isolation_check.py`, a tested
+  post-hoc provenance gate (7 tests incl. the real pilot-breach shape;
+  mutation-proven) wired into the SKILL.md compile step: every web-briefed
+  analyst's return is scanned before the registry compiles, breaches are
+  disclosed and reclassified, never silently kept. The known constraint is
+  recorded in the SKILL.md: the gate makes breaches impossible to hide, not
+  impossible to commit. **Deferred (the preventive half):** a sandboxed
+  dispatcher, or analysts run from a cwd outside the repo — the task tool
+  provides neither sandbox nor cwd control today. **Reopen when** the
+  dispatch machinery gains either. Done-condition amended accordingly: the
+  detection gate is the enforceable half until the machinery changes.
+  Feeds the R&D factory's research method.
 
 - Council review: multi-machine privacy design for the dotfiles repo. The
   author's requirement, refined 2026-09-12: committed artifacts must be

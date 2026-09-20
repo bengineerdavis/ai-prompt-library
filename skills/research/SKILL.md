@@ -155,6 +155,19 @@ are dropped or carried under the no-evidence label with a reopen trigger —
 never relabelled single-source, because single-source means one source
 supports it, and this claim has none.
 
+**The provenance gate runs before anything compiles.** Every web-briefed
+analyst's return passes
+`tools/isolation_check.py --repo-root <repo>` (tested both directions).
+Exit 0 = clean. Exit 1 = an isolation breach: disclose it (pre-seed a
+validation finding from the listed citations), reclassify the breached
+citations per the evidence rule — codebase-class, breach named, never
+silently kept — and carry the breach in the report's Summary. Known
+constraint (2026-09-19): the gate is **detective, not preventive** — the
+current dispatch machinery lets an analyst read local files; the gate makes
+the breach impossible to *hide*. Mechanical prevention (sandboxed dispatch,
+out-of-repo cwd) stays deferred in TASKS.md until the machinery supports
+it.
+
 ### 6. Synthesize, then validate
 
 Synthesize: Research Results (every claim citing its artifact IDs, marked

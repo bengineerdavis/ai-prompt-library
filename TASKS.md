@@ -41,6 +41,20 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
 
 ## Planned
 
+- **Mechanically enforce web-isolation for research analysts.** The pilot
+  (2026-09-19, V3) proved the current dispatch machinery cannot enforce the
+  contract: a web-briefed analyst ran inside the repo with file tools and
+  read local files despite the forbidding brief; today only brief-level
+  isolation plus the validator's integrity re-check stand. Done when an
+  analyst dispatched for a web angle **cannot** read repository files —
+  proven by a run where the brief forbids it, the machinery makes local
+  reads impossible, and the report still completes. Candidate mechanisms,
+  to be chosen with evidence: a sandboxed dispatcher; analysts run from a
+  cwd outside the repo (with repo material passed by reference only); a
+  post-hoc provenance check that fails the run when a web-briefed analyst
+  cites any local path. Source: skills/research/SKILL.md § Enforcement
+  status; feeds the R&D factory's research method.
+
 - Council review: multi-machine privacy design for the dotfiles repo. The
   author's requirement, refined 2026-09-12: committed artifacts must be
   environment-general — no machine identification and no obfuscation signaling

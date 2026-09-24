@@ -7,6 +7,12 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
 
 ## Now
 
+- **Integrate the escalation-writing branch.** [agent: coordinator, completed 2026-09-24]
+  Author approved integration. Remote branches were current, and `main` was
+  fast-forwarded to `70854d4`, including the four reviewed commits beginning with
+  `ccff1ab`. The spec, research, and deferred tasks are integrated. Runtime
+  rendering and installation remain separate planned work below.
+
 - **Refine recipient and expectation handling.** [agent: coordinator, completed 2026-09-24]
   Worktree `ai-prompt-library-escalation-writing`. Apply the author's feedback to
   customer replies: identify the recipient and sender, distinguish requested next
@@ -94,11 +100,6 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
   the full hook run passes without silently altering vendored meaning or stale
   spec hashes. The automatic unrelated edits were restored; scoped checks for
   escalation-writing pass.
-
-- **Integrate the escalation-writing branch.** [unassigned]
-  Review `escalation-writing-spec` after publication. Done when the reviewed
-  spec, research records, and follow-ups are integrated into `main`. Commit and
-  branch publication do not install the skill.
 
 - **Render escalation-writing for runtime use.** [unassigned]
   Follow current Skillet instructions to derive `SKILL.md` from the reviewed

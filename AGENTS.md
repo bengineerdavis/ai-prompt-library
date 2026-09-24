@@ -75,6 +75,15 @@ Rules that bite:
 - `HISTORY-SPEC.md` — history-object layout (session records live outside the
   library in `history/<library-key>/...`; library holds reusable source only).
 
+## Research and proposed principles
+
+Save research for proposed project principles under `research/<topic>/` before
+promoting it into a decision. Keep evidence, source versions, limitations,
+rejected options, and review triggers with the decision link. Retain the research
+after deciding. See `research/README.md` for source maintenance and the distinction
+between pinned citations, licensed snapshots, and submodules. Keep confidential
+source material and private reference locations outside the public repository.
+
 ## Style
 
 - Docs are formatted with mdformat (GFM + frontmatter); run the pre-commit hook

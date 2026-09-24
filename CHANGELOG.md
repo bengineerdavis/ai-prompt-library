@@ -5,6 +5,27 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-09-24 — Escalation-writing specification and research
+
+### Added
+
+- A new spec-only `escalation-writing` skill for clear engineering handoffs and
+  coordinated Slack and Intercom drafts. It prioritizes accuracy, humane writing,
+  and low question fatigue. Organization references remain replaceable and private.
+- A top-level `research/` area preserving public sources, eight issue histories,
+  design decisions, and source-review guidance.
+- A researched global GitHub CLI permission proposal. No permission changes are
+  applied by this proposal.
+
+### Changed
+
+- Refined the escalation-writing spec after the synthetic example: identify the
+  recipient and sender for each draft, explain supported next steps, and avoid
+  customer promises the sender cannot currently guarantee. Preserve existing
+  obligations internally without automatically renewing them.
+
+______________________________________________________________________
+
 ## 2026-09-12 — Questioning skill promoted into `skills/`
 
 ### Changed

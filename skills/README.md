@@ -1,14 +1,14 @@
 # Skills
 
-Agent skills authored as **specs with mechanical evals**, using
+Agent skills authored as **specs with optional evals**, using
 [skillet](https://www.npmjs.com/package/@sentry/skillet).
 
 These differ from the conversational skills under
 `prompts/panel-of-judges/skills/`. Those are inlined into a bundled session by
 `bundle.py` and describe how a role should behave in a meeting. The skills here
-are cross-cutting engineering rules that apply to any project, and each one
-carries executable eval cases — so "does the agent actually follow this" is a
-command, not an opinion.
+are reusable behavior contracts. Rendered `SKILL.md` files provide runtime
+instructions; selected skills also carry executable eval cases. A spec-only
+directory is an authoring stage, not an installable runtime skill.
 
 ## Layout
 
@@ -16,8 +16,8 @@ command, not an opinion.
 skills/<name>/
   spec.md            source of truth — Intent / Triggers / Behaviors / Constraints
   SKILL.md           the runtime text an agent loads (rendered from spec.md)
-  evals/cases/       one YAML case per behavior
-  evals/fixtures/    starting workspaces the cases run against
+  evals/cases/       optional YAML cases for selected behaviors
+  evals/fixtures/    optional starting workspaces for those cases
 ```
 
 `spec.md` is the contract and the thing to review in diffs. `SKILL.md` is
@@ -28,7 +28,7 @@ derived from it and pins `spec_hash` so drift is detectable.
 ```bash
 cd skills/<name>
 npx -y @sentry/skillet@latest status      # what exists, what is next
-npx -y @sentry/skillet@latest validate    # grammar, frontmatter, eval coverage — no LLM
+npx -y @sentry/skillet@latest validate    # grammar, frontmatter, optional eval artifacts — no LLM
 npx -y @sentry/skillet@latest eval        # run the cases through the harness
 npx -y @sentry/skillet@latest eval --baseline   # compare pass rates without the skill installed
 ```
@@ -60,14 +60,15 @@ The decision record — dotagents over skills.sh and per-tool config — lives i
 
 ## Skills
 
-| Skill                                        | Purpose                                                                                                                  |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [aboyeur](aboyeur/)                          | Reads a repo's own files and generates its `mise.toml`: tools, env, wired tasks, system packages, cross-platform checks.  |
-| [commit-hygiene](commit-hygiene/)            | One logical change per commit, message sized to the change, commit by path, verify the contents afterwards.              |
-| [interaction-questioning](interaction-questioning/) | Discovers and confirms the user's real goal with adaptive, one-question-at-a-time questioning.                     |
-| [model-fitness](model-fitness/)              | Decides whether a model is fit for a named role from measurements on the deciding machine, not published benchmarks.      |
-| [pii-redaction](pii-redaction/)              | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed.   |
-| [plain-english](plain-english/)              | Edits technical prose to the Google Developer Documentation Style Guide core.                                             |
-| [review-best-practices](review-best-practices/) | Researches what exists, ranks options against the requirement, records what was rejected before a plan commits.         |
-| [skillify](skillify/)                        | Authors a skill with skillet and lands it in this library, stopping at the dotagents review gate.                          |
-| support-escalation                           | Spec + evals only — the `escalate` behavior contract; no SKILL.md rendered yet.                                           |
+| Skill                                               | Purpose                                                                                                                  |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [aboyeur](aboyeur/)                                 | Reads a repo's own files and generates its `mise.toml`: tools, env, wired tasks, system packages, cross-platform checks. |
+| [commit-hygiene](commit-hygiene/)                   | One logical change per commit, message sized to the change, commit by path, verify the contents afterwards.              |
+| [interaction-questioning](interaction-questioning/) | Discovers and confirms the user's real goal with adaptive, one-question-at-a-time questioning.                           |
+| [model-fitness](model-fitness/)                     | Decides whether a model is fit for a named role from measurements on the deciding machine, not published benchmarks.     |
+| [pii-redaction](pii-redaction/)                     | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed.  |
+| [plain-english](plain-english/)                     | Edits technical prose to the Google Developer Documentation Style Guide core.                                            |
+| [review-best-practices](review-best-practices/)     | Researches what exists, ranks options against the requirement, records what was rejected before a plan commits.          |
+| [skillify](skillify/)                               | Authors a skill with skillet and lands it in this library, stopping at the dotagents review gate.                        |
+| support-escalation                                  | Spec + evals only — the `escalate` behavior contract; no SKILL.md rendered yet.                                          |
+| [escalation-writing](escalation-writing/)           | Spec-only writing contract for GitHub, Slack, and Intercom escalation drafts; runtime instructions pending.              |

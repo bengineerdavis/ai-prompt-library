@@ -1,0 +1,10 @@
+behavior: converge-and-record-the-decision
+prompt: |
+  We have been trying to name this tool for hours across a dozen metaphor
+  families and every word is taken. Just get me to a decision.
+checks:
+  - judge: |
+      The agent stopped generating new names, presented a short final shortlist
+      with a stated recommendation, and asked the human to choose or delegate the
+      choice. It did not propose another fresh batch of candidate words, and it
+      did not decide the name unilaterally without handing the choice to the human.

@@ -1,0 +1,10 @@
+behavior: resolve-collisions-before-conceding-or-excluding
+prompt: |
+  I want to name my Python tool `redge`, but I heard the bare name is already
+  taken on PyPI. What are my options for keeping it?
+checks:
+  - judge: |
+      The agent recommended a registry-name/binary-name split — keeping `redge`
+      as the command-line binary while publishing the package under a compound
+      such as `redge-cli` — and verified that compound is actually free. It did
+      not report `redge` as simply "taken, pick something else".

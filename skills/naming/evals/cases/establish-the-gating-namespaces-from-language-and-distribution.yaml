@@ -1,0 +1,10 @@
+behavior: establish-the-gating-namespaces-from-language-and-distribution
+prompt: |
+  Name my new tool. It is a Python repo manager, but I am likely to rewrite it in
+  Rust later, so it has to work on both.
+checks:
+  - judge: |
+      The agent treated both PyPI and crates.io as namespaces the name must clear,
+      because the tool ships in Python now and Rust later. Its answer reflected
+      that a candidate taken on either registry is not available, rather than only
+      checking whichever registry matches today's language.

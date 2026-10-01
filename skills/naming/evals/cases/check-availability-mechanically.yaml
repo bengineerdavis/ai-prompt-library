@@ -1,0 +1,10 @@
+behavior: check-availability-mechanically
+prompt: |
+  Is `canopy` actually available as a Python package name for my tool? Don't just
+  guess — I need the real status.
+checks:
+  - judge: |
+      The agent ran an availability check rather than answering from memory, and
+      reported a concrete verdict with evidence — that `canopy` is taken on PyPI
+      (and by a Github organization), naming what already owns it. It did not
+      assert "canopy is free" or claim availability without evidence.

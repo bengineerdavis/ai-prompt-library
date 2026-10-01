@@ -5,6 +5,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-10-01 — Naming skill added
+
+### Added
+
+- `skills/naming/` — the naming skill with `spec.md`, `SKILL.md`, five eval
+  cases, `references/` (namespaces, watchlist, lexicon), and `scripts/check-name`
+  (a stdlib-only availability prober with per-session registry config).
+
+______________________________________________________________________
+
 ## 2026-09-24 — Escalation-writing specification and research
 
 ### Added

@@ -65,6 +65,8 @@ The decision record — dotagents over skills.sh and per-tool config — lives i
 | [aboyeur](aboyeur/)                                 | Reads a repo's own files and generates its `mise.toml`: tools, env, wired tasks, system packages, cross-platform checks. |
 | [commit-hygiene](commit-hygiene/)                   | One logical change per commit, message sized to the change, commit by path, verify the contents afterwards.              |
 | [interaction-questioning](interaction-questioning/) | Discovers and confirms the user's real goal with adaptive, one-question-at-a-time questioning.                           |
+| [lore-plugins](lore-plugins/)                       | Manages the LoreAI OpenCode plugin: install, update, diagnose, and the V1-to-V2 port of `@loreai/opencode`.              |
+| [lore-plugins-reference](lore-plugins-reference/)   | The canonical facts about the LoreAI plugin ecosystem (packages, CLI, paths, port, V2 incompatibility).                  |
 | [model-fitness](model-fitness/)                     | Decides whether a model is fit for a named role from measurements on the deciding machine, not published benchmarks.     |
 | [pii-redaction](pii-redaction/)                     | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed.  |
 | [plain-english](plain-english/)                     | Edits technical prose to the Google Developer Documentation Style Guide core.                                            |

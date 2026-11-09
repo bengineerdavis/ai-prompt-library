@@ -27,6 +27,24 @@ repos:
           - "--ignore-words=.codespellignore"
           - "--write-changes"
 
+  # Structure and installable-skill validity. Alint also refreshes its
+  # generated AGENTS.md section from these same rules.
+  - repo: local
+    hooks:
+      - id: alint-agents-md
+        name: alint AGENTS.md
+        entry: mise exec github:asamarts/alint@0.21.0 -- alint export-agents-md --inline --output AGENTS.md
+        language: system
+        pass_filenames: false
+        always_run: true
+        files: ^(\.alint\.yml|AGENTS\.md)$
+      - id: alint-check
+        name: alint check
+        entry: mise exec github:asamarts/alint@0.21.0 -- alint check
+        language: system
+        pass_filenames: false
+        always_run: true
+
   # Markdown formatter for docs and prompts (manual so you stay in control)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.22

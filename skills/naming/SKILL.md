@@ -2,7 +2,7 @@
 name: naming
 description: Names projects, tools, packages, and repositories and clears their package-registry namespaces — asking language, port, OS, and distribution questions first, then checking availability mechanically. Use when naming or renaming a project or tool, or checking a candidate name against PyPI, crates.io, npm, or Homebrew before shipping.
 license: MIT
-spec_hash: 80c97c171d4d
+spec_hash: cf74fe441e98
 metadata:
   version: "1.0.0"
 ---

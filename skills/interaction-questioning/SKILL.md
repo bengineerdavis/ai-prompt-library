@@ -2,7 +2,7 @@
 name: interaction-questioning
 description: Discovers, clarifies, stress-tests, and confirms user goals without assuming the user knows all relevant requirements. Uses adaptive, stakes-sensitive questioning only when questions improve the next action.
 license: MIT
-spec_hash: 15a67f2b380a
+spec_hash: dfd9c54764dd
 metadata:
   version: "2.3.2"
   supersedes: "2.2.3"

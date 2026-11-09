@@ -5,6 +5,29 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-11-09 — Installable skill structure and structure authoring
+
+### Added
+
+- Alint rules and pre-commit checks for skill layout, runtime validation, and
+  rendered-spec freshness. The alint-managed `AGENTS.md` section is generated
+  from those rules. Synthetic policy fixtures cover accepted and rejected shapes.
+- The planned `structure-authoring` workflow will turn desired repository or
+  artifact structures into executable rules and generated agent instructions;
+  its implementation is a separate review.
+- `skills/research/spec.md` and runtime frontmatter, making the existing
+  research skill valid for dotagents discovery.
+
+### Changed
+
+- Refreshed stale spec hashes in `interaction-questioning`, `naming`, and
+  `review-best-practices` after their specs passed Skillet validation.
+- Documented the authoring, validation, and Ansible dotagents update flow.
+- Queued the domain-driven authoring workflow and possible future artifact
+  template; no combined workflow or skills.sh packaging is implied yet.
+
+______________________________________________________________________
+
 ## 2026-10-01 — Naming skill added
 
 ### Added

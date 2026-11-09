@@ -91,6 +91,18 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
 
 ## Planned
 
+- **Design the domain-driven authoring workflow and future artifact template.** [unassigned]
+  Lead with `grill-with-docs` for domain discovery and durable vocabulary/decisions;
+  use `interaction-questioning` to select the next useful question and avoid
+  question fatigue; use `structure-authoring` only after the structure is settled
+  to express it as executable rules and tests. Do not invent a combined skill
+  before this interaction contract has its own design session. Later, consider
+  splitting the library into a reusable skills/agent-artifacts template with
+  verified skills.sh and other installer compatibility. Keep the current library
+  and Ansible dotagents distribution until that separate roadmap work is approved.
+  Done when the interaction contract, ownership boundaries, and a small proof are
+  recorded and the future template decision has an explicit disposition.
+
 - **Resolve the repository-wide documentation hook findings.** [unassigned]
   `pre-commit run --all-files` during escalation-writing publication found five
   spelling reports plus EOF/formatting changes across 21 existing files under

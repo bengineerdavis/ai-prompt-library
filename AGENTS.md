@@ -102,3 +102,17 @@ source material and private reference locations outside the public repository.
   into a bundle via `include.context` with collection-relative paths
   (see `bundle.advisory-meeting-service-procurement.yaml`), since `skills:` only
   resolves `skills/<name>.md` inside the collection.
+
+<!-- alint:start -->
+
+## Lint rules enforced by alint
+
+Generated from `.alint.yml` by `alint export-agents-md`. Re-run after editing the lint config - these directives must stay in sync with what alint blocks at commit time. Manual edits inside this section are overwritten.
+
+### Errors (commit will fail)
+
+- **`installable-skills-are-valid`**: command rule on skills/*/SKILL.md
+- **`rendered-skills-match-their-spec`**: command rule on skills/*/SKILL.md
+- **`skills-have-authoring-specs`**: dir_contains rule
+
+<!-- alint:end -->

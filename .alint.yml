@@ -1,0 +1,36 @@
+version: 1
+requires:
+  alint: "0.21.0"
+rules:
+  - id: skills-have-authoring-specs
+    kind: dir_contains
+    select: "skills/*"
+    require: ["spec.md"]
+    level: error
+
+  - id: installable-skills-are-valid
+    kind: command
+    paths: "skills/*/SKILL.md"
+    command:
+      - npx
+      - -y
+      - "@sentry/skillet@latest"
+      - validate
+      - "{dir}"
+      - --json
+    timeout: 120
+    level: error
+
+  - id: rendered-skills-match-their-spec
+    kind: command
+    paths: "skills/*/SKILL.md"
+    command:
+      - python3
+      - -c
+      - >-
+        import hashlib, pathlib, re, sys; d = pathlib.Path("{dir}");
+        expected = hashlib.sha256((d / "spec.md").read_bytes()).hexdigest()[:12];
+        match = re.search(r"(?m)^spec_hash:\s*[\"']?([0-9a-f]+)", (d / "SKILL.md").read_text());
+        sys.exit(0 if match and match.group(1) == expected else f"stale SKILL.md: expected spec_hash {expected}")
+    timeout: 30
+    level: error

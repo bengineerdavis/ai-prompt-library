@@ -71,6 +71,7 @@ The decision record — dotagents over skills.sh and per-tool config — lives i
 | [pii-redaction](pii-redaction/)                     | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed.  |
 | [plain-english](plain-english/)                     | Edits technical prose to the Google Developer Documentation Style Guide core.                                            |
 | [review-best-practices](review-best-practices/)     | Researches what exists, ranks options against the requirement, records what was rejected before a plan commits.          |
+| [structure-authoring](structure-authoring/)         | Turns a desired repository or artifact structure into executable rules, generated agent instructions, and tested checks. |
 | [skillify](skillify/)                               | Authors a skill with skillet and lands it in this library, stopping at the dotagents review gate.                        |
 | support-escalation                                  | Spec + evals only — the `escalate` behavior contract; no SKILL.md rendered yet.                                          |
 | [escalation-writing](escalation-writing/)           | Spec-only writing contract for GitHub, Slack, and Intercom escalation drafts; runtime instructions pending.              |

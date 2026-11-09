@@ -5,6 +5,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-11-09 — Structure authoring skill
+
+### Added
+
+- `skills/structure-authoring/` — an interactive workflow for turning desired
+  repository or artifact structures into executable rules and generated agent
+  instructions, using `grill-with-docs`, `interaction-questioning`, and alint.
+- A synthetic library example recording the public validation seam, ownership
+  boundaries, and observed acceptance/rejection evidence.
+
+______________________________________________________________________
+
 ## 2026-10-01 — Naming skill added
 
 ### Added

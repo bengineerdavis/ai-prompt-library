@@ -26,6 +26,11 @@ ______________________________________________________________________
 - Queued the domain-driven authoring workflow and possible future artifact
   template; no combined workflow or skills.sh packaging is implied yet.
 
+- Changed-skill pre-commit checks and a separate full publishing gate. The
+  full 13-skill run takes about 7 seconds; changed-file checks take about 0.12
+  seconds on this machine. Skillet owns stale-render detection through a thin
+  status adapter rather than a second hash implementation.
+
 ______________________________________________________________________
 
 ## 2026-10-01 — Naming skill added

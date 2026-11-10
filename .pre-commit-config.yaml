@@ -27,20 +27,14 @@ repos:
           - "--ignore-words=.codespellignore"
           - "--write-changes"
 
-  # Structure and installable-skill validity. Alint also refreshes its
-  # generated AGENTS.md section from these same rules.
+  # Directory structure and installable-skill validity. Skillet owns skill
+  # schema and render freshness; alint selects changed skills for local commits.
+  # Run `alint check` for the full-tree gate and policy fixtures separately.
   - repo: local
     hooks:
-      - id: alint-agents-md
-        name: alint AGENTS.md
-        entry: mise exec github:asamarts/alint@0.21.0 -- alint export-agents-md --inline --output AGENTS.md
-        language: system
-        pass_filenames: false
-        always_run: true
-        files: ^(\.alint\.yml|AGENTS\.md)$
       - id: alint-check
         name: alint check
-        entry: mise exec github:asamarts/alint@0.21.0 -- alint check
+        entry: mise exec github:asamarts/alint@0.21.0 -- alint check --changed
         language: system
         pass_filenames: false
         always_run: true
@@ -56,3 +50,16 @@ repos:
           - mdformat-frontmatter
           - mdformat-footnote
           - mdformat-gfm-alerts
+        # Alint's generated block is formatted once on rule changes, not
+        # regenerated on every unrelated commit.
+
+  # Refresh generated agent instructions only when its owning rule changes.
+  - repo: local
+    hooks:
+      - id: alint-agents-md
+        name: alint AGENTS.md
+        entry: mise exec github:asamarts/alint@0.21.0 -- alint export-agents-md --inline --output AGENTS.md
+        language: system
+        pass_filenames: false
+        always_run: true
+        files: ^\.alint\.yml$

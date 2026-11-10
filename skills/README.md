@@ -27,9 +27,19 @@ derived from it and pins `spec_hash` so drift is detectable. Every skill
 directory needs a spec. A spec-only directory is an authoring stage; it is not
 ready to install until its rendered `SKILL.md` validates.
 
-The repository's `.alint.yml` enforces that layout and runs Skillet against
-every installable skill. The pre-commit hook runs alint and refreshes the
-alint-managed section of `AGENTS.md`; do not edit that section by hand.
+The repository's `.alint.yml` enforces the directory structure and invokes
+Skillet for skill validation and render freshness. The pre-commit hook checks
+changed skills and refreshes the alint-managed section of `AGENTS.md`; do not
+edit that section by hand. Run the complete gate before publishing:
+
+```bash
+mise exec github:asamarts/alint@latest -- alint check
+mise exec github:asamarts/alint@latest -- alint test alint-tests --allow-spawn
+```
+
+The full run currently takes about 7 seconds for 13 runtime skills on this
+machine. `scripts/check_skillet_freshness.py` only turns Skillet's status
+verdict into an exit code; Skillet owns the hash calculation.
 
 ## Working on a skill
 
@@ -87,7 +97,7 @@ The decision record — dotagents over skills.sh and per-tool config — lives i
 | [plain-english](plain-english/)                     | Edits technical prose to the Google Developer Documentation Style Guide core.                                            |
 | [research](research/)                               | Investigates open-ended questions with parallel evidence gathering and adversarial validation.                           |
 | [review-best-practices](review-best-practices/)     | Researches what exists, ranks options against the requirement, records what was rejected before a plan commits.          |
-| structure-authoring                                  | Planned interactive structure enforcement workflow; see TASKS.md.                                                        |
+| structure-authoring                                 | Planned interactive structure enforcement workflow; see TASKS.md.                                                        |
 | [skillify](skillify/)                               | Authors a skill with skillet and lands it in this library, stopping at the dotagents review gate.                        |
 | support-escalation                                  | Spec + evals only — the `escalate` behavior contract; no SKILL.md rendered yet.                                          |
 | [escalation-writing](escalation-writing/)           | Spec-only writing contract for GitHub, Slack, and Intercom escalation drafts; runtime instructions pending.              |

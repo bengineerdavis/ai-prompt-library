@@ -5,6 +5,21 @@ capabilities:
   spawn: true
 given:
   tree:
+    scripts:
+      check_skillet_freshness.py: |
+        #!/usr/bin/env python3
+        import json, subprocess, sys
+        result = subprocess.run(
+            ["npx", "-y", "@sentry/skillet@latest", "status", sys.argv[1], "--json"],
+            capture_output=True, text=True, check=False,
+        )
+        if result.returncode:
+            sys.stderr.write(result.stderr or result.stdout)
+            raise SystemExit(result.returncode)
+        report = json.loads(result.stdout)
+        if report["skill"]["stale"]:
+            print(report["next"], file=sys.stderr)
+            raise SystemExit(1)
     skills:
       stale:
         spec.md: "current spec\n"
@@ -20,14 +35,8 @@ given:
       - id: rendered-skills-match-their-spec
         kind: command
         paths: "skills/*/SKILL.md"
-        command:
-          - python3
-          - -c
-          - >-
-            import hashlib, pathlib, re, sys; d = pathlib.Path("{dir}");
-            expected = hashlib.sha256((d / "spec.md").read_bytes()).hexdigest()[:12];
-            match = re.search(r"(?m)^spec_hash:\s*[\"']?([0-9a-f]+)", (d / "SKILL.md").read_text());
-            sys.exit(0 if match and match.group(1) == expected else f"stale SKILL.md: expected spec_hash {expected}")
+        command: [python3, scripts/check_skillet_freshness.py, "{dir}"]
+        timeout: 120
         level: error
 when: [check]
 expect:

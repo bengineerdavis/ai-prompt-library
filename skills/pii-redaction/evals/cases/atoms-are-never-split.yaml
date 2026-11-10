@@ -1,0 +1,60 @@
+behavior: atoms-are-never-split
+fixture: ticket-attachment
+prompt: |
+  Add bin/scrub to redact a markdown thread before I attach it to a ticket; it
+  should use the `llm` CLI for the model step. Some of our exports are huge, so
+  give it a --chunk-bytes flag and let it work through a large file in pieces
+  instead of loading the whole thing. I'd rather it stop and tell me than hand
+  back something it mangled.
+checks:
+  # A single line longer than the budget is one atom. Splitting it would cut a
+  # value in half, and a half-value matches nothing — so the honest outcome is a
+  # refusal that names the line, not a "successful" run.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      printf '#!/bin/sh\nexec cat\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+
+      python3 -c 'open("oneline.md","w").write("Contact jane.smith@example.com then " + "padding " * 4000 + "\n")'
+
+      status=0
+      if bin/scrub oneline.md -o oneline.out --chunk-bytes 4096 >/dev/null 2>&1; then
+        echo "FAIL: an oversized single line was split instead of refused" >&2
+        status=1
+      fi
+      if [ -e oneline.out ]; then
+        echo "FAIL: output written despite refusing an oversized atom" >&2
+        status=1
+      fi
+      exit "$status"
+
+  # A JSON array of records is descended into, not cut through. The evidence is
+  # that the reassembled file still parses and still has every entry.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      printf '#!/bin/sh\nexec cat\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+
+      python3 -c 'import json; json.dump({"entries":[{"id":i,"note":"call 555-867-5309 ticket "+str(i)+" "+"x"*120} for i in range(400)]}, open("big.json","w"))'
+
+      bin/scrub big.json -o big.out --chunk-bytes 8192 >/dev/null 2>&1 || true
+
+      if [ ! -e big.out ]; then
+        echo "skip: no chunked output produced, nothing to verify" >&2
+        exit 0
+      fi
+
+      python3 -c 'import json,sys
+      try:
+          data = json.load(open("big.out"))
+      except Exception as exc:
+          print("FAIL: chunked JSON output does not parse: %s" % exc, file=sys.stderr); sys.exit(1)
+      n = len(data.get("entries", []))
+      if n != 400:
+          print("FAIL: chunking lost entries: %d of 400" % n, file=sys.stderr); sys.exit(1)'

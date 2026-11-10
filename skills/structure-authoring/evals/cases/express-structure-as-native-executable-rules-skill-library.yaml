@@ -1,0 +1,21 @@
+behavior: express-structure-as-native-executable-rules
+fixture: skill-library
+prompt: |
+  Make sure this skill library's required authoring files exist, runtime skills
+  are valid, and rendered skills cannot go stale. I want a fast local commit
+  check and a separate full publishing check. Do not edit any skill's spec or
+  runtime content.
+checks:
+  - shell: |
+      test -f .alint.yml && \
+      test -f skills/current/spec.md && test -f skills/current/SKILL.md && \
+      test -f skills/draft/spec.md && test ! -f skills/draft/SKILL.md && \
+      python3 -c 'import pathlib; assert "spec_hash: \"000000000000\"" in pathlib.Path("skills/current/SKILL.md").read_text()'
+  - judge: >-
+      The configuration requires specs through alint's directory-structure
+      rules and delegates skill validation and stale-render detection to
+      Skillet through a thin adapter. It does not reimplement Skillet's hash
+      calculation, frontmatter parser, or schema in alint, shell, or Python.
+      It distinguishes a fast changed-skill commit check from a full publishing
+      check, measures or proposes measuring both, and uses bounded command
+      timeouts.

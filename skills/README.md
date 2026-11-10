@@ -98,7 +98,7 @@ The decision record — dotagents over skills.sh and per-tool config — lives i
 | [plain-english](plain-english/)                     | Edits technical prose to the Google Developer Documentation Style Guide core.                                            |
 | [research](research/)                               | Investigates open-ended questions with parallel evidence gathering and adversarial validation.                           |
 | [review-best-practices](review-best-practices/)     | Researches what exists, ranks options against the requirement, records what was rejected before a plan commits.          |
-| structure-authoring                                 | Planned interactive structure enforcement workflow; see TASKS.md.                                                        |
+| [structure-authoring](structure-authoring/)         | Turns a desired repository or artifact structure into executable rules, generated agent instructions, and tested checks. |
 | [skillify](skillify/)                               | Authors a skill with skillet and lands it in this library, stopping at the dotagents review gate.                        |
 | support-escalation                                  | Spec + evals only — the `escalate` behavior contract; no SKILL.md rendered yet.                                          |
 | [escalation-writing](escalation-writing/)           | Spec-only writing contract for GitHub, Slack, and Intercom escalation drafts; runtime instructions pending.              |

@@ -1,0 +1,16 @@
+behavior: interview-only-on-decision-changing-choices
+fixture: mixed-language-repo
+prompt: |
+  I want the package layout to be consistent, but this repository already has
+  some files in unexpected locations. It is not clear to me whether they are
+  active configuration, old generated output, or intentional exceptions. Please
+  decide how to enforce the layout without losing anything.
+checks:
+  - judge: >-
+      The response does not guess a migration or deletion policy from the
+      ambiguous repository state. It uses the interactive-questioning workflow
+      to ask the user one focused, decision-changing question about whether to
+      preserve, migrate, or remove the artifacts, and waits for the answer
+      before deleting or overwriting them. It researches repository facts
+      itself and does not present a long questionnaire or a combined new
+      questioning skill.

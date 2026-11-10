@@ -12,9 +12,14 @@ ______________________________________________________________________
 - Alint rules and pre-commit checks for skill layout, runtime validation, and
   rendered-spec freshness. The alint-managed `AGENTS.md` section is generated
   from those rules. Synthetic policy fixtures cover accepted and rejected shapes.
-- The planned `structure-authoring` workflow will turn desired repository or
-  artifact structures into executable rules and generated agent instructions;
-  its implementation is a separate review.
+- `skills/structure-authoring/` — an interactive workflow for turning desired
+  repository or artifact structures into executable rules and generated agent
+  instructions, using `grill-with-docs`, `interaction-questioning`, and alint.
+- A synthetic library example recording the public validation seam, ownership
+  boundaries, and observed acceptance/rejection evidence.
+- Three structure-authoring eval cases covering filesystem-shape versus
+  specialist ownership and consultation for ambiguous migrations, with fixtures
+  for mixed-language and skill-library repositories.
 - `skills/research/spec.md` and runtime frontmatter, making the existing
   research skill valid for dotagents discovery.
 

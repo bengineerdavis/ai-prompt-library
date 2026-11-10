@@ -64,6 +64,11 @@ Rules that bite:
   `judge: |` block form.
 - `skillet eval` needs a `codex` or `claude` CLI on PATH (`--harness`); without
   one, report evals as not run instead of claiming success.
+- For Claude evals, use `scripts/eval-claude` (see `scripts/README.md`). It
+  sources `~/.localrc`, preflights the credential, and fails fast with the exact
+  refresh command instead of hanging ~10 minutes. `ANTHROPIC_API_KEY` set in
+  `~/.localrc` overrides OAuth login — a stale key there is the usual cause of
+  401/timeout even after `claude auth login`. `--oauth` forces the OAuth path.
 
 ## Specs to consult before restructuring
 

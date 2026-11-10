@@ -14,6 +14,9 @@ ______________________________________________________________________
   instructions, using `grill-with-docs`, `interaction-questioning`, and alint.
 - A synthetic library example recording the public validation seam, ownership
   boundaries, and observed acceptance/rejection evidence.
+- Three eval cases covering filesystem-shape versus specialist ownership and
+  consultation for ambiguous migrations, with fixtures for mixed-language and
+  skill-library repositories.
 
 ______________________________________________________________________
 

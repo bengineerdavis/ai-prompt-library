@@ -2,7 +2,7 @@
 name: structure-authoring
 description: Turns a desired repository or artifact structure into executable, reviewable enforcement. Use when defining required directories, files, content contracts, alint rules, generated agent instructions, or validation for a template or reusable artifact library.
 license: MIT
-spec_hash: 1352073476d5
+spec_hash: 6921c7487632
 metadata:
   version: "1.0.0"
 ---
@@ -12,8 +12,25 @@ metadata:
 Turn the desired **form** into an executable contract. Do not leave a required
 structure as prose that an agent must remember to follow.
 
-Use alint as the first structural enforcement tool. Add other tools only when
-they already own the relevant concern or alint cannot express the contract.
+Use alint for the repository's **filesystem shape**, not for code semantics.
+The boundary follows the creator's [Why alint](https://alint.org/blog/why-alint)
+statement. Delegate specialist concerns to their existing tools.
+
+| alint owns                                              | Leave to a specialist                                              |
+| ------------------------------------------------------- | ------------------------------------------------------------------ |
+| Required or forbidden files and directories             | Language syntax, types, semantics, and style: Ruff, ESLint, Clippy |
+| Filenames and naming conventions                        | Code vulnerabilities and data flow: Semgrep, CodeQL                |
+| Required or forbidden text and headers                  | Leaked secrets: gitleaks, TruffleHog                               |
+| Values in JSON, YAML, TOML, and other structured config | Dependency-graph policy: cargo-deny                                |
+| Cross-file relationships and generated-file freshness   | Arbitrary license identification: a license detector               |
+| Encoding and unsafe-byte checks                         | Bespoke per-line language parsing or a second specialist validator |
+
+Use alint's `command` adapter to select artifacts for an existing validator
+when that is useful. The specialist owns the verdict and its hash/schema
+semantics. Never embed a second implementation in a shell or Python command.
+Measure full and changed-file costs, set bounded timeouts, and use changed-file
+selection for routine commits so a full specialist suite is not repeated for
+unrelated edits.
 
 ## Workflow
 
@@ -24,8 +41,10 @@ they already own the relevant concern or alint cannot express the contract.
    decisions. Use `interaction-questioning` to choose the next useful question
    without causing question fatigue. Ask only when the answer changes the
    structure, enforcement owner, strictness, or output contract. Research local
-   facts rather than asking the user to supply them. Do not invent a combined
-   workflow skill before that interaction contract has its own design session.
+   facts rather than asking the user to supply them, but consult the user when
+   those facts cannot settle strictness, ownership, or preservation policy. Do
+   not invent a combined workflow skill before that interaction contract has
+   its own design session.
 1. Propose the public testing seam and obtain confirmation before adding a new
    test surface. State what the seam catches and misses. Do not replace an
    existing behavior test with a redundant lower-level test.

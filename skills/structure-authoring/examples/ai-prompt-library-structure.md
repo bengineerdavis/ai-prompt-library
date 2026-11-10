@@ -25,13 +25,21 @@ The domain workflow boundary is:
 ## Structure contract
 
 Use `dir_contains` to require `skills/*/spec.md`. Use alint's `command` rule to
-call Skillet for each `skills/*/SKILL.md`. Reject a rendered skill whose
-`spec_hash` does not match the current spec. Generate the agent-facing alint
-block from the same active rules.
+call Skillet for each `skills/*/SKILL.md`. Skillet owns both schema validation
+and stale-render detection; no custom hash implementation belongs in alint.
+Generate the agent-facing alint block from the same active rules.
+
+This follows the creator's
+[Why alint](https://alint.org/blog/why-alint): alint checks filesystem shape,
+not code semantics. It does not replace language linters, SAST, secret scanners,
+dependency-graph analysis, or license identification. Command rules delegate to
+specialists and must have their runtime measured.
 
 ## Verification
 
 The real alint policy runner accepted a spec-only authoring directory and
 rejected a missing spec, missing frontmatter, and stale hash. The live library
 check found and helped repair the invalid research skill and three stale
-hashes. No Ansible apply or live installation was performed.
+hashes. The full 13-skill gate takes about 7 seconds; the changed-file gate
+takes about 0.12 seconds on the authoring machine. No Ansible apply or live
+installation was performed.

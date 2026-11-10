@@ -1,0 +1,4 @@
+{
+  "name": "web",
+  "repository": { "directory": "packages/web" }
+}

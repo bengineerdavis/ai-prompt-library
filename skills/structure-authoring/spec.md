@@ -42,16 +42,18 @@ already owns each relevant concern.
 The agent SHALL use `grill-with-docs` for domain-driven discovery and durable
 vocabulary and decisions, and `interaction-questioning` to select the next
 useful question without causing question fatigue. It SHALL research facts that
-are available locally instead of asking the user to supply them. It SHALL NOT
-create a new combined workflow skill before that interaction contract has its
-own design session.
+are available locally instead of asking the user to supply them. It SHALL ask
+the user when a repository fact cannot settle the desired strictness, ownership,
+or preservation policy. It SHALL NOT create a new combined workflow skill
+before that interaction contract has its own design session.
 
-#### Scenario: A user wants structure enforcement but has not selected a tool
+#### Scenario: A repository has a conflicting structure
 
-- **WHEN** the target has no established structural validator
+- **WHEN** the existing artifacts do not reveal whether they should be repaired
+  in place, migrated, or preserved as exceptions
 - **THEN** the agent uses the existing questioning and domain-discovery skills
-  to clarify the desired form, proposes a small native-tool option, and asks
-  only about the choice that changes the implementation.
+  to ask that decision-changing question before writing destructive rules or
+  deleting files, rather than guessing a migration policy.
 
 ### Behavior: Confirm the public testing seam before writing tests
 
@@ -68,16 +70,35 @@ replaced with a redundant lower-level test.
 
 ### Behavior: Express structure as native executable rules
 
-The agent SHALL use the selected tool's supported rule and configuration
-formats rather than creating a parallel validator. It SHALL choose the smallest
-rules that express required paths, allowed artifacts, content contracts, and
-meaningful failure states.
+The agent SHALL use alint for the repository's filesystem shape: required and
+forbidden paths, names, declared content, values in structured config,
+cross-file relationships, and encoding or unsafe-byte checks. It SHALL NOT use
+alint as a replacement for language syntax or semantic analysis, SAST, secret
+scanning, dependency-graph analysis, or license identification. Those concerns
+belong to tools such as Ruff, ESLint, Clippy, Semgrep, CodeQL, gitleaks,
+TruffleHog, cargo-deny, or a license detector. It SHALL NOT put bespoke
+per-line language parsing or specialist hash/schema logic into a command rule.
+
+When a specialist already owns the concern, alint MAY select the artifacts and
+invoke that specialist through its `command` adapter. The specialist owns the
+verdict. The agent SHALL measure the full and changed-file costs, bound command
+timeouts, and avoid repeated full-tree delegation on unrelated commits.
 
 #### Scenario: A skill library uses Skillet and alint
 
-- **WHEN** installable skills need valid frontmatter and specs
-- **THEN** the agent uses alint's directory and command rules to call the
-  existing Skillet validator, rather than reimplementing frontmatter parsing.
+- **WHEN** installable skills need valid frontmatter, valid specs, and fresh
+  rendered files
+- **THEN** alint requires each skill's spec and selects runtime files for
+  Skillet's validation and staleness checks. Skillet owns the schema and hash
+  semantics; no Python or alint rule reimplements them.
+
+#### Scenario: A mixed-language repository needs linting
+
+- **WHEN** the repository needs required documentation, correct manifest paths,
+  and Python undefined-name detection
+- **THEN** alint owns the documentation and manifest invariants while the
+  existing Python linter owns undefined-name analysis. The configuration does
+  not attempt to parse Python into a shell command or reimplement the linter.
 
 ### Behavior: Keep generated instructions synchronized
 
@@ -120,6 +141,13 @@ run. It SHALL stop at the user's existing publication or installation gate.
 
 ## Constraints
 
+### Constraint: Respect the filesystem-shape boundary
+
+The agent MUST NOT use alint to analyze code syntax or semantics, discover
+security vulnerabilities in code, scan for leaked secrets, analyze dependency
+graphs, or identify an arbitrary file's license. It MUST delegate those concerns
+to their specialist tools rather than embedding a second implementation.
+
 ### Constraint: No second implementation of an existing validator
 
 The agent MUST NOT reimplement a supported native rule, schema, or validator
@@ -134,6 +162,14 @@ or contradicted by generated instructions.
 
 The agent MUST NOT overwrite an existing configuration, project-owned prose,
 uncommitted edits, or unrelated files while introducing a structure contract.
+
+### Constraint: Boundary provenance
+
+The agent MUST NOT blur the filesystem-shape boundary or claim it came from an
+unverified source. It derives from the alint creator's
+[Why alint](https://alint.org/blog/why-alint), published 2026-08-06 and updated
+2026-09-30. Alint owns existence, content, config, cross-file, and encoding
+checks; specialists own their delegated verdicts.
 
 ### Constraint: No unsupported claims of portability
 

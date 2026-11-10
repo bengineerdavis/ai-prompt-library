@@ -1,0 +1,4 @@
+{
+  "name": "api",
+  "repository": { "directory": "packages/wrong-api" }
+}

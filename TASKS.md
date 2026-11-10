@@ -5,7 +5,19 @@ it before you finish. Conventions mirror the dotfiles repository's TASKS.md:
 one line per item with a done-condition, `[blocked: reason]` rather than
 deletion, owner named `[me]`, and captures commit immediately and separately.
 
+**Authoritative store:** `backlog/` (backlog-py, prefix `APL`) holds actionable
+tasks and their blocking edges. `TASKS.md` keeps the narrative record of
+completed work. A new actionable item goes in `backlog/`, not here. See APL-5
+for the ownership split between this store and the dotfiles `DOT` store, and
+APL-6 for the deferred full migration.
+
 ## Now
+
+- **Add a streaming path to `pii-redactor`.** [agent: coordinator, in progress]
+  Worktree `ai-prompt-library-streaming`, branch `pii-redaction-streaming`.
+  The spec, glossary and tickets are written; implementation lives in the
+  dotfiles repo. Done when APL-1 through APL-4 are closed and the rendered
+  `SKILL.md` matches the spec.
 
 - **Integrate the escalation-writing branch.** [agent: coordinator, completed 2026-09-24]
   Author approved integration. Remote branches were current, and `main` was

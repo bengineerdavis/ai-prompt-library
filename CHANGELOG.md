@@ -5,6 +5,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-11-10 — Task store added
+
+### Added
+
+- A `backlog/` task store (backlog-py, prefix `APL`) for this repository, so
+  cross-repo work can declare blocking edges and reference the dotfiles `DOT`
+  store by id. Full migration of the queue is deferred until the project
+  templates are stamped down.
+
+______________________________________________________________________
+
 ## 2026-11-09 — Installable skill structure and structure authoring
 
 ### Added

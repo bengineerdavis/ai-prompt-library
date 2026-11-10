@@ -35,6 +35,7 @@ edit that section by hand. Run the complete gate before publishing:
 ```bash
 mise exec github:asamarts/alint@latest -- alint check
 mise exec github:asamarts/alint@latest -- alint test alint-tests --allow-spawn
+python3 scripts/test_check_skillet_freshness.py
 ```
 
 The full run currently takes about 7 seconds for 13 runtime skills on this
@@ -71,7 +72,7 @@ Ansible topic:
 
 ```bash
 cd ~/.local/share/chezmoi
-./run-role.sh dotagents   # or home/dotfiles/executable_run-role.sh dotagents from a worktree
+./home/dotfiles/executable_run-role.sh dotagents
 dotagents list            # confirm the skill is declared
 dotagents doctor --fix    # repair wiring if anything looks off
 ```

@@ -34,7 +34,7 @@ def main() -> int:
     except json.JSONDecodeError:
         sys.stderr.write("Skillet status did not return valid JSON.\n")
         return 1
-    if report["skill"]["stale"]:
+    if not report["spec"]["valid"] or report["skill"]["stale"]:
         print(report["next"], file=sys.stderr)
         return 1
     return 0

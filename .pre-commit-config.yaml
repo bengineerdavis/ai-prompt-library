@@ -49,9 +49,16 @@ repos:
         # Alint's generated block is formatted once on rule changes, not
         # regenerated on every unrelated commit.
 
-  # Refresh generated agent instructions only when its owning rule changes.
   - repo: local
     hooks:
+      - id: skill-freshness-adapter-test
+        name: skill freshness adapter
+        entry: python3 scripts/test_check_skillet_freshness.py
+        language: system
+        pass_filenames: false
+        files: ^(scripts/(check_skillet_freshness|test_check_skillet_freshness)\.py|skills/research/(SKILL\.md|spec\.md))$
+
+      # Refresh generated agent instructions only when its owning rule changes.
       - id: alint-agents-md
         name: alint AGENTS.md
         entry: mise exec github:asamarts/alint@0.21.0 -- alint export-agents-md --inline --output AGENTS.md

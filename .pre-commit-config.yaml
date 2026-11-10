@@ -30,14 +30,10 @@ repos:
   # Directory structure and installable-skill validity. Skillet owns skill
   # schema and render freshness; alint selects changed skills for local commits.
   # Run `alint check` for the full-tree gate and policy fixtures separately.
-  - repo: local
+  - repo: https://github.com/asamarts/alint-pre-commit
+    rev: v0.22.0
     hooks:
-      - id: alint-check
-        name: alint check
-        entry: mise exec github:asamarts/alint@0.21.0 -- alint check --changed
-        language: system
-        pass_filenames: false
-        always_run: true
+      - id: alint
 
   # Markdown formatter for docs and prompts (manual so you stay in control)
   - repo: https://github.com/executablebooks/mdformat

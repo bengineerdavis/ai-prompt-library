@@ -1,0 +1,21 @@
+behavior: express-structure-as-native-executable-rules
+fixture: mixed-language-repo
+prompt: |
+  Make this repository enforce its package README and manifest-location
+  conventions, and make sure the existing Python undefined-name check runs at
+  commit time. I want the right tools owning each kind of problem. Do not edit
+  source files. Follow the project instructions, and record your decisions in
+  STRUCTURE.md. Ask me only if a choice cannot be settled from the repository.
+checks:
+  - shell: |
+      test -f .alint.yml && test -f STRUCTURE.md && \
+      python3 -c 'import pathlib; p=pathlib.Path("packages/api/main.py"); assert "return missing_name" in p.read_text()' && \
+      python3 -c 'import pathlib; p=pathlib.Path("packages/api/package.json"); assert "packages/wrong-api" in p.read_text()'
+  - judge: >-
+      The resulting configuration assigns required README files and manifest
+      path consistency to alint, while assigning Python undefined-name
+      detection to the existing Ruff configuration or a thin invocation of
+      Ruff. It does not implement Python syntax or semantic analysis in alint,
+      a shell command, or a Python script. STRUCTURE.md explains this ownership
+      split and does not present alint as a replacement for Ruff, ESLint,
+      secret scanners, dependency analysis, or license identification.

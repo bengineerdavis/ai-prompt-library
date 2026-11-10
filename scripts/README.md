@@ -24,8 +24,8 @@ hang.
 
 1. If `ANTHROPIC_API_KEY` starts with `op://`, it is resolved through 1Password
    CLI (`op read`) in memory. Enable app integration and run `op signin` first.
-2. Otherwise `~/.localrc` is sourced and its `ANTHROPIC_API_KEY` is used.
-3. `--oauth` skips the file entirely and forces the OAuth login path.
+1. Otherwise `~/.localrc` is sourced and its `ANTHROPIC_API_KEY` is used.
+1. `--oauth` skips the file entirely and forces the OAuth login path.
 
 ### Refresh paths
 

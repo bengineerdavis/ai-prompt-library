@@ -14,14 +14,33 @@ directory is an authoring stage, not an installable runtime skill.
 
 ```
 skills/<name>/
-  spec.md            source of truth — Intent / Triggers / Behaviors / Constraints
+  spec.md            required source of truth — Intent / Triggers / Behaviors / Constraints
   SKILL.md           the runtime text an agent loads (rendered from spec.md)
   evals/cases/       optional YAML cases for selected behaviors
   evals/fixtures/    optional starting workspaces for those cases
+  references/        optional supporting material loaded when needed
+  assets/            optional skill resources
 ```
 
 `spec.md` is the contract and the thing to review in diffs. `SKILL.md` is
-derived from it and pins `spec_hash` so drift is detectable.
+derived from it and pins `spec_hash` so drift is detectable. Every skill
+directory needs a spec. A spec-only directory is an authoring stage; it is not
+ready to install until its rendered `SKILL.md` validates.
+
+The repository's `.alint.yml` enforces the directory structure and invokes
+Skillet for skill validation and render freshness. The pre-commit hook checks
+changed skills and refreshes the alint-managed section of `AGENTS.md`; do not
+edit that section by hand. Run the complete gate before publishing:
+
+```bash
+mise exec github:asamarts/alint@latest -- alint check
+mise exec github:asamarts/alint@latest -- alint test alint-tests --allow-spawn
+python3 scripts/test_check_skillet_freshness.py
+```
+
+The full run currently takes about 7 seconds for 13 runtime skills on this
+machine. `scripts/check_skillet_freshness.py` only turns Skillet's status
+verdict into an exit code; Skillet owns the hash calculation.
 
 ## Working on a skill
 
@@ -47,13 +66,20 @@ agent runtime's skills directory; `~/.claude/skills` is itself a symlink to
 `~/.agents/skills`.
 
 Because dotagents resolves from this repo's GitHub remote at a commit, a new or
-changed skill only installs after it is committed **and pushed**, then:
+changed skill only installs after it is committed **and pushed**. On a machine
+with the dotfiles checkout, update the approved sources through the owning
+Ansible topic:
 
 ```bash
-dotagents install      # resolves the pushed commit, updates agents.lock, wires the links
-dotagents list         # confirm the skill is declared
-dotagents doctor --fix # repair wiring if anything looks off
+cd ~/.local/share/chezmoi
+./home/dotfiles/executable_run-role.sh dotagents
+dotagents list            # confirm the skill is declared
+dotagents doctor --fix    # repair wiring if anything looks off
 ```
+
+The topic trusts and wildcard-declares this library, then refreshes its
+installed skills. There is no per-skill version or separate Ansible manifest to
+edit. A manual `dotagents install` is the equivalent non-Ansible refresh.
 
 The decision record — dotagents over skills.sh and per-tool config — lives in
 `dotfiles/docs/AGENT-ARTIFACTS.md` in the dotfiles repo.
@@ -70,7 +96,9 @@ The decision record — dotagents over skills.sh and per-tool config — lives i
 | [model-fitness](model-fitness/)                     | Decides whether a model is fit for a named role from measurements on the deciding machine, not published benchmarks.     |
 | [pii-redaction](pii-redaction/)                     | How to build and review PII redaction tools: deterministic patterns → model pass → leak verification that fails closed.  |
 | [plain-english](plain-english/)                     | Edits technical prose to the Google Developer Documentation Style Guide core.                                            |
+| [research](research/)                               | Investigates open-ended questions with parallel evidence gathering and adversarial validation.                           |
 | [review-best-practices](review-best-practices/)     | Researches what exists, ranks options against the requirement, records what was rejected before a plan commits.          |
+| structure-authoring                                 | Planned interactive structure enforcement workflow; see TASKS.md.                                                        |
 | [skillify](skillify/)                               | Authors a skill with skillet and lands it in this library, stopping at the dotagents review gate.                        |
 | support-escalation                                  | Spec + evals only — the `escalate` behavior contract; no SKILL.md rendered yet.                                          |
 | [escalation-writing](escalation-writing/)           | Spec-only writing contract for GitHub, Slack, and Intercom escalation drafts; runtime instructions pending.              |

@@ -1,7 +1,7 @@
 ---
 name: review-best-practices
 description: Researches what already exists — tools, standards, and what practitioners actually do — then ranks the options against the stated requirement and records what was rejected, so a plan is built from findings instead of invention. Use before a planning stage that will commit to an approach, before building a mechanism that is plausibly already solved (templating, config, permissions, release process, testing strategy), when adopting a convention, or when a claim about an external tool's capability is load bearing.
-spec_hash: a68e697ef1b8
+spec_hash: 54eaaa443440
 ---
 
 # Review Best Practices

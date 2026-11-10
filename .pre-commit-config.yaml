@@ -27,14 +27,43 @@ repos:
           - "--ignore-words=.codespellignore"
           - "--write-changes"
 
+  # Directory structure and installable-skill validity. Skillet owns skill
+  # schema and render freshness; alint selects changed skills for local commits.
+  # Run `alint check` for the full-tree gate and policy fixtures separately.
+  - repo: https://github.com/asamarts/alint-pre-commit
+    rev: v0.22.0
+    hooks:
+      - id: alint
+
   # Markdown formatter for docs and prompts (manual so you stay in control)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.22
     hooks:
       - id: mdformat
         name: mdformat
+        # Alint generates this file; formatting it here would fight the
+        # alint-agents-md refresh hook over escaped glob asterisks.
+        exclude: ^AGENTS\.md$
         additional_dependencies:
           - mdformat-gfm
           - mdformat-frontmatter
           - mdformat-footnote
           - mdformat-gfm-alerts
+
+  - repo: local
+    hooks:
+      - id: skill-freshness-adapter-test
+        name: skill freshness adapter
+        entry: python3 scripts/test_check_skillet_freshness.py
+        language: system
+        pass_filenames: false
+        files: ^(scripts/(check_skillet_freshness|test_check_skillet_freshness)\.py|skills/research/(SKILL\.md|spec\.md))$
+
+      # Refresh generated agent instructions only when its owning rule changes.
+      - id: alint-agents-md
+        name: alint AGENTS.md
+        entry: mise exec github:asamarts/alint@0.21.0 -- alint export-agents-md --inline --output AGENTS.md
+        language: system
+        pass_filenames: false
+        always_run: true
+        files: ^\.alint\.yml$

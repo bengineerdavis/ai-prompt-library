@@ -1,0 +1,20 @@
+test_version: 1
+name: a spec-only authoring directory is allowed
+tags: [skills, structure, passing]
+given:
+  tree:
+    skills:
+      draft:
+        spec.md: "# Draft authoring contract\n"
+  config: |
+    version: 1
+    rules:
+      - id: skills-have-authoring-specs
+        kind: dir_contains
+        select: "skills/*"
+        require: ["spec.md"]
+        level: error
+when: [check]
+expect:
+  - exit: success
+    violations: []

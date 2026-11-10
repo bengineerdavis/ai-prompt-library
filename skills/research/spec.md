@@ -95,9 +95,9 @@ when consolidating analyst outputs.
 ### Behavior: Validate the recommendation adversarially
 
 The agent SHALL dispatch an independent validation pass that attacks the
- evidence, options framing, recommendation, citation support, and evidence
- gathering integrity. It SHALL require counter-evidence for refutations and
- record dissent rather than averaging it away.
+evidence, options framing, recommendation, citation support, and evidence
+gathering integrity. It SHALL require counter-evidence for refutations and
+record dissent rather than averaging it away.
 
 #### Scenario: A recommendation relies on a single web source
 

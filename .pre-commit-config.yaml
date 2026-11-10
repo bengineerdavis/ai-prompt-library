@@ -41,13 +41,14 @@ repos:
     hooks:
       - id: mdformat
         name: mdformat
+        # Alint generates this file; formatting it here would fight the
+        # alint-agents-md refresh hook over escaped glob asterisks.
+        exclude: ^AGENTS\.md$
         additional_dependencies:
           - mdformat-gfm
           - mdformat-frontmatter
           - mdformat-footnote
           - mdformat-gfm-alerts
-        # Alint's generated block is formatted once on rule changes, not
-        # regenerated on every unrelated commit.
 
   - repo: local
     hooks:

@@ -22,7 +22,9 @@ ______________________________________________________________________
 
 - Refreshed stale spec hashes in `interaction-questioning`, `naming`, and
   `review-best-practices` after their specs passed Skillet validation.
+
 - Documented the authoring, validation, and Ansible dotagents update flow.
+
 - Queued the domain-driven authoring workflow and possible future artifact
   template; no combined workflow or skills.sh packaging is implied yet.
 

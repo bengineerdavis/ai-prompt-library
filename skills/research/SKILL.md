@@ -2,7 +2,7 @@
 name: research
 description: Investigates open-ended questions with parallel, evidence-backed research and adversarial validation. Use for landscapes, approaches, or decisions that need multiple independent sources; not for bug diagnosis, feature specification, two-artifact comparison, or implementation code.
 license: MIT
-spec_hash: fe7d0f3c3b7e
+spec_hash: 6e77cbbfdad9
 metadata:
   version: "1.0.0"
 ---

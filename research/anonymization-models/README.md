@@ -464,3 +464,144 @@ disqualifying facts (EternisAI non-commercial, NeMo OpenRouter default + telemet
 no standalone permissive rewriter). But the build-versus-adopt answer was
 **adopt what is here**, and the earlier framing was sending work toward building
 something the workspace already had.
+
+## Addendum 2026-11-10 (4): how NeMo works, and how well — evidence tiers
+
+### How it works
+
+Every input goes through **hybrid entity detection** first, then one of two flows.
+
+**Detection** (shared by both): `fastino/gliner2-privacy-filter-PII-multi` at a
+loopback endpoint does the first pass, then LLM roles *validate* candidates and
+*augment* the set with what the NER model missed. Validation is chunked
+(`validation_max_entities_per_call`) with excerpts around each candidate — this
+is why detection is the expensive stage.
+
+**Replace** — operates on detected spans, four strategies applied uniformly to
+every entity in the run: `Substitute` (LLM generates a realistic replacement),
+`Redact` (tag/mask), `Annotate` (`<value|label>`), `Hash`. One
+replacement-map generation per record after the final entity set is known.
+
+**Rewrite** — ten stages, not one prompt:
+
+1. detect (as above, plus **latent entity** detection for inferable facts)
+2. plan consistent replacements
+3. find latent clues
+4. decide what to protect (goal-aware; depends on `privacy_goal`)
+5. identify what must survive (**meaning units**: events, relationships,
+   chronology, conclusions)
+6. build privacy + quality checks (two QA harnesses from steps 4 and 5)
+7. generate the first rewrite
+8. **attack** the rewrite (adversarial questions)
+9. repair what failed — the failure ships with an explanation naming which clues
+   still leak, so repair is targeted, not "try again"
+10. final judge (holistic; fluency, coherence, obvious leaks)
+
+Per-entity protection methods in Rewrite: `replace`, `generalize` (exact date →
+quarter), `suppress_inference` (rewrite surrounding text to kill inference
+cues), `remove`, `leave_as_is`.
+
+### How well it works — three tiers of evidence, only two of which exist
+
+**Tier 1 — measured operational throughput. Trustworthy.** Vendor-measured but
+it is timing and token counts, which are hard to fake:
+
+| Run | Records | Wall | Throughput | Failed | Cost |
+| --- | --- | --- | --- | --- | --- |
+| Compact 100 | 100/100 | 2.54 min | 39.33 rec/min | 0 | $0.40 |
+| Compact 250 | 250/250 | 8.86 min | 28.23 rec/min | 0 | $1.40 |
+
+One B300, Qwen3.6-35B-A3B (NVFP4) on vLLM + GLiNER, everything on localhost.
+Stage split: detection 413.7 s vs substitute-map 117.5 s on the 250 slice —
+**detection dominates**. Tokens: 8,820,515 total for 250 records
+(7.46 M in / 1.36 M out) ≈ **35 k tokens per record**. Mean 46.3 entities/record.
+
+That token figure is the number to budget with. For a 154-entry HAR this is
+roughly 5.4 M tokens — feasible locally, but not free, and it is *Replace*, not
+Rewrite. Rewrite multiplies this by its seven-role pipeline plus repair rounds.
+
+**Tier 2 — vendor self-evaluation. Real mechanism, unverified numbers.**
+`utility_score` and `leakage_mass` are computed *during* `run()`, and rows over
+threshold enter the repair loop while `evaluate()` adds independent LLM judges
+afterward. The mechanism is genuinely better than most tools ship. But:
+
+- `leakage_mass = Σ(sensitivity_weight × leak_confidence)` where the confidence
+  comes from an LLM judge. It is a model's opinion, not a measurement.
+- `utility_score` is a weighted mean over questions *generated from the original
+  record*. A meaning no generated question captured scores as preserved.
+- The authors say so themselves, in a section titled "What the Scores Do Not
+  Prove": utility "can miss meaning that no question captured", leakage metrics
+  "do not model every possible attacker or external dataset", entity coverage "is
+  not ground truth". They do not certify anonymity.
+- Judge scores are configurable — `gpt-oss-120b` vs `nemotron-super` on the same
+  result — so a score is partly a property of the judge you chose.
+
+**Tier 3 — independent evaluation. Does not exist.** RAT-Bench
+(arXiv 2602.12806, Feb 2026, de Montjoye group) is the right benchmark: it
+measures *re-identification risk* rather than recall, grounded in US Census
+PUMS demographics, with an LLM attacker, across 12 tools. **NeMo Anonymizer is
+not among them** — it postdates the benchmark. So there is no third-party
+measurement of NeMo's privacy effectiveness. Every quality claim about it
+originates with NVIDIA.
+
+### What RAT-Bench says about the category (this is the sobering part)
+
+Re-identification success rate, lower is better (θ = 0.2, k=5):
+
+| Tool | Easy | Hard | Explicit avg | Implicit |
+| --- | --- | --- | --- | --- |
+| **No anonymization** | 100% | 98% | 99% | **32%** |
+| Azure (NER) | 22% | 33% | 28% | 21% |
+| Presidio (NER) | 41% | 77% | 59% | 30% |
+| GLiNER (NER) | 67% | 71% | 69% | 28% |
+| Textwash | 39% | 55% | 47% | 32% |
+| **Anthropic PII purifier + GPT-4.1** | 26% | 58% | **42%** | 19% |
+| Gemini 2.5 Flash | 48% | 64% | 56% | 33% |
+| Llama 3.1-8B | 37% | 72% | 55% | 21% |
+| ITERATIVE anonymizer (Staab 2025) | best overall | — | — | — |
+| *Average across tools* | 44% | 69% | 57% | 28% |
+
+Four findings that bear on this project directly:
+
+1. **Even the best tool leaves ~42% average re-identification risk** on explicit
+   identifiers, and Azure's better number (28%) comes with heavy over-redaction
+   (low BLEU) — it buys privacy by destroying utility.
+2. **Implicit identifiers barely move.** No anonymization: 32%. Most tools: 21–33%.
+   A tool that reduces risk to 21% on implicit identifiers has achieved
+   approximately nothing on the hard half of the problem. This is exactly the
+   latent-entity gap, measured.
+3. **Representation format matters more than tool choice.** Risk climbs from 44%
+   (easy) to 69% (hard) — non-standard formatting defeats detection far more than
+   a better model helps. For our captures this is the "names written oddly" case.
+4. **The iterative anonymizer wins, but conditionally.** It reduces risk
+   drastically *when the exact attribute set is known*, and degrades with a noisy
+   or generic attribute list. NeMo's Rewrite is this architecture.
+
+### Conclusion for our decision
+
+NeMo's **architecture** is the best-justified in the literature; its **measured
+quality is unknown** to anyone but NVIDIA. That combination argues for exactly
+what was already recommended: adopt the in-tree surrogate engine for the
+mechanism (APL-15), keep NeMo as the evaluated second opinion (APL-14), and use
+RAT-Bench itself as the evaluation harness rather than NeMo's own judge — it is
+open (HuggingFace `imperial-cpg/rat-bench`, GitHub `imperial-aisp/rat-bench`,
+leaderboard space) and it measures risk rather than recall.
+
+And the category numbers make the EDPB framing unavoidable: if the best
+independent evidence says ~42% of records are still re-identifiable after the
+best explicit-identifier tool, then no run of any of these tools supports an
+"anonymised" label. Pseudonymised, with the gate we have, and honest labelling
+(APL-16) is the defensible claim.
+
+### Sources added
+
+| Source | URL | Revision / date |
+| --- | --- | --- |
+| NeMo — evaluating Replace | devnotes/after-anonymization--part-i-evaluating-replace-mode/ | 2026-07-28 |
+| NeMo — evaluating Rewrite | devnotes/after-anonymization--part-ii-evaluating-rewrite-mode/ | 2026-08-07 |
+| NeMo — self-hosted on one B300 | devnotes/running-nemo-anonymizer-fully-self-hosted-on-one-b300/ | 2026-07-07 |
+| RAT-Bench | <https://arxiv.org/abs/2602.12806> | v1, 2026-02-13 |
+
+Caveat: the B300 figures are vendor-measured on rented hardware that does not
+resemble this machine (a 36 GB M4 Max). Throughput here will be far worse; the
+token-per-record ratio is the transferable figure.

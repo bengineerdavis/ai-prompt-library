@@ -605,3 +605,122 @@ best explicit-identifier tool, then no run of any of these tools supports an
 Caveat: the B300 figures are vendor-measured on rented hardware that does not
 resemble this machine (a 36 GB M4 Max). Throughput here will be far worse; the
 token-per-record ratio is the transferable figure.
+
+## Addendum 2026-11-10 (5): rules that learn — the machinery exists, the seam does not
+
+Requirement added: the tool must be adaptable — build rules as vulnerabilities are
+found, and add patterns from data samples or structures during a session, rather
+than only shipping whatever detectors were hard-coded.
+
+### What already exists (and is better than expected)
+
+`raise_cli/pii_rule.py` + `pii_rules.py` implement a mature rule system:
+
+**Schema** (`Rule`): `id`, `description`, `category`, `action`, `layer`,
+`confidence`, `surrogate`, `pattern`, `keywords`, `validator`, `entropy`,
+`exclude`, `emitters`, `examples`, `counterexamples`.
+
+**`build_rule` enforces the discipline a learning loop needs, mechanically:**
+
+- a rule without `examples` is refused — *"a rule without examples carries no
+  evidence"*
+- a rule without `counterexamples` is refused — *"a rule without counterexamples
+  cannot be kept precise"*
+- unknown `emitters`, unknown `validator`, non-compiling pattern, non-schema-1 —
+  all refused
+- `_accepted()` applies precision machinery: entropy floor, `ipv4`/`luhn`
+  validators, exclude patterns
+
+**Layering**: `LAYERS = ("base", "user", "project")`, later wins by id, and
+*"a rule never silently disappears: disabling names a reason."*
+
+**Emitters** — five: `in-process`, `report`, `betterleaks`, `redactor`,
+`text-redactor`. Default is `("in-process", "report")`, so **a new rule is off for
+the redactor consumers until declared** — staged rollout is already the default.
+`redact.py:1136` consumes rules whose emitters include `redactor`;
+`har_inventory.py:379` uses the difference between the two text emitters to keep
+free-text-only detectors from reporting on HAR profiles.
+
+### The gap, stated plainly
+
+**`pii-redactor` cannot consume any of this.** It has hard-coded `DETECTORS` and
+no rule path at all. So today: rule authoring exists in raise, rule *delivery* to
+the tool being built does not. That is the actual work — not inventing a rule
+format.
+
+There is also a collision: the `redactor` emitter name already means "raise's own
+HAR redactor", not "pii-redactor". Attaching pii-redactor to that existing
+emitter would silently widen what raise's redactor does. **pii-redactor needs its
+own emitter name**, and the choice of name is a small but real decision.
+
+### Three sources of new rules, each with a different discipline
+
+**(a) A vulnerability found in a real run.** Highest-quality source, lowest
+volume. Discipline: the finding becomes a *rule plus a failing test plus a
+synthesized fixture* — never the real capture (standing rule: fixtures are
+synthesized, never copied). The real capture is evidence that motivates the rule;
+the fixture is what the suite replays. The rule must carry a counterexample or it
+will over-fire.
+
+**(b) A session notices a pattern while working.** An agent reading a document
+spots a shape the detectors miss. Discipline: **the agent proposes, the validator
+disposes.** `build_rule` already refuses evidence-free rules, so the agent cannot
+add a bare regex — it must supply examples and counterexamples. But the rule must
+also be measured against a corpus before enabling, because a plausible regex is
+the easiest way to introduce false positives at scale.
+
+**(c) Induction from data samples or structures.** Most powerful, most dangerous.
+Discipline: **induce structure, never values.** A rule may only be derived from a
+stated invariant that makes the match PII *by definition* — "AKIA followed by 16
+uppercase alphanumerics is an AWS key id", "three dot-separated base64url segments
+starting `eyJ` is a JWT". "These 40 strings look alike" is not a rule; it is
+overfitting with a regex.
+
+### The leak path this creates, and how to close it
+
+**A learning loop that learns from real customer data is a privacy leak with extra
+steps.** Rules are shareable, exportable, versioned artifacts — that is their
+point (docs/pii.md: policy becomes "a generated, shareable artifact versioned by
+provenance"). So a rule derived from a real capture can carry the capture with it:
+
+- a pattern containing a real org slug, hostname, internal path or account id
+- a rule `id` or `description` derived from a customer name
+- **the `examples` field.** `build_rule` *requires* examples and only requires
+  them to be *non-empty*. Inducing from a real capture invites pasting the real
+  value as the example. The schema forces evidence but does not force it to be
+  synthetic.
+
+That last one is a genuine hole in the existing design, and it is exactly the hole
+a learning loop makes easy to fall into. Three mitigations, cheapest first:
+
+1. Make synthesized examples a checked property, not an honor system — a lint over
+   rule files that rejects example values which also appear in the corpus being
+   redacted.
+2. Run every candidate rule file through the PII gate before it is written or
+   exported, treating the rule file as shareable output like any other artifact.
+3. Induce from structure (field names, encodings, lengths, checksums) and never
+   from values. If a rule cannot be stated without quoting a real value, it is not
+   a rule yet.
+
+### Recommended shape
+
+Keep `raise_cli`'s rule schema as the format — it is already validated,
+layered and emitter-scoped, and rewriting it would lose all of that. The work is:
+
+1. **A new emitter name** for pii-redactor, separate from raise's `redactor`.
+2. **A compiler**: rules → the detector list pii-redactor loads, replacing the
+   hard-coded `DETECTORS` with "built-ins plus rule-file" so the two cannot drift.
+3. **Staged promotion**: learned rules land in the `project` layer (scoped, not
+   committed), and promote to `base` only when generalized. `LAYERS` is a fixed
+   tuple today; a `learned` layer is a possible fifth step but staged promotion
+   inside `project` needs no schema change.
+4. **The gate on rule files** (mitigation 2 above), because rules are the one
+   artifact that outlives the run and gets shared.
+
+This also gives APL-2's detector-bounding work a home: bounding `har_cookie_json`
+and `har_auth_json` is a rule change, and it should land as a rule edit with a
+test pinning it, not as a source edit with no rule identity.
+
+`support`'s task-74 ("Scanner-rules learning loop from the redact candidate
+model") already names this direction and is a stub with no acceptance criteria.
+It owns the raise side; the pii-redactor side is new work.

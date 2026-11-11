@@ -1,12 +1,5 @@
 # AGENTS.md
 
-> **2026-09-18 — one-time sync note, delete after acting:** `main` moved via
-> `git pull --rebase` on a concurrent session (no force-push). If this clone
-> is behind or diverged, run `git pull --rebase` before working. **Whichever
-> machine pulls this note removes it**: delete this block, commit the removal,
-> and push, so it never reaches another clone. Never force-push this
-> repository.
-
 Guidance for agents working in this repository. Content-first prompt library: almost
 everything is Markdown; the only root executable is `bundle.py`.
 
@@ -28,9 +21,16 @@ everything is Markdown; the only root executable is `bundle.py`.
 - Run the bundler: `./bundle.py -p <collection>` — it is a `uv` script
   (`#!/usr/bin/env -S uv run --script`, deps inline); requires `uv` on PATH, no venv
   or install step. Useful flags: `--dry-run`, `--list`, `-c <config>`, `--debug`.
-- Lint/format check before committing: `pre-commit run --all-files`
+- Lint/format the files you changed: `pre-commit run --files <paths>`
   (trailing-whitespace, codespell, mdformat-gfm). Codespell false positives go in
   `.codespellignore`, one word per line — do not misspell to satisfy it.
+  `--all-files` also runs the auto-fixers (`codespell-fix`, `mdformat`), which
+  rewrite untouched files across the tree; use it only to reformat everything,
+  and check `git status` afterwards.
+- A skill and its tools live together where the skill is defined. Implementation
+  here is `skills/<name>/scripts/` (see `skills/naming/scripts/check-name`). A
+  thin bin wrapper that makes a skill callable from the terminal belongs in the
+  dotfiles repo, and the skill does not need to know it exists.
 
 ## Bundler gotchas (verified against `bundle.py`, which wins over docs)
 
@@ -58,8 +58,10 @@ Rules that bite:
 
 - Always run Skillet through `npx -y @sentry/skillet@latest` (never a bare
   `skillet` binary), and follow what `status <dir> --json` says is `next`.
-- `SKILL.md` frontmatter carries `spec_hash:` from `status --json`; editing
-  `spec.md` without re-rendering/re-hashing marks the skill stale.
+- `SKILL.md` frontmatter carries `spec_hash:` from `status --json`. Pin it
+  **last**: format `spec.md` (codespell, mdformat) → render `SKILL.md` → refresh
+  the hash. A formatter run after rendering rotates the hash and leaves the pin
+  stale, which is the usual cause of a "stale" skill you already re-rendered.
 - Eval cases must not contain `: ` inside unquoted `judge:` scalars — use
   `judge: |` block form.
 - `skillet eval` needs a `codex` or `claude` CLI on PATH (`--harness`); without

@@ -10,7 +10,7 @@ labels:
 - security
 dependencies:
 - APL-1
-updated_date: 2026-11-10 21:50
+updated_date: 2026-11-11 03:27
 ---
 
 ## Description
@@ -20,9 +20,17 @@ Why: chunking introduces a leak the current tool cannot have. jane.smith@example
 
 Ship: a carry window read before each chunk, and an edge rule that turns an unproven boundary into a visible failure.
 
-Also documents a deliberate behaviour change: har_cookie_json (r'("cookies"\s*:\s*\[)([^\]]*)("?\])') and har_auth_json's ([^"]*) match across newlines with no length bound, so no fixed carry can ever be proven sufficient against them. They become single-line (add \n to the negated classes) and rely on the structural path, where a whole top-level value is one atom and a multi-line cookies array still matches.
+Also documents a deliberate behaviour change: har_cookie_json (r'("cookies"\s*:\s*\[)([^\]]*)("?\])') and har_auth_json's ([^"]*) match across newlines with no length bound, so no fixed carry can ever be proven sufficient against them. They become single-line (add \n to the negated classes).
 
 Prior art: raise docs/conventions.md C52 (chunk on a structural boundary, never truncate) and raise text_redact's determinism-owned substitution.
+
+UPDATE 2026-11-10 (two corrections — this description was written before both landed):
+
+1. The atom rule is descent, not "a top-level value is one atom". A 14 MB HAR is a single top-level object whose entries member holds everything, so treating the top-level value as one atom would refuse exactly the sizes this task exists for. JSON atoms are members of the top-level container, descending recursively until a member fits the budget, never splitting a scalar. Container syntax is emitted verbatim so reassembly is byte-exact.
+
+2. The detector bounding is now APL-17's job. It should land as a RULE edit with a test pinning it, not a hard-coded source edit, so the change has a rule identity and can be reviewed as policy rather than as code. Do the carry window and edge rule here; hand the regex change to APL-17.
+
+Unchanged and still load-bearing: the invariant "a chunk boundary must never become a redaction boundary", and the reason the two detectors matter — they match across newlines with no bound, so no finite carry constant can be proven sufficient.
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

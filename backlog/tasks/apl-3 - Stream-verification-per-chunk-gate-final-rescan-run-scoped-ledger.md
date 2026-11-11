@@ -9,7 +9,7 @@ labels:
 - security
 dependencies:
 - APL-1
-updated_date: 2026-11-10 23:08
+updated_date: 2026-11-11 03:27
 ---
 
 ## Description
@@ -20,6 +20,17 @@ Why: layer 3 is a whole-output judgement today, which conflicts with streaming u
 Ship: each chunk gated before its output joins the staging file, the assembled artifact rescanned before release, and a run-scoped in-memory ledger so a name fragment in a later chunk is still caught after the fuller form scrolled out of view.
 
 The ledger is a store of the very values being removed: never on disk, never outliving the run, and capped with a stderr note rather than degrading silently.
+
+UPDATE 2026-11-10: the substitution step that verification checks is no longer placeholder-only.
+
+An earlier scope fence took placeholders only, put a surrogate engine AND a pii-map out of scope, and that was wrong: a fixed tag collapses every person into one referent and destroys exactly the context a pseudonymisation requirement exists to preserve. APL-15 adopts the existing in-tree engine, and APL-16 makes redact vs pseudonymise an explicit mode.
+
+Consequences for this task:
+- The per-chunk gate must verify whichever mode ran. In pseudonymise mode the check is that values were consistently substituted, not merely that no detected value survived.
+- The ledger and the surrogate engine are different stores with different lifetimes and must not be conflated. The ledger holds MODEL-identified candidate values for cross-chunk recognition and dies with the run. The surrogate mapping is the "additional information" under EDPB 01/2025 and its retention is a separate decision (APL-16). Do not let the ledger become a de facto map.
+- The stderr counts must report the mode, because the two produce artifacts with different legal status.
+
+Unchanged: the run-scoped ledger never touches disk, and no chunk's output reaches the staging file before its gate passes.
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

@@ -18,6 +18,14 @@ everything is Markdown; the only root executable is `bundle.py`.
 
 ## Commands
 
+- **Check the branch is current before trusting any gate.** In a worktree,
+  `git log --oneline main..HEAD` shows your work and `git rev-list --count HEAD..main` shows what you are missing. A branch cut days ago can lack the very
+  checks that would have caught your work: this repo's alint rules
+  (`installable-skills-are-valid`, `rendered-skills-match-their-spec`) became
+  commit-blocking on `main` while a feature branch predated them, so a whole
+  session of hand-run validation was weaker than the gate the repo actually has.
+  Run `git rev-list --count HEAD..main` at session start and rebase before
+  concluding anything passes.
 - Run the bundler: `./bundle.py -p <collection>` — it is a `uv` script
   (`#!/usr/bin/env -S uv run --script`, deps inline); requires `uv` on PATH, no venv
   or install step. Useful flags: `--dry-run`, `--list`, `-c <config>`, `--debug`.
@@ -71,6 +79,21 @@ Rules that bite:
   refresh command instead of hanging ~10 minutes. `ANTHROPIC_API_KEY` set in
   `~/.localrc` overrides OAuth login — a stale key there is the usual cause of
   401/timeout even after `claude auth login`. `--oauth` forces the OAuth path.
+
+## Tasks
+
+`backlog/` is the authoritative task store (backlog-py, prefix `APL`), not
+`TASKS.md` — `TASKS.md` is a human-readable queue and the backlog is the record.
+Use the `backlog-py` MCP tools; the CLI is not on PATH under the name `backlog`.
+Cross-repo work references chezmoi's store as `DOT-<n>`, and those references go
+in both directions so either side can find the other's half.
+
+**Before acting on a task, check whether its premise still holds.** Tasks carry
+the design as it stood when they were written. When a later decision reverses one
+— a rule becomes descent, a scope fence drops — the task is not merely outdated,
+it will send you into work that has been deliberately undone. Edit the task to
+record the correction and its reason rather than silently building something
+different.
 
 ## Specs to consult before restructuring
 

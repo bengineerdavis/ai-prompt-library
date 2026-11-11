@@ -186,3 +186,281 @@ Reasoning, in order:
 - EternisAI's 4B model card was not read in full; its metadata (licence, revision, size) was.
 - `ollamonym`'s licence was not verified; it is listed for completeness and not recommended.
 - Cost estimates for Rewrite are arithmetic from the documented role count, not measured.
+
+## Addendum 2026-11-10: the EU-compliance axis
+
+Prompted by a question about "anonymizer models for EU standards". Two things
+worth separating: **what a model can do** and **what makes a deployment
+compliant**. No model in this note is a compliance program, and the one card that
+says so explicitly is bardsai's: "This is a detection model, not a compliance
+program. Use it to support a redaction workflow with review where the stakes
+require it."
+
+### bardsai EU PII detector — verified, and it is the APL-7 model
+
+- `bardsai/eu-pii-anonimization-multilang-v3`, `091984b5fbce`, **Apache-2.0**,
+  24 EU languages, 37 BIO labels, ModernBERT-base (`jhu-clsp/mmBERT-base`),
+  307M params, **8192-token context**. v1 `62ca57123687`, v2 `07a9a69b0d75`.
+- **Art. 9 classes are real labels, not a claim**: `HEALTH_DATA`,
+  `BIOMETRIC_DATA`, `ETHNIC_ORIGIN`, `POLITICAL_OPINION`, `RELIGION_OR_BELIEF`,
+  `SEXUAL_ORIENTATION`, `TRADE_UNION_MEMBERSHIP`, `CRIMINAL_OFFENCE_DATA`.
+- v3 adds `DATE_TIME` and `URL`; `det.anonymize(text, labels={...})` filters which
+  types get masked, so generic dates and URLs can be left alone.
+- Reported PIIMB average F2 **0.927** (v2 0.773); real-text strict F1 0.980.
+  Author-reported, on their test sets.
+- **ONNX INT8 is 0.3 GB and scores the same as FP32** (0.980), runs on CPU. The
+  browser demo runs it client-side, so PII never leaves the device.
+- Ships a **word-level decoder** (`pii_detector.py`) — the card warns a plain
+  per-token argmax emits sub-word fragments. Use their decoder, not the raw
+  pipeline, or spans come out cut.
+- 512-token windows with 128 overlap internally, so it chunks itself; 8192 is
+  the ceiling, not the working window.
+
+**This supersedes the pin in APL-7**, which was written against a *preview*
+checkpoint. v3 is the stable release to pin. Same conclusion as before: detector
+only — it returns spans, and the engine still owns substitution. It breaks
+stdlib-only (needs `transformers` + `onnxruntime`), which is the APL-7 tradeoff
+and should be decided there, not assumed here.
+
+### Disabling NeMo telemetry — verified, three ways
+
+The README documents all three; use them all if this ever ships:
+
+- Per invocation: `--no-emit-telemetry`
+- In the SDK: `AnonymizerConfig(..., emit_telemetry=False)`
+- Per shell: `NEMO_TELEMETRY_ENABLED=false`
+
+The README lists exactly what is collected (strategy, models, model hosts, record
+counts, duration, failure attribution by pipeline step) and states no record
+contents, prompts or outputs. Disable it anyway rather than trust the field list —
+the cost is one flag.
+
+### Pointing NeMo fully local — the trick, and the trap
+
+Ollama on this machine already serves an OpenAI-compatible API at
+`http://localhost:11434/v1` (verified: `/v1/models` returns the 40 installed
+models). So NeMo can be made fully local.
+
+**Trap:** the bundled model configs hardcode `provider: openrouter`, and
+`Anonymizer` validates that every config's provider name resolves. Dropping
+`openrouter` from your provider list fails validation. Two ways through:
+
+1. Keep the name, repoint the URL — `name: openrouter`,
+   `endpoint: http://localhost:11434/v1`. Cheapest, no model-config override.
+2. Pass `model_configs=` that name your own provider. Explicit, and the only
+   route if you also want to change which role gets which model.
+
+Validation is `anonymizer validate` / `anonymizer.validate_config(config)` —
+run it after any provider change.
+
+Also note the bundled detector is `fastino/gliner2-privacy-filter-PII-multi` at a
+**loopback** endpoint, so detection is local by default while the LLM roles are
+not. That asymmetry is the thing to check when claiming "local".
+
+### Can a general Qwen serve as NeMo's rewriter?
+
+Separate question from whether it is PII-tuned. NeMo drives plain chat LLMs
+through OpenAI-compatible endpoints, so yes mechanically — any installed Qwen
+reaches it via the `/v1` endpoint. But role fit is a measurement, not an
+assumption, and NeMo's own guidance is to split by role:
+
+- Strongest model for `latent_detector`, `disposition_analyzer`, `rewriter`,
+  `repairer`
+- Mid-tier for `entity_augmenter`, `meaning_extractor`, `replacement_generator`
+- Small/fast for `entity_validator`, `domain_classifier`, `qa_generator`,
+  `evaluator`
+
+So a local Qwen belongs in the rewriter role only after it is measured there.
+What does **not** work: Qwen-based *PII-tuned* models. EternisAI's Anonymizer
+series is Qwen3-based and is the one Qwen-tuned family found — but it is
+CC-BY-NC-4.0, so it is out on licence, not on capability.
+
+### Corrections to circulating summaries
+
+Two claims that appeared in an AI-generated summary and do not hold up:
+
+- **VaultGemma is not an anonymizer.** It is a Google research LLM trained with
+  differential privacy — that is privacy of *training data*, not masking PII in a
+  prompt. Grouping it with "open-source LLM anonymizers" misreads what it does.
+- **"MAPA" could not be verified at the repo location given.** `pangeanic/MAPA`
+  returns 404 via the GitHub API. MAPA does appear in this ecosystem as the
+  `mapa-eur-lex` dataset, which bardsai uses for training and evaluation (21
+  languages, and their weakest benchmark at 0.633 F2). Treat MAPA as a
+  dataset/benchmark until the tool itself is located and read.
+
+Unverified in that summary and not repeated here: the "three years" human-review
+retention window for consumer Gemini, and vendor compliance claims for VEIL.AI,
+Gallio PRO and vAnonymize. None were checked; none should be relied on.
+
+Also: differential privacy (`diffprivlib`, Google DP) protects aggregate releases
+and model training, not free text. It is not an alternative to redaction.
+
+## Addendum 2026-11-10 (2): "EU as a heuristic" names pseudonymisation, not anonymisation
+
+The requirement was clarified as: pseudonymisation of high enough quality to
+maintain privacy while preserving model instructions and context, using the EU
+regime as the yardstick. That is a sharper target than the first addendum
+assumed, and the EU has a specific standard for it. **It is not the
+anonymisation standard.**
+
+### The two EDPB instruments are different tools
+
+| | Guidelines 01/2025 — Pseudonymisation | Guidelines 02/2026 — Anonymisation |
+| --- | --- | --- |
+| Adopted | 16 Jan 2025 | 7 Jul 2026 (public consultation to 30 Oct 2026) |
+| Target | Art. 4(5): data that can no longer be attributed to a person *without additional information* | Art. 4(1): data that does not relate to an identifiable person *at all* |
+| Legal status of output | **Still personal data.** GDPR applies in full | Outside GDPR |
+| Test | Attribution prevented without the additional information | No Record Isolation, No Linkage, No Inference |
+| Achievable for a support capture | **Yes, with discipline** | In practice no |
+
+EDPB 01/2025 is explicit that the two are not the same: "Prevention of
+attribution does not imply anonymity of the data."
+
+And the older Opinion 05/2014 (Table 6) scores pseudonymisation against all
+three anonymisation criteria — singling out **yes**, linkability **yes**,
+inference **yes**. So a pseudonymised capture remains personal data by
+definition. That is the *point* of it: you get a document a model can reason
+over without shipping real identities, and you keep the legal obligations rather
+than pretending they vanished.
+
+**Why this is the right target here:** for a support capture, the anonymisation
+standard is unreachable. EDPB 02/2026's No Inference criterion requires that no
+specific and meaningful inference can be drawn, including from external
+information and the context the data was produced in. A ticket-shaped document
+survives that test almost never — the escalation history is the identifying
+signal. Chasing it produces either refusal or a false claim of compliance.
+
+### What this changes in the design
+
+1. **The gate must test attribution, not detector recurrence — and must not
+   claim anonymity.** This is the same conclusion as APL-13 but with a correct
+   legal frame: name the output as pseudonymised, keep it in scope, and say so.
+   A tool that prints "anonymised" for a document it pseudonymised is making a
+   false compliance claim, which is worse than making none.
+2. **The "collapse placeholders" default is wrong for this goal.** Collapsing
+   `[NAME]` for every person destroys the ability to tell two people apart —
+   and the people in a support capture are exactly the referents whose distinct
+   relationships are the meaning being preserved. Consistency is the whole
+   mechanism by which pseudonymisation keeps utility. The right default is a
+   *stable* pseudonym per value, within the run at minimum (raise's
+   `pii-map.toml` is the mature form: salted per-ticket, `{slug}-{salt}-{NNN}`).
+   This directly contradicts the Q8 scope fence taken earlier in this session,
+   which chose placeholders-only, no surrogate engine, no map. **That fence was
+   drawn before this requirement was clear and should be revisited rather than
+   defended.**
+3. **`raise pii`'s existing design is the reference implementation**, not a
+   separate concern. docs/pii.md already argues surrogates must be consistent
+   and typed, and `pii-map.toml` already implements per-ticket salt and
+   one-way-lifed mappings. The earlier framing ("surrogates are a separate
+   decision") split off exactly what this requirement needs.
+4. **EDPB 01/2025 makes the additional information the security boundary.** The
+   mapping is the "additional information" — so it must be protected at least as
+   strongly as the original data, and its destruction is what upgrades the
+   artifact's status later. That matches raise's `pii erase` (task-52) design and
+   means the ledger in APL-3 must never touch disk, which it already does not.
+
+### Revised recommendation
+
+Adopt the pseudonymisation frame explicitly and treat the placeholder path as
+the degenerate case of it (placeholder = a pseudonym with no information
+content). Concretely, the layer-2 backend should be able to emit **stable typed
+pseudonyms** rather than fixed tags, and the spec should say which of the two
+modes a run used. The EU yardstick to cite is EDPB 01/2025; the anonymisation
+guidelines are the ceiling we are deliberately not claiming.
+
+This does not change the simple-grandiose advice from the first addendum: NeMo
+Replace/Substitute is the off-the-shelf way to get consistent, realistic
+pseudonyms, and it is the thing worth measuring (APL-14). It changes *what we
+call the output* and *what the gate must prove*.
+
+### Sources added
+
+| Source | URL | Revision / date |
+| --- | --- | --- |
+| EDPB Guidelines 01/2025 — Pseudonymisation | <https://www.edpb.europa.eu/system/files/2025-01/edpb_guidelines_202501_pseudonymisation_en.pdf> | adopted 16 Jan 2025 |
+| EDPB Guidelines 02/2026 — Anonymisation | <https://www.edpb.europa.eu/system/files/2026-09/edpb_guidelines_202602_anonymisation_v1_en_0.pdf> | v1.0 adopted 7 Jul 2026 |
+| A29WP Opinion 05/2014 — Anonymisation Techniques | <https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp216_en.pdf> | 10 Apr 2014 |
+| ICO — motivated intruder test | <https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/how-do-we-ensure-anonymisation-is-effective/> | read 2026-11-10 |
+
+Caveats: 02/2026 is in public consultation until 30 Oct 2026 and may change;
+01/2025 was read via search extract, not the PDF end to end. Nothing here is
+legal advice, and the compliance decision belongs to whoever owns the data.
+
+## Addendum 2026-11-10 (3): the incumbent already implements the requirement
+
+Applying review-best-practices to this problem rather than continuing to
+research models exposed how much was already built and not consulted.
+
+**Requirement, stated before searching:** produce a pseudonymised support
+capture whose substitutions preserve enough context for a model to reason over
+it, against the EDPB 01/2025 pseudonymisation standard. Disqualifying
+capabilities: (a) destroys referent identity — fixed `[NAME]` tags collapse two
+people into one; (b) requires sending real values to a non-local model.
+
+| Capability required | `raise_cli` (in-tree, `surrogates.py` + `pii_map.py`) | `pii-redactor` (chezmoi) | NeMo Anonymizer Replace | EternisAI |
+| --- | --- | --- | --- | --- |
+| Consistent per value | **Yes** — `_seen` dict keys on `(category, value)` | No — fixed `[NAME]` | Yes (coordinated map) | Yes |
+| Typed / shape-preserving | **Yes** — 17 generators, IPs in RFC 5737 ranges, hosts RFC 2606, cards Luhn-valid | Placeholders only | Yes | Yes |
+| Scoped per ticket | **Yes** — salt = `sha256(ticket_id)[:8]` | n/a (single file) | n/a | n/a |
+| Re-run reproducible | **Yes** — deterministic counters | No | No (seeded LLM) | Partly |
+| Local-only | **Yes** — pure stdlib transform | Yes | Only after repointing | Yes |
+| Mature | 196 + 83 lines, tested | 874 lines, tested | Apache-2.0, new | CC-BY-NC-4.0 |
+| Extra dependency | **None** (stdlib + hashlib) | None | torch/transformers chain | torch |
+
+`surrogates.py`'s own module docstring names the contract it implements:
+*consistent*, *type-preserving*, *per-ticket salted*, *reserved ranges only*.
+It cites `docs/pii.md § Surrogates must be consistent and typed`. Its stated
+exclusions are deliberate: persistence is a separate module (`pii_map.py`), and
+the engine is "a pure value transform with no filesystem access."
+
+**This is the answer that was being searched for.** The requirement asked for a
+pseudonymisation engine of high quality; one exists in this workspace, is
+stdlib-only, is already EU-shaped (consistent + typed + scoped), and costs
+nothing to adopt. NeMo remains interesting for *contextual detection* (finding
+names an NER model would miss) and for its latent-entity reasoning, but it is
+not the pseudonymisation mechanism. EternisAI is out on licence regardless.
+
+### The correction this forces, stated where it was claimed
+
+Earlier in this session I recorded a scope fence ("Q8"): placeholders only, no
+surrogate engine, no `pii-map`, no pseudonymisation, on the reasoning that
+raise's surrogates were a separate decision. **That framing was wrong** and the
+requirement clarification is what exposed it. A pseudonymisation requirement
+cannot be met by a mechanism that deliberately discards referent identity, and
+splitting the surrogate engine off as "separate" removed exactly the capability
+being asked for.
+
+What survives from that fence: the *binding* stays off. `pii-redactor` should
+not grow its own map file, salt scheme, or surrogate generators — it should
+consume the engine, which is now a library-shaped module. Whether that means a
+shared package, a vendored copy, or importing from `raise_cli` is the open
+question, and it is a packaging question, not a design one.
+
+### Second correction: the "collapse placeholders" default
+
+The default approved earlier this session — collapse `[NAME]` rather than
+`[NAME-1]` — is correct for *redaction* (nothing linkable survives) and wrong for
+*pseudonymisation* (linkability is the product). Both defaults are now on record
+and they are not interchangeable. Which applies should be an explicit mode of the
+run, never an implicit default, because the two produce artifacts with different
+legal status.
+
+### Revised ranking against the requirement
+
+1. **`raise_cli.surrogates.Engine`** — meets the requirement, already written, no
+   new dependency. Adopt. The only work is packaging (how `pii-redactor` reaches
+   it) and wiring it into the layer-2 substitution step.
+2. **NeMo Anonymizer Replace** — a second option for *detection* and for realistic
+   name generation (`Substitute` produces plausible human names where the
+   in-tree engine produces `Person-1`). Worth measuring (APL-14) specifically on
+   whether realistic names improve downstream answer quality over typed tokens.
+   Not a replacement for the engine.
+3. **Plain placeholders** — retained as the redaction mode, not the
+   pseudonymisation mode.
+4. **EternisAI** — rejected on licence.
+
+The honest summary: the search was worth running because it produced the
+disqualifying facts (EternisAI non-commercial, NeMo OpenRouter default + telemetry,
+no standalone permissive rewriter). But the build-versus-adopt answer was
+**adopt what is here**, and the earlier framing was sending work toward building
+something the workspace already had.

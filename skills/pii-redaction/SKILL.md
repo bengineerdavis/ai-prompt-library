@@ -1,7 +1,7 @@
 ---
 name: pii-redaction
 description: Builds and reviews PII redaction tools as three layers — deterministic patterns, then a model pass, then leak verification that fails closed. Use when writing or reviewing any script that strips, masks, or anonymises personal data from text, or that sends user content to a model and writes a result meant for sharing, including when the input is larger than memory or the model's context window.
-spec_hash: b3efbb5396fb
+spec_hash: edf42ed59af7
 ---
 
 # PII Redaction
@@ -116,6 +116,9 @@ believing in one. See `references/streaming.md` for the numbers.
 - Never describe a chunked run as if one model call had seen the whole document.
 - Never let concurrency change the output: same input, more workers, same bytes.
 - Never require a free-threaded interpreter to get a faster run.
+- Never call the output anonymous, and never imply that passing verification means
+  the text cannot be re-identified. Say which mode ran — redact or pseudonymise —
+  and claim only what verification proved.
 - Never put unredacted input into logs, progress output, or error messages.
   Report the class and count that leaked ("1 email address survived
   verification"), never the value.

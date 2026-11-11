@@ -40,6 +40,44 @@ three, and to fail closed when the third disagrees with the second.
 
 ## Behaviors
 
+### Behavior: Name what the output is, and claim no more
+
+The agent SHALL state which of two modes a run used and label the output
+accordingly, because the two produce artifacts with different legal status.
+
+- **Redact** replaces each finding with a placeholder. Nothing linkable to the
+  original value survives, and two different people both become `[NAME]`.
+- **Pseudonymise** replaces each finding with a stable, typed substitute: the
+  same value maps to the same substitute for the whole run, and two different
+  people stay distinguishable.
+
+The agent MUST NOT label a pseudonymised artifact "anonymised", and MUST NOT
+claim either mode produces anonymous data. Under the EU regime these are
+different standards: pseudonymised data remains personal data (EDPB Guidelines
+01/2025 on Pseudonymisation), while anonymous data falls outside the GDPR and
+must satisfy no record isolation, no linkage and no inference (EDPB Guidelines
+02/2026 on Anonymisation). A support capture essentially never clears the second
+test, because the history that makes it useful is also what identifies it.
+
+The agent SHALL state what verification proved — that no detected value survived
+(redact) or that values were consistently substituted (pseudonymise) — and MUST
+NOT present either as proof that the text cannot be re-identified.
+
+#### Scenario: A pseudonymised run is described
+
+- **GIVEN** a run whose substitutions were stable and typed, so the same person
+  keeps one identity throughout
+- **WHEN** the tool reports the result
+- **THEN** it calls the output pseudonymised, not anonymised, and does not claim
+  the text is no longer personal data
+
+#### Scenario: Two people in one document stay distinct
+
+- **GIVEN** input naming two different people
+- **WHEN** the run pseudonymises
+- **THEN** each person receives a different substitute, and a later mention of
+  either person receives the same substitute as its first mention
+
 ### Behavior: Deterministic pass before the model
 
 The agent SHALL apply pattern-based redaction for mechanically decidable PII
@@ -344,6 +382,21 @@ failure, never a silent pass.
 The agent MUST NOT remove or weaken the deterministic layer on the grounds that
 the model already handles those classes, and MUST NOT reduce it to a subset of
 patterns because a model is "good enough" at the rest.
+
+### Constraint: Never claim the output is anonymous
+
+The agent MUST NOT describe the output as anonymous, and MUST NOT imply that
+passing verification shows the text cannot be re-identified.
+
+Verification proves the narrower, decidable thing: no value the detectors know
+about survived, and in pseudonymise mode the substitutions were consistent. It
+does not test inference. An output can pass every detector and still identify
+its subject through a combination of retained details — an escalation history, a
+region, a timeline — and no pattern matches those. Independent measurement puts
+re-identification risk at roughly 42% for the best tool in class even on
+explicitly written identifiers, and implicit details barely move from baseline.
+Stating the limit is not a disclaimer; it is the difference between a true claim
+and a false one.
 
 ### Constraint: Never let a mocked model imply the tool works
 

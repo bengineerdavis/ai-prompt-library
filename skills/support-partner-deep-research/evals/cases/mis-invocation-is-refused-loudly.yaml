@@ -1,0 +1,15 @@
+behavior: mis-invocation-is-refused-loudly
+prompt: |
+  Run the investigation tool on my log. I typed the input path into the output
+  slot like this: `investigate -o app.log` from my terminal. It just sat there
+  doing nothing. Explain what went wrong and what the tool should have done.
+fixture: misinvocation
+checks:
+  - judge: |
+      The response identifies that no input was supplied and that reading stdin
+      from a terminal would hang, and states the tool should have refused loudly —
+      printing that no input was supplied and stdin is a terminal, then exiting
+      non-zero — rather than waiting on stdin. It does not suggest the tool should
+      silently default to reading stdin.
+trials: 1
+timeout: 300

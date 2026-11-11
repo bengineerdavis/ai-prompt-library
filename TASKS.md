@@ -239,3 +239,81 @@ deletion, owner named `[me]`, and captures commit immediately and separately.
   artifact: the threshold, the decision procedure, worked examples. Done
   when the artifact exists here and the dotfiles repo's AGENTS.md references
   it.
+
+- Build the investigation script for `support-partner-deep-research` — the
+  parser + redaction-stage wrapper + pipeline the rendered `SKILL.md` wraps.
+  Stage order: read input → parse and redact → gather evidence → form
+  hypotheses → test → rank solutions → emit summary. Reuses `pii-redactor`
+  as the redaction stage; the diagnostic model only ever sees redacted text;
+  a detector backstop runs over the emitted summary. Done when the 5 authored
+  eval cases run green against it for real (they are authored-not-run today).
+
+- Harden `~/bin/pii-redactor` — three guards from a 2026-11-09 crash and
+  mis-invocation. (1) `_collapse_path` crashes with `IndexError` on
+  all-separator paths (`////`): add `if not parts: return None` after building
+  `parts`. (2) Reject duplicate `-i`/`-o` flags instead of last-wins. (3) Refuse
+  stdin-is-a-TTY with no `-i`, exiting 2 with a message instead of hanging.
+  Done when the `////` reproduction no longer crashes and both mis-invocations
+  error loudly. Note: `~/bin/` is outside the library working dir.
+
+- Investigate industry-context deduction for `support-partner-deep-research` —
+  whether the script should infer industry/domain context from the input file
+  or its instructions to sharpen hypothesis priors. Deferred from the Q3
+  decision (generic free-text product/environment). Done when there is a
+  recommendation on whether and how to add it.
+
+- Re-think the privacy layers for `support-partner-deep-research` — move from
+  strict redact-everything-first to a transform-and-detect posture, three parts.
+  (a) Context-preserving anonymization BEFORE redaction: a small local SLM
+  (EternisAI Anonymizer 0.6B/1.7B/4B, GLiNER multi-PII, Tanaos, OpenAI privacy
+  filter) substitutes realistic entities for PII so the diagnostic model reasons
+  over faithful text instead of placeholder soup. This is pseudonymization, not
+  redaction: the SLM runs locally only, the real→fake mapping is held by the
+  script and never sent to any model or written to a retained artifact, and the
+  deterministic redactor + output backstop still run AFTER it because an SLM
+  misses things. New pipeline: parse → anonymize (local SLM) → redact
+  (deterministic, fail-closed) → model → output backstop. Additive; never
+  replaces the fail-closed layers. Eval: SLM substitutes entities, technical
+  literals survive, backstop still catches SLM misses.
+  (b) Wire `betterleaks` as a model-callable tool in the script's tool registry
+  so the model can run local secret/credential detection mid-investigation.
+  Gate-compatible (local), but a live-key finding must never be echoed into the
+  summary. (c) The framing shift: transform and detect locally, keep raw values
+  out of the model and out of every artifact. Done when the layer design is
+  written, the anonymizer SLM is chosen by measurement (per model-fitness), the
+  betterleaks tool is registered, and the additive eval passes.
+
+- Build the `context-anonymize` CLI (scripts/) — Python entry point for the
+  `context-anonymizer` skill, usable as a Unix tool (stdin/stdout, flags).
+  Implements substitute → hold mapping local → detect–adjust loop → judge gate →
+  emit. Anonymizer and judge models resolved as roles via `ollama-role`, local
+  first, ZDR-only fallback. The skill's SKILL.md is bundled as package data so
+  `context-anonymize --skill` prints it and the script reads config from it;
+  dotagents installs the same SKILL.md to agent runtimes from this repo (one
+  source file, two consumers). Lives in scripts/ now; moves to src/ as a console
+  script when migration A lands. Model selection (anonymizer + judge) is a
+  separate model-fitness measurement task. Evals must run for real via
+  scripts/eval-claude.
+
+- Build the `support-investigate` CLI (scripts/) — Python entry point for
+  `support-partner-deep-research`. Stage order: read input → parse by type →
+  anonymize + redact (calls context-anonymize) → gather evidence → form
+  hypotheses → test → rank solutions → emit summary. Frontier handoff only
+  downstream of the judge gate, disclosed; local-only path when material may not
+  leave the host. SKILL.md bundled as package data. Lives in scripts/ now, src/
+  after migration A. Runs the 6 authored eval cases for real once built.
+
+- Measure small local models for the anonymizer and judge roles (model-fitness) —
+  candidates: EternisAI Anonymizer 0.6B/1.7B/4B, GLiNER multi-PII, qwen3.5 small,
+  Tanaos. Measure on this machine per role (anonymize, judge), never across
+  roles, never from benchmarks. Pin the chosen roles in the ollama manifest.
+  Done when both roles resolve to a measured pick and the evals pass against them.
+
+- Add commit and changelog standards to the meta project template. Define how
+  Scoped/Conventional Commits, semantic versioning, and Keep a Changelog work
+  together; include commit-message standards, changelog ownership, release
+  automation, and checks for commit/version/changelog consistency. Review
+  existing tools and standards before choosing an approach (per
+  `review-best-practices`). Done when a generated project receives the standards,
+  its changelog and release workflow stay consistent, and a test project verifies
+  the release path.

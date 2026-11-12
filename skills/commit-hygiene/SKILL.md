@@ -32,11 +32,11 @@ drive-by fix rode along with a feature.
 
 ## Size the message to the change
 
-| Change                                               | Message                                         |
-| ---------------------------------------------------- | ----------------------------------------------- |
-| Mechanical — typo, rename, version bump, formatting  | Subject only                                    |
-| Small, single-purpose — one function, a flag, a test | Subject + 1–2 sentences of why                  |
-| Ordinary feature or fix                              | Subject + 1–2 short paragraphs                  |
+| Change                                               | Message                                                                                              |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Mechanical — typo, rename, version bump, formatting  | Subject only                                                                                         |
+| Small, single-purpose — one function, a flag, a test | Subject + 1–2 sentences of why                                                                       |
+| Ordinary feature or fix                              | Subject + 1–2 short paragraphs                                                                       |
 | Large or security-sensitive                          | Structured body (bullets, full arc) — earned when ONE rationale needs it; still reconsider splitting |
 
 ## Structure the body

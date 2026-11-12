@@ -191,9 +191,13 @@ with information about the current environment:
 
 - `env: HashMap<String, String>` – Accesses current environment variables as
   a key-value map.
+
 - `vars: HashMap<String, String>` – Accesses user-defined [configuration variables](/configuration/vars).
+
 - `cwd: PathBuf` – Points to the current working directory.
+
 - `config_root: PathBuf` – Points to the directory containing your `mise.toml` file; for a config such as `~/src/myproj/.config/mise.toml`, it points to `~/src/myproj`.
+
 - `config_source: String` – The config file the template itself is written in, as an absolute path. Unlike `config_root` this is the file, not the project it belongs to, and it is **not** resolved through symlinks — pipe it through `canonicalize` when you want the location of the real file. Available in `mise.toml`, `.tool-versions`, `[env]` directives and `[settings.age]`; task file templates and `.miserc.toml` only carry `config_root`.
 
   With it, a shared config symlinked into `conf.d` can add its own `bin` directory
@@ -208,14 +212,22 @@ with information about the current environment:
   rather than the one it lives in.
 
 - `mise_bin: String` - Points to the current mise executable
+
 - `mise_pid: String` - The PID of the current mise process
+
 - `mise_env: Vec<String>` - The configuration environment as specified by `MISE_ENV`, `-E`, or `--env`. Undefined if no configuration environment is set.
+
 - `xdg_cache_home: PathBuf` - Points to the XDG cache home directory
+
 - `xdg_config_home: PathBuf` - Points to the XDG config home directory
+
 - `xdg_data_home: PathBuf` - Points to the XDG data home directory
+
 - `xdg_state_home: PathBuf` - Points to the XDG state home directory
+
 - `tools: HashMap<String, ToolInfo | ToolInfo[]>` – Maps installed tool names to their info.
   Available in task templates and env directives with `tools = true`.
+
   - When a single version is installed:
     - `tools.<name>.version: String` – The resolved version (e.g., `"22.1.0"`)
     - `tools.<name>.path: String` – The install path

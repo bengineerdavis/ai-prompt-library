@@ -108,9 +108,9 @@ mise bootstrap --adopt you/setup
 mise recognizes the repository's `.mise-history/format.toml` marker and:
 
 1. Fetches the latest branch into its history store.
-2. Restores the tracked files to their paths on this machine.
-3. Remembers the origin for future synchronization.
-4. Runs bootstrap using the restored mise configuration.
+1. Restores the tracked files to their paths on this machine.
+1. Remembers the origin for future synchronization.
+1. Runs bootstrap using the restored mise configuration.
 
 Track the mise configuration and any template sources on the first machine
 before sharing them. They let bootstrap recreate tools and services and
@@ -139,43 +139,42 @@ preflight prevents a missing input from leaving a partially provisioned host.
 
 1. `mise bootstrap accounts apply` converges
    [`[bootstrap.users]` and `[bootstrap.groups]`](/bootstrap/accounts.html).
-2. `mise bootstrap plugins apply` installs package manager plugins declared in
+1. `mise bootstrap plugins apply` installs package manager plugins declared in
    [`[bootstrap.plugins]`](/bootstrap/packages/plugins.html).
    Files and directories with [`phase = "pre-packages"`](/bootstrap/files.html#files-before-packages)
    are then applied, before the `pre-packages` hook.
-3. Built-in managers install missing [`[bootstrap.packages]`](/bootstrap/packages/).
-4. `mise bootstrap files apply` converges
+1. Built-in managers install missing [`[bootstrap.packages]`](/bootstrap/packages/).
+1. `mise bootstrap files apply` converges
    the remaining [`[bootstrap.files]` and `[bootstrap.directories]`](/bootstrap/files.html)
    (the default `"post-packages"` phase).
-5. [`[bootstrap.services]`](/bootstrap/services.html) converges existing Linux
+1. [`[bootstrap.services]`](/bootstrap/services.html) converges existing Linux
    systemd system units and user services on Linux, macOS, and Windows.
    User services with `requires_tools = true` wait until after tool installation.
-6. `mise bootstrap firewall apply` converges host firewall policy and rules from
+1. `mise bootstrap firewall apply` converges host firewall policy and rules from
    [`[bootstrap.linux.firewall]`](/bootstrap/firewall.html).
-7. `mise bootstrap compose apply` converges
+1. `mise bootstrap compose apply` converges
    [`[bootstrap.compose]`](/bootstrap/compose.html) projects.
-8. `mise bootstrap repos apply` clones or updates
+1. `mise bootstrap repos apply` clones or updates
    [`[bootstrap.repos]`](/bootstrap/repos.html).
-9. `mise dot apply` applies [`[dotfiles]`](/dotfiles.html).
-10. `mise bootstrap mise-shell-activate apply` configures shell activation from
-    [`[bootstrap.mise_shell_activate]`](/bootstrap/shell.html).
-11. `mise bootstrap macos defaults apply` writes
-    [`[bootstrap.macos.defaults]`](/bootstrap/macos-defaults.html).
-12. `mise bootstrap macos launchd-agents apply` writes and loads
-    [`[bootstrap.macos.launchd.agents]`](/bootstrap/launchd.html).
-13. `mise bootstrap linux systemd-units apply` converges
-    [`[bootstrap.linux.systemd.units]`](/bootstrap/systemd.html)
-    by writing unit files, enabling/disabling them, and starting/stopping them
-    as configured.
-14. `mise bootstrap user apply` applies [`[bootstrap.user]`](/bootstrap/user.html).
-15. `mise install` installs missing `[tools]`.
-16. Plugin package managers apply after their host tools are available, followed
-    by user services with `requires_tools = true`.
-17. `mise run bootstrap` runs a task named `bootstrap`, if one exists.
-18. `[bootstrap.hooks.final]` runs after the bootstrap task, if configured.
+1. `mise dot apply` applies [`[dotfiles]`](/dotfiles.html).
+1. `mise bootstrap mise-shell-activate apply` configures shell activation from
+   [`[bootstrap.mise_shell_activate]`](/bootstrap/shell.html).
+1. `mise bootstrap macos defaults apply` writes
+   [`[bootstrap.macos.defaults]`](/bootstrap/macos-defaults.html).
+1. `mise bootstrap macos launchd-agents apply` writes and loads
+   [`[bootstrap.macos.launchd.agents]`](/bootstrap/launchd.html).
+1. `mise bootstrap linux systemd-units apply` converges
+   [`[bootstrap.linux.systemd.units]`](/bootstrap/systemd.html)
+   by writing unit files, enabling/disabling them, and starting/stopping them
+   as configured.
+1. `mise bootstrap user apply` applies [`[bootstrap.user]`](/bootstrap/user.html).
+1. `mise install` installs missing `[tools]`.
+1. Plugin package managers apply after their host tools are available, followed
+   by user services with `requires_tools = true`.
+1. `mise run bootstrap` runs a task named `bootstrap`, if one exists.
+1. `[bootstrap.hooks.final]` runs after the bootstrap task, if configured.
 
-Every mutating run — the full `mise bootstrap`, each `mise bootstrap <part>
-apply`, and the commands that change dotfiles or bootstrap config in place
+Every mutating run — the full `mise bootstrap`, each `mise bootstrap <part> apply`, and the commands that change dotfiles or bootstrap config in place
 (`dotfiles add`, `unapply`, `edit`, `packages use`, `import`, brew `tap`) —
 records a pair of [history checkpoints](/history.html): the tracked files
 before and after the run, plus a journal of what the run changed. Dry runs

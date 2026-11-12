@@ -31,14 +31,14 @@ Acceptable evidence:
 
 1. **A user-described need** in the source artifact (task line, PRD,
    conversation with the author, stakeholder commitment).
-2. **A named direct dependency** — another in-scope item literally cannot
+1. **A named direct dependency** — another in-scope item literally cannot
    work without it; the dependent item must itself pass the evidence test.
-3. **An existing production code path or contract that will break without
+1. **An existing production code path or contract that will break without
    it** — cite the file/path/function or external consumer.
-4. **A regulatory or compliance rule that demonstrably applies today** —
+1. **A regulatory or compliance rule that demonstrably applies today** —
    cite the regulation and how it touches the change. "Compliance might
    require…" is not evidence.
-5. **A documented incident, a real alert that has fired, a real customer
+1. **A documented incident, a real alert that has fired, a real customer
    report, or a measured metric** showing the problem exists. Hypotheticals
    do not qualify; alerts that actually fired do.
 

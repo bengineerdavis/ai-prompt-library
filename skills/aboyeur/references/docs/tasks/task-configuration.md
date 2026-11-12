@@ -906,8 +906,8 @@ Both args and flags in usage specs can specify an environment variable as an alt
 The precedence order is:
 
 1. CLI arguments/flags (highest priority)
-2. Environment variables (middle priority)
-3. Default values (lowest priority)
+1. Environment variables (middle priority)
+1. Default values (lowest priority)
 
 **For positional arguments:**
 

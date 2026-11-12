@@ -282,7 +282,7 @@ When a required variable is missing, mise shows the help text in the error messa
 When a variable is marked as `required = true`, mise validates that it is defined through one of these sources:
 
 1. **Pre-existing environment** - The variable was set before mise ran
-2. **Later config file** - The variable is defined in a config file processed after the one that declares it as required
+1. **Later config file** - The variable is defined in a config file processed after the one that declares it as required
 
 ```toml
 # In mise.toml
@@ -603,9 +603,9 @@ _.my-plugin = { option1 = "value1", option2 = "value2" }
 When you use `env._.<plugin-name>`, mise:
 
 1. Loads the plugin from your installed plugins
-2. Calls the plugin's `MiseEnv` hook to get environment variables
-3. Calls the plugin's `MisePath` hook to get PATH entries (if defined)
-4. Applies these to your environment when running `mise env` or using shell integration
+1. Calls the plugin's `MiseEnv` hook to get environment variables
+1. Calls the plugin's `MisePath` hook to get PATH entries (if defined)
+1. Applies these to your environment when running `mise env` or using shell integration
 
 The configuration options you provide (the TOML table after `=`) are passed to the plugin's hooks via `ctx.options`, allowing plugins to be configured per-project or per-environment.
 

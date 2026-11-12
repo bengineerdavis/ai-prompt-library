@@ -73,10 +73,10 @@ what is defined there overrides anything set in
 When mise needs configuration, it follows this process:
 
 1. Reads early configuration, including the selected config environments.
-2. Discovers system and global config, then searches the current directory and its
+1. Discovers system and global config, then searches the current directory and its
    parents up to the root or `MISE_CEILING_PATHS`.
-3. Includes matching environment-specific files at each level of that hierarchy.
-4. Merges the files with child directories taking precedence over parents, and
+1. Includes matching environment-specific files at each level of that hierarchy.
+1. Merges the files with child directories taking precedence over parents, and
    same-directory variants following the order above.
 
 An environment-specific parent file does not override an ordinary child file

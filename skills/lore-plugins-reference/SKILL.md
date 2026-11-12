@@ -1,7 +1,7 @@
 ---
 name: lore-plugins-reference
 description: Supplies the canonical facts about the LoreAI plugin ecosystem (packages, CLI surface, config locations, port 3207, the OpenCode V2 incompatibility) so an agent answers from source instead of memory. Use when you need a verified fact about any @loreai/* package, lore CLI subcommand, Lore config file, or the plugin's V1/V2 status; not for taking actions.
-spec_hash: ad0edbe82358
+spec_hash: da5359ebac31
 ---
 
 # Lore Plugins Reference

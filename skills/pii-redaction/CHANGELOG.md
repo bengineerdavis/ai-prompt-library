@@ -5,6 +5,36 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ______________________________________________________________________
 
+## 2026-11-11 — The tool lives with the skill
+
+### Added
+
+- `scripts/pii-redactor` — the working implementation, moved here from
+  `chezmoi/home/bin/executable_pii-redactor`. It specifies a tool, so it now
+  ships one; installing the skill previously delivered the spec and none of the
+  tool.
+- `tests/` — the suite that grades the script, moved with it. `pytest` from the
+  repository root runs it offline; `-m llm_judge` adds the model-calling cases.
+- `pytest.ini` — registers `llm_judge` and excludes it from the default run.
+
+### Changed
+
+- The dotfiles `pii-redactor` is now a thin shim that resolves this skill's
+  script at run time and `exec`s it, so `~/bin/pii-redactor` keeps working.
+
+### Fixed
+
+- The model's chain-of-thought no longer reaches stderr. `llm` was invoked
+  without `-R/--hide-reasoning`, so a reasoning model narrated the redaction and
+  quoted the values it was removing — measured at 13 occurrences of one name the
+  released output had already replaced. stderr is kept in logs and scrollback,
+  so that leak outlived the run while the output file looked clean.
+- The suite graded whatever `~/bin/pii-redactor` held rather than the source
+  under edit, so a change made in a worktree could pass without ever running.
+  The harness now grades the skill's own script.
+
+______________________________________________________________________
+
 ## 2026-11-10 — Input larger than memory or context
 
 ### Added

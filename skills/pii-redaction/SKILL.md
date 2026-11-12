@@ -129,3 +129,16 @@ A suite that stubs the model as a pass-through and asserts only on exit status
 or file non-emptiness is green *precisely when the tool leaks*. Any test
 claiming to prove redaction must assert that the input's PII is absent from the
 output.
+
+## Files
+
+- `spec.md` — the behavior contract this skill is judged against.
+- `scripts/pii-redactor` — a working implementation of the three layers.
+  Stdlib-only plus the `llm` CLI; run it directly or call it from a script.
+- `tests/` — the suite that grades `scripts/pii-redactor`. `pytest` from the
+  repository root runs everything offline; `-m llm_judge` adds the cases that
+  call a real local model.
+- `references/streaming.md` — carry windows, chunk budgets, and the measured
+  concurrency numbers.
+- `evals/` — behavior cases used to check a *tool under review*, including ones
+  this implementation has not yet grown into.

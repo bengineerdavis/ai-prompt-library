@@ -1,0 +1,7 @@
+# Synthesized eval fixture; no real customer material.
+2026-03-14T09:00:00Z INFO sync.worker version=2.3.1 job=export-batch
+2026-03-14T09:00:01Z INFO sync.worker operator="Jane Smith" contact=jane.smith@example.com
+2026-03-14T09:00:02Z INFO sync.worker lock_wait=waiting_for_table_lock
+2026-03-14T09:15:02Z ERROR sync.worker timeout waiting for table lock after 900s
+2026-03-14T09:15:02Z INFO sync.worker job=export-batch status=failed
+2026-03-14T09:15:03Z INFO sync.worker retry=scheduled

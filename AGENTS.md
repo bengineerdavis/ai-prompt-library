@@ -1,12 +1,5 @@
 # AGENTS.md
 
-> **2026-09-18 — one-time sync note, delete after acting:** `main` moved via
-> `git pull --rebase` on a concurrent session (no force-push). If this clone
-> is behind or diverged, run `git pull --rebase` before working. **Whichever
-> machine pulls this note removes it**: delete this block, commit the removal,
-> and push, so it never reaches another clone. Never force-push this
-> repository.
-
 Guidance for agents working in this repository. Content-first prompt library: almost
 everything is Markdown; the only root executable is `bundle.py`.
 
@@ -25,12 +18,27 @@ everything is Markdown; the only root executable is `bundle.py`.
 
 ## Commands
 
+- **Check the branch is current before trusting any gate.** In a worktree,
+  `git log --oneline main..HEAD` shows your work and `git rev-list --count HEAD..main` shows what you are missing. A branch cut days ago can lack the very
+  checks that would have caught your work: this repo's alint rules
+  (`installable-skills-are-valid`, `rendered-skills-match-their-spec`) became
+  commit-blocking on `main` while a feature branch predated them, so a whole
+  session of hand-run validation was weaker than the gate the repo actually has.
+  Run `git rev-list --count HEAD..main` at session start and rebase before
+  concluding anything passes.
 - Run the bundler: `./bundle.py -p <collection>` — it is a `uv` script
   (`#!/usr/bin/env -S uv run --script`, deps inline); requires `uv` on PATH, no venv
   or install step. Useful flags: `--dry-run`, `--list`, `-c <config>`, `--debug`.
-- Lint/format check before committing: `pre-commit run --all-files`
+- Lint/format the files you changed: `pre-commit run --files <paths>`
   (trailing-whitespace, codespell, mdformat-gfm). Codespell false positives go in
   `.codespellignore`, one word per line — do not misspell to satisfy it.
+  `--all-files` also runs the auto-fixers (`codespell-fix`, `mdformat`), which
+  rewrite untouched files across the tree; use it only to reformat everything,
+  and check `git status` afterwards.
+- A skill and its tools live together where the skill is defined. Implementation
+  here is `skills/<name>/scripts/` (see `skills/naming/scripts/check-name`). A
+  thin bin wrapper that makes a skill callable from the terminal belongs in the
+  dotfiles repo, and the skill does not need to know it exists.
 
 ## Bundler gotchas (verified against `bundle.py`, which wins over docs)
 
@@ -58,8 +66,10 @@ Rules that bite:
 
 - Always run Skillet through `npx -y @sentry/skillet@latest` (never a bare
   `skillet` binary), and follow what `status <dir> --json` says is `next`.
-- `SKILL.md` frontmatter carries `spec_hash:` from `status --json`; editing
-  `spec.md` without re-rendering/re-hashing marks the skill stale.
+- `SKILL.md` frontmatter carries `spec_hash:` from `status --json`. Pin it
+  **last**: format `spec.md` (codespell, mdformat) → render `SKILL.md` → refresh
+  the hash. A formatter run after rendering rotates the hash and leaves the pin
+  stale, which is the usual cause of a "stale" skill you already re-rendered.
 - Eval cases must not contain `: ` inside unquoted `judge:` scalars — use
   `judge: |` block form.
 - `skillet eval` needs a `codex` or `claude` CLI on PATH (`--harness`); without
@@ -69,6 +79,21 @@ Rules that bite:
   refresh command instead of hanging ~10 minutes. `ANTHROPIC_API_KEY` set in
   `~/.localrc` overrides OAuth login — a stale key there is the usual cause of
   401/timeout even after `claude auth login`. `--oauth` forces the OAuth path.
+
+## Tasks
+
+`backlog/` is the authoritative task store (backlog-py, prefix `APL`), not
+`TASKS.md` — `TASKS.md` is a human-readable queue and the backlog is the record.
+Use the `backlog-py` MCP tools; the CLI is not on PATH under the name `backlog`.
+Cross-repo work references chezmoi's store as `DOT-<n>`, and those references go
+in both directions so either side can find the other's half.
+
+**Before acting on a task, check whether its premise still holds.** Tasks carry
+the design as it stood when they were written. When a later decision reverses one
+— a rule becomes descent, a scope fence drops — the task is not merely outdated,
+it will send you into work that has been deliberately undone. Edit the task to
+record the correction and its reason rather than silently building something
+different.
 
 ## Specs to consult before restructuring
 

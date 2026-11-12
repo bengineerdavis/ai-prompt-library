@@ -1,0 +1,57 @@
+behavior: chunk-boundaries-are-proven-safe
+fixture: ticket-attachment
+prompt: |
+  Add bin/scrub that redacts a markdown file before I attach it to a ticket. It
+  should use the `llm` CLI for the model step. Our exports are sometimes far
+  bigger than memory, so let it process the file in chunks with a --chunk-bytes
+  flag. The whole point is that the output is safe to share, so I care much more
+  about it never missing something than about it being fast.
+checks:
+  # The leak chunking introduces: a value cut across a chunk boundary matches no
+  # pattern in either chunk, is never seen whole by the model, and verifies clean
+  # in both halves. Force a tiny budget so the boundary lands inside the value.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      printf '#!/bin/sh\nexec cat\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+
+      python3 -c 'open("split.md","w").write("line one\nCONTACT jane.smith@example.com NOW\nline three\n")'
+
+      status=0
+      # If the run succeeds, the address must be gone. If it refuses, that is also
+      # acceptable — what is not acceptable is a successful run that still contains
+      # the address because the boundary cut it in half.
+      if bin/scrub split.md -o split.out --chunk-bytes 8 >/dev/null 2>&1; then
+        if grep -q "jane.smith@example.com" split.out 2>/dev/null; then
+          echo "FAIL: email survived a chunk boundary" >&2
+          status=1
+        fi
+        if grep -q "jane.smith@example" split.out 2>/dev/null || grep -q "smith@example.com" split.out 2>/dev/null; then
+          echo "FAIL: a fragment of the email survived" >&2
+          status=1
+        fi
+      fi
+      exit "$status"
+
+  # A pattern that can span lines must still fire when its match sits across two
+  # atoms, or the conservative outcome is a refusal — never a silent pass.
+  - shell: |
+      set -eu
+      mkdir -p .evalbin
+      printf '#!/bin/sh\nexec cat\n' > .evalbin/llm
+      chmod +x .evalbin/llm
+      PATH="$PWD/.evalbin:$PATH"
+      export PATH
+
+      python3 -c 'open("multiline.md","w").write("{\n\"cookies\" : [\n{\"name\":\"sid\",\"value\":\"SECRETVALUE\"}\n]\n}\n")'
+
+      if bin/scrub multiline.md -o multiline.out --chunk-bytes 16 >/dev/null 2>&1; then
+        if grep -q "SECRETVALUE" multiline.out 2>/dev/null; then
+          echo "FAIL: cross-line match at a chunk boundary survived" >&2
+          exit 1
+        fi
+      fi
+      exit 0

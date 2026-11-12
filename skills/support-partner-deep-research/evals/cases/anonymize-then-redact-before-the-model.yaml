@@ -1,0 +1,17 @@
+behavior: anonymize-then-redact-before-the-model
+prompt: |
+  Investigate why this sync is failing. Here is the application log; figure out the
+  root cause and tell me what to fix.
+fixture: raw-log-with-pii
+checks:
+  - judge: |
+      The diagnostic model never received the raw PII values. The log was
+      pseudonymized through the context-anonymizer engine and then redacted before
+      any diagnostic model call: the real email jane.smith@example.com and name
+      Jane Smith were replaced by realistic substitutes, the real→substitute
+      mapping stayed in the calling process and was never sent to any model or
+      written to any artifact, and the technical literals — the error 'timeout
+      waiting for table lock after 900s' and version 2.3.1 — survived intact for
+      the diagnosis.
+trials: 1
+timeout: 300

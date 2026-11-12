@@ -1,0 +1,201 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["typer>=0.12"]
+# ///
+"""Pseudonymize text with a local-model engine before it leaves the machine.
+
+Unix tool: reads stdin or a file, writes pseudonymous text to stdout or a file.
+The pipeline is substitute -> hold mapping local -> detect-adjust loop -> judge
+gate -> emit. Anonymizer and judge models are resolved as roles through
+`ollama-role`, local first, zero-data-retention as the only fallback. A frontier
+model is never used for anonymizing or judging.
+
+The real->substitute mapping is held in this process and is never sent to any
+model, written to any artifact, or included in the output. Output is
+*pseudonymous*: distinctive context can still re-identify the subject. Sending it
+to a powerful model is the caller's deliberate, disclosed act — not this tool's.
+
+The skill text is bundled; `context-anonymize --skill` prints it. dotagents
+installs the same SKILL.md to agent runtimes from this repository, so the agent
+and this tool read one source of truth.
+"""
+
+from __future__ import annotations
+
+import re
+import subprocess
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Optional
+
+import typer
+
+app = typer.Typer(add_completion=False, help=__doc__, no_args_is_help=False)
+
+SKILL_PATH = Path(__file__).resolve().parent.parent / "skills" / "context-anonymizer" / "SKILL.md"
+
+
+class FailClosed(Exception):
+    """A verification, detection, or resolution failure. Nothing is emitted."""
+
+
+@dataclass
+class Mapping:
+    """Real -> substitute correspondence. Never leaves the process."""
+
+    table: dict[str, str] = field(default_factory=dict)
+
+    def substitute_for(self, kind: str, real: str) -> str:
+        if real not in self.table:
+            # Placeholders carry no '/', '@', or detector-triggering chars, so a
+            # substituted span never re-matches a detector on the next pass.
+            self.table[real] = f"[[{kind}-{len(self.table) + 1}]]"
+        return self.table[real]
+
+
+# --- deterministic detectors (Layer 1 + backstop) -----------------------------
+# URLs first (so the path pass never sees a URL's path component), then JWT,
+# email, path. Each substitutes via the mapping so context stays coherent.
+
+
+def _sub_email(match: re.Match, mapping: Mapping) -> str:
+    return mapping.substitute_for("EMAIL", match.group(0))
+
+
+def _sub_path(match: re.Match, mapping: Mapping) -> str:
+    path = match.group(0).rstrip(".,;:!?")
+    if len(path) < 4:
+        return match.group(0)
+    parts = [p for p in path.split("/") if p]
+    if not parts:
+        return match.group(0)  # all-separator match: not a path, leave uncounted
+    return mapping.substitute_for("PATH", path) + match.group(0)[len(path):]
+
+
+def _sub_jwt(match: re.Match, mapping: Mapping) -> str:
+    return mapping.substitute_for("JWT", match.group(0))
+
+
+def _sub_url_cred(match: re.Match, mapping: Mapping) -> str:
+    return mapping.substitute_for("URL_WITH_CREDENTIALS", match.group(0))
+
+
+def _sub_url(match: re.Match, mapping: Mapping) -> str:
+    return mapping.substitute_for("URL", match.group(0))
+
+
+DETECTORS: list[tuple[str, re.Pattern, object]] = [
+    ("url_credentials", re.compile(r"\b[a-z][a-z0-9+.\-]*://[^\s/@:]+:[^\s/@]+@[^\s]+"), _sub_url_cred),
+    ("url", re.compile(r"\b[a-z][a-z0-9+.\-]*://[^\s\"'`<>]+"), _sub_url),
+    ("jwt", re.compile(r"\beyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+"), _sub_jwt),
+    ("email", re.compile(r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b"), _sub_email),
+    ("path", re.compile(r"/[^\s/\"'`<>|;()\[\]{}\\]+(?:/[^\s/\"'`<>|;()\[\]{}\\]+)*"), _sub_path),
+]
+
+PLACEHOLDER = re.compile(r"\[\[[A-Z_]+-\d+\]\]")
+
+
+def detect(text: str) -> list[str]:
+    """Return detector labels that still match. Placeholders are already-handled,
+    so strip them before scanning — a substituted span is not a residual leak."""
+    stripped = PLACEHOLDER.sub("", text)
+    return [label for label, pattern, _ in DETECTORS if pattern.search(stripped)]
+
+
+def anonymize_deterministic(text: str, mapping: Mapping) -> str:
+    for _label, pattern, sub in DETECTORS:
+        text = pattern.sub(lambda m, s=sub: s(m, mapping), text)
+    return text
+
+
+def resolve_role(role: str) -> str:
+    """Resolve a role to a local model tag. Fail closed if unresolvable."""
+    result = subprocess.run(
+        ["ollama-role", "get", role], capture_output=True, text=True, check=False,
+    )
+    if result.returncode or not result.stdout.strip():
+        raise FailClosed(
+            f"role '{role}' did not resolve to a local model. "
+            "Fix the ollama manifest or configure a ZDR fallback; refusing to run."
+        )
+    return result.stdout.strip()
+
+
+@app.command()
+def main(
+    input: Optional[Path] = typer.Option(None, "--input", "-i", help="input file (default: stdin)"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o", help="output file (default: stdout)"),
+    itype: Optional[str] = typer.Option(None, "--type", help="override input type detection"),
+    max_iters: int = typer.Option(3, "--max-iters", help="detect-adjust iteration cap"),
+    anonymizer_role: str = typer.Option("anonymize", "--anonymizer-role", help="ollama role for substitution"),
+    judge_role: str = typer.Option("judge", "--judge-role", help="ollama role for the judge gate"),
+    local_only: bool = typer.Option(False, "--local-only", help="material may never leave the host"),
+    model_pass: bool = typer.Option(False, "--model-pass", help="run local-model substitution + judge gate (needs roles)"),
+    skill: bool = typer.Option(False, "--skill", help="print the bundled SKILL.md and exit"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="detect only; report classes, write nothing"),
+) -> None:
+    if skill:
+        typer.echo(SKILL_PATH.read_text(), nl=False)
+        raise typer.Exit(0)
+
+    # Mis-invocation guard: refuse loudly rather than hang on a terminal stdin.
+    if input is None and sys.stdin.isatty():
+        typer.echo(
+            "context-anonymize: no input supplied and stdin is a terminal.\n"
+            "Pass -i FILE or pipe input. Refusing to hang on stdin.",
+            err=True,
+        )
+        raise typer.Exit(2)
+
+    raw = input.read_text() if input else sys.stdin.read()
+
+    if dry_run:
+        hits = detect(raw)
+        typer.echo(f"would redact classes: {', '.join(hits) or 'none'}", err=True)
+        raise typer.Exit(0)
+
+    mapping = Mapping()
+    candidate = raw
+    for _ in range(max_iters):
+        candidate = anonymize_deterministic(candidate, mapping)
+        if not detect(candidate):
+            break
+    else:
+        typer.echo(
+            f"FAIL CLOSED: residual PII after {max_iters} iterations: "
+            f"{', '.join(detect(candidate))}. No output written.",
+            err=True,
+        )
+        raise typer.Exit(1)
+
+    # Model stages are opt-in until the model-fitness picks land. When requested,
+    # a missing local model fails closed — never downgrade to a retaining host.
+    if model_pass:
+        try:
+            resolve_role(anonymizer_role)
+            resolve_role(judge_role)
+        except FailClosed as exc:
+            typer.echo(f"FAIL CLOSED: {exc}", err=True)
+            raise typer.Exit(1)
+        typer.echo(
+            "model substitution + judge gate: not yet implemented "
+            "(pending model-fitness picks); deterministic pass only.",
+            err=True,
+        )
+
+    typer.echo(
+        "pseudonymous output: context can still re-identify the subject. "
+        "Sending it to a powerful model is your disclosed, deliberate act.",
+        err=True,
+    )
+
+    if output:
+        output.write_text(candidate)
+    else:
+        typer.echo(candidate, nl=False)
+
+
+if __name__ == "__main__":
+    app()

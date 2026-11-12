@@ -8,6 +8,7 @@ from the research workflow skill under `skills/research/`.
 
 | Topic                                                        | Status                                                                                                    |
 | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| [Anonymising models](anonymization-models/README.md)         | Models and pipelines that rewrite to privacy rather than mask; NeMo Anonymizer recommended for evaluation. |
 | [Escalation writing](escalation-writing/README.md)           | Public evidence and design decisions for a new spec-only skill; private voice-policy integration pending. |
 | [GitHub CLI read permissions](gh-read-permissions/README.md) | Global configuration proposal only; no permissions applied.                                               |
 

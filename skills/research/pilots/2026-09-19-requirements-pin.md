@@ -53,8 +53,7 @@ evidence**, and that path (defer-with-trigger) was exercised for real.
 
 ## Options to Consider
 
-- **O1. Pin exact** (`community.general: 13.0.1`, `community.docker:
-  5.2.1`), bumps deliberate ("bump-on-regrade"). Rests on: A1, A5–A8, C2,
+- **O1. Pin exact** (`community.general: 13.0.1`, `community.docker: 5.2.1`), bumps deliberate ("bump-on-regrade"). Rests on: A1, A5–A8, C2,
   C4. Weakened by: the update-tooling caveat (A7/A8) — no automation exists
   here, so bumps likely never fire (V1, V5, V8 of the council).
 - **O2. Pin bounded** (`>=13.0.0,<14.0.0`). Installs still receive
@@ -75,10 +74,10 @@ author's to weigh:
 
 1. **Automation appetite** — adopt Renovate (→ O4) or keep updates
    deliberate (→ O1 with a named re-grade cadence, or O2).
-2. **Grade-linkage tightness** — the support-grade record is versioned
+1. **Grade-linkage tightness** — the support-grade record is versioned
    against 13.0.1 (C2, C4); exact pins preserve that linkage (O1/O4), a
    bounded range loosens it (O2).
-3. **Staleness tolerance** — O1 without automation means collections freeze
+1. **Staleness tolerance** — O1 without automation means collections freeze
    until a break; O2 keeps minor/patch flowing; O4 automates bumps.
 
 What the evidence *does* settle: **O3 (unpinned) is refuted** — the
@@ -137,6 +136,7 @@ captured this run with the gate, mitigating this).
 ## No evidence yet
 
 ### Unpinned collections pose a demonstrated supply-chain attack risk to this repo
+
 **Why no evidence:** the five YAGNI categories were applied —
 user-described need, direct dependency, and code-path-divergence are met
 (those establish *reproducibility* risk, not attack risk); no regulation
@@ -148,7 +148,7 @@ second independent source; a documented malicious-collection incident on
 Galaxy is published; or a measured breakage occurs on this repo.
 **Source:** the pilot's engineered sub-angle (this run, analyst B).
 
----
+______________________________________________________________________
 
 *Pilot of the research swarm (`skills/research/SKILL.md`), first run
 2026-09-19. Process deviations and fixes feed back into the skill: the

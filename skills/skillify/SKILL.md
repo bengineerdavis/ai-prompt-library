@@ -24,16 +24,15 @@ current project.
 
 ## 2. Author with skillet, never from memory
 
-Run every skillet command through the current package — `npx -y
-@sentry/skillet@latest` — and never a bare `skillet` binary from PATH. Do what
+Run every skillet command through the current package — `npx -y @sentry/skillet@latest` — and never a bare `skillet` binary from PATH. Do what
 `status <dir> --json` says is `next`:
 
 1. `new <name>` inside the library's `skills/` directory.
-2. `instructions spec` → write `spec.md` (footer `<!-- skillet-version: ... -->` preserved, final line).
-3. `validate` → fix every spec error before deriving anything.
-4. `instructions skill` → render `SKILL.md` from the validated spec; copy
+1. `instructions spec` → write `spec.md` (footer `<!-- skillet-version: ... -->` preserved, final line).
+1. `validate` → fix every spec error before deriving anything.
+1. `instructions skill` → render `SKILL.md` from the validated spec; copy
    `spec_hash` from `status --json`.
-5. `validate` → the skill is done when this passes.
+1. `validate` → the skill is done when this passes.
 
 Eval cases (`instructions evals`) only when the user asks for them; validate
 their schemas the same way.

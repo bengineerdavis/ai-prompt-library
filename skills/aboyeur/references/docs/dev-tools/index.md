@@ -54,10 +54,10 @@ resolved versions without replacing the version requests in `mise.toml`.
 
 1. mise discovers configuration in the current directory and its parents, along
    with global configuration. More specific configuration can override defaults.
-2. Each tool's [backend](/dev-tools/backends/) resolves its version request and
+1. Each tool's [backend](/dev-tools/backends/) resolves its version request and
    handles installation. The [registry](/registry.html) maps short tool names to
    backends, so you usually don't need to choose one yourself.
-3. mise adds the selected tools to the command's `PATH`. By default, `mise exec`
+1. mise adds the selected tools to the command's `PATH`. By default, `mise exec`
    and `mise run` install missing tools before executing the command or task.
 
 Use `mise config ls` to inspect active configuration files. See

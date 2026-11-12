@@ -645,9 +645,9 @@ update older lockfiles.
 When merging branches with different lockfiles:
 
 1. Resolve the intended version requests in configuration first.
-2. Resolve lockfile conflicts while preserving the corresponding request bindings
+1. Resolve lockfile conflicts while preserving the corresponding request bindings
    and platform entries. Run `mise lock` to refresh metadata and inspect its diff.
-3. Run `mise install` and the relevant project checks, then commit the result.
+1. Run `mise install` and the relevant project checks, then commit the result.
 
 ### Disabling for Specific Projects
 

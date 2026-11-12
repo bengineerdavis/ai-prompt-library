@@ -14,6 +14,6 @@ skills/<name>/
 
 ## Skills
 
-| Skill | Purpose |
-| --- | --- |
+| Skill                     | Purpose                                   |
+| ------------------------- | ----------------------------------------- |
 | [demo-skill](demo-skill/) | Placeholder row showing the table format. |

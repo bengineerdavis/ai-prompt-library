@@ -82,8 +82,8 @@ etc.); settings from `mise.toml` are not yet loaded at this stage.
 File locations searched (in order of precedence):
 
 1. `.miserc.toml` and `.config/miserc.toml` in the current directory and parent directories
-2. `~/.config/mise/miserc.toml` (global)
-3. `/etc/mise/miserc.toml` (system)
+1. `~/.config/mise/miserc.toml` (global)
+1. `/etc/mise/miserc.toml` (system)
 
 `MISE_ENV` cannot be set in `mise.toml` because it determines which config
 files are loaded in the first place.

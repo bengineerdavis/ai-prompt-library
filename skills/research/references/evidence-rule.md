@@ -16,11 +16,11 @@ response when no evidence is available?*
 In this repo, the rule composes with three existing doctrines rather than
 replacing them:
 
-| Our existing doctrine | The han concept it instantiates |
-|---|---|
-| `spec.md` § Evidence — a figure moved between documents carries its conditions | proximity-to-origin (evidence carries what produced it) |
-| `spec.md` § Evidence — a claim names what was not checked | no-evidence labeling with a reopen trigger |
-| `dotfiles/docs/JUDGE-SELECTION.md` — judges measured by calibration, never asserted | the corroboration gate, applied to model judgments |
+| Our existing doctrine                                                               | The han concept it instantiates                         |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `spec.md` § Evidence — a figure moved between documents carries its conditions      | proximity-to-origin (evidence carries what produced it) |
+| `spec.md` § Evidence — a claim names what was not checked                           | no-evidence labeling with a reopen trigger              |
+| `dotfiles/docs/JUDGE-SELECTION.md` — judges measured by calibration, never asserted | the corroboration gate, applied to model judgments      |
 
 ## Trust classes
 

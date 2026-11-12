@@ -25,9 +25,9 @@ Run one round of the pool per run (mid-size: the single mid judge; the
 final panel for large runs or when the author asks). Each judge receives:
 
 1. The full verbatim Sources registry.
-2. The old-to-new merge mapping.
-3. The held web-search value.
-4. Research Results, Options, and the Recommendation.
+1. The old-to-new merge mapping.
+1. The held web-search value.
+1. Research Results, Options, and the Recommendation.
 
 And is chartered to attack all of:
 

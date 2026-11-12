@@ -42,14 +42,13 @@ they do not replace `[tools]`.
 Every generated file lands in one of two layers. Ask which applies before
 writing when the user has not said:
 
-| Layer | Config | Scripts | Lockfile | Committed |
-|---|---|---|---|---|
-| versioned | `mise.toml` | `scripts/` | `mise.lock` | yes |
-| local | `mise.local.toml` | `.scripts/` | `mise.local.lock` | **no** |
+| Layer     | Config            | Scripts     | Lockfile          | Committed |
+| --------- | ----------------- | ----------- | ----------------- | --------- |
+| versioned | `mise.toml`       | `scripts/`  | `mise.lock`       | yes       |
+| local     | `mise.local.toml` | `.scripts/` | `mise.local.lock` | **no**    |
 
 For the local layer, add `mise.local.toml`, `mise.local.lock` (if created), and
-`.scripts/` to `.gitignore` if not present. `mise generate config
---tool-versions .tool-versions` can import an existing asdf file.
+`.scripts/` to `.gitignore` if not present. `mise generate config --tool-versions .tool-versions` can import an existing asdf file.
 
 ### 3. Declare `[tools]`
 

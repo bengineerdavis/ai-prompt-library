@@ -59,8 +59,7 @@ and name the fix for that classification, rather than blurring the two.
 
 #### Scenario: Plugin fails to load
 
-- **WHEN** the user reports the plugin is not loading, or `opencode api get
-  /api/plugin` returns an error or empty state
+- **WHEN** the user reports the plugin is not loading, or `opencode api get /api/plugin` returns an error or empty state
 - **THEN** the agent greps the server log (`~/.local/share/opencode/log/opencode.log`)
   and classifies the cause as npm-install (`NpmInstallFailedError` /
   `LockTimeoutError`) or loader (`Plugin must export`), and states the remedy
@@ -106,6 +105,5 @@ pin.
 
 ### Constraint: No self-authored distribution
 
-The agent MUST NOT run `git add`, `git commit`, `git push`, or `dotagents
-install` for skills it authored — those commands are the user's gate, printed
+The agent MUST NOT run `git add`, `git commit`, `git push`, or `dotagents install` for skills it authored — those commands are the user's gate, printed
 not executed.

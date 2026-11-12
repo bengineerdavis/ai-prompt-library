@@ -6,11 +6,14 @@ from the research workflow skill under `skills/research/`.
 
 ## Active records
 
-| Topic                                                        | Status                                                                                                    |
-| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| [Anonymising models](anonymization-models/README.md)         | Models and pipelines that rewrite to privacy rather than mask; NeMo Anonymizer recommended for evaluation. |
-| [Escalation writing](escalation-writing/README.md)           | Public evidence and design decisions for a new spec-only skill; private voice-policy integration pending. |
-| [GitHub CLI read permissions](gh-read-permissions/README.md) | Global configuration proposal only; no permissions applied.                                               |
+| Topic                                                          | Status                                                                                                                           |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [Anonymising models](anonymization-models/README.md)           | Models and pipelines that rewrite to privacy rather than mask; NeMo Anonymizer recommended for evaluation.                       |
+| [Anonymizer SLM](anonymizer-slm/README.md)                     | Source comparison for the separate contextual-pseudonymization experiment; local fitness and utility unmeasured.                 |
+| [Evidence-spine privacy](evidence-spine-privacy/README.md)     | Proposed separate experiment: validated evidence ledgers, bounded rendering, and measured councils for interactive SaaS privacy. |
+| [Diagnostic summarization](diagnostic-summarization/README.md) | Summarization as competing/complementary arms against the evidence ledger; task conditioning, provenance, and latency measured.  |
+| [Escalation writing](escalation-writing/README.md)             | Public evidence and design decisions for a new spec-only skill; private voice-policy integration pending.                        |
+| [GitHub CLI read permissions](gh-read-permissions/README.md)   | Global configuration proposal only; no permissions applied.                                                                      |
 
 ## Preserve the reasoning
 

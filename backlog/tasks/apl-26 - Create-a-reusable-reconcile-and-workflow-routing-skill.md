@@ -3,9 +3,9 @@ id: APL-26
 title: Create a reusable reconcile and workflow-routing skill
 status: To Do
 created_date: 2026-11-14 18:54
-updated_date: 2026-11-14 18:56
+updated_date: 2026-11-15 16:25
 references:
-  - ../templates/agentic-project-template/backlog/tasks/apt-49 - Adopt-upstream-conformant-workflow-feedback-in-stamped-projects.md
+  - https://github.com/bengineerdavis/copier-cat/blob/main/backlog/tasks/ccc-24%20-%20Assemble-Python-from-a-named-stack.md
 ---
 
 ## Description
@@ -54,6 +54,20 @@ Agreed with the maintainer 2026-11-14: prioritize early semantic reconciliation,
 ## Implementation Notes
 
 <!-- SECTION:IMPLEMENTATION_NOTES:BEGIN -->
+
+Copier-cat origin case (2026-11-15): the main checkout's orchestration queue showed CCC-24 as eligible while its ccc-24-python-assembly worktree held an expired OpenCode lease and local claim history. The worktree had no implementation commits or source changes. Cleanup compared the actual diff and claim metadata before restoring only that claim state, then removed the worktree and branch. Do not rely on a main-checkout queue alone when routing work across worktrees.
+
+Add an evaluation fixture for this shape: main reports eligible/todo/0; a separate worktree has a stale claim with no implementation; another worktree has a claim with real uncommitted work. The route must inspect claims and worktree evidence, preserve real work, and clean only the verified empty case. Cover lease expiry versus an active claim and multi-agent ownership. Use existing backlog-py orchestration surfaces where they fit; do not build another queue.
+
+Relevant source records and evidence:
+
+- https://github.com/bengineerdavis/copier-cat/blob/main/backlog/tasks/ccc-24%20-%20Assemble-Python-from-a-named-stack.md
+- https://github.com/bengineerdavis/copier-cat/blob/main/backlog/docs/cc-assembly-mvp-spec.md
+- https://github.com/bengineerdavis/copier-cat/tree/prototype/cc-assembly-ux/prototype/cc-assembly-ux
+- Agentic workflow-adapter integration: https://github.com/bengineerdavis/agentic-project-template/blob/main/template/.agents/skills/backlog-workflow/SKILL.md.jinja
+- Historical session origin: DOC-11 at https://github.com/bengineerdavis/copier-cat/blob/main/backlog/docs/seed-and-implementation-session-handoff.md and the handoff retirement at https://github.com/bengineerdavis/copier-cat/commit/c16c279de6a4d1a4d4bd40f97bb2671897c048a8
+
+Attribution: this scenario and these resources came from the copier-cat session and its worktree-cleanup retro. The authored skill may incorporate the evidence and integration seam into its own reusable work; the source template is not modified by this record.
 
 <!-- SECTION:IMPLEMENTATION_NOTES:END -->
 

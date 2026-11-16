@@ -45,7 +45,7 @@ Agreed with the maintainer 2026-11-14: prioritize early semantic reconciliation,
 - [ ] #2 The skill routes reconcile, capture, next-slice selection, and handoff through the configured tracker and existing backlog orchestration
 - [ ] #3 An MVP contract keeps exploration inputs visible while separating usage-blocking work from deferred ideas
 - [ ] #4 The reconciliation pattern biases established work, exposes semantic conflicts, preserves unmerged evidence, and verifies the final aggregate
-- [ ] #5 Evaluation fixtures cover competing work, untracked specifications, unpublished artifacts, proposed scope expansion, and a main checkout reporting eligible work while another worktree holds an expired claim; the fixtures distinguish an empty claim from a worktree with real uncommitted work and preserve the latter
+- [ ] #5 Evaluation fixtures cover competing work, untracked specifications, unpublished artifacts, proposed scope expansion, and cross-worktree claims. The claim fixtures contrast an expired claim with an active one, distinguish an empty claim from real uncommitted work and preserve the latter, and cover multi-agent ownership
 - [ ] #6 The integration handoff names library publication, agents.toml declaration, template deployment, and optional installation behavior
 - [ ] #7 npx -y @sentry/skillet@latest validate skills/reconcile-workflow --json passes for the authored skill
 - [ ] #8 backlog-py board shows APL-26 with its full description and acceptance criteria

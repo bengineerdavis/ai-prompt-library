@@ -1,0 +1,15 @@
+behavior: hand-execution-to-a-fresh-implementation-session
+fixture: ready-slice
+prompt: |
+  Choose the next task from EVIDENCE.json and prepare execution in a file named
+  ROUTE.md. The basic project-creation task is unclaimed and has no blockers;
+  integrations depend on it; a separate design task is also eligible. Do not
+  implement anything in this session.
+checks:
+  - shell: |
+      set -eu
+      test -f ROUTE.md
+      test ! -e src/generated_project.py
+      test ! -e implementation-started
+  - judge: |
+      ROUTE.md selects only the eligible first usable project-creation task, explains that integrations are dependent and the design task is later, and supplies a compact fresh-session handoff with task ID, authoritative requirements, preserved work, authorized scope, verification surface, and remaining owners. It requires a Backlog claim before implementation and does not treat unrelated eligible work as another immediate implementation task.

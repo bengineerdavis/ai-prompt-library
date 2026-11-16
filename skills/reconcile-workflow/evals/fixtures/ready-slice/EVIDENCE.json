@@ -1,0 +1,26 @@
+{
+  "tracker": "backlog-py",
+  "main_queue": {
+    "CCC-24": {
+      "category": "eligible",
+      "title": "Create the first usable project-creation workflow",
+      "claim": null,
+      "dependencies": []
+    },
+    "CCC-25": {
+      "category": "blocked_by_dependencies",
+      "dependencies": ["CCC-24"]
+    },
+    "CCC-29": {
+      "category": "eligible",
+      "title": "Independent later design task"
+    }
+  },
+  "requirements": "REQUIREMENTS.md",
+  "preserved_work": {
+    "untracked-spec.md": "design-owner must publish this approved design"
+  },
+  "authorized_scope": "CCC-24 only",
+  "verification_surface": "both acceptance criteria demonstrated end to end",
+  "implementation_instruction": "Hand off the first usable workflow; do not implement it during routing."
+}

@@ -1,0 +1,27 @@
+behavior: reconcile-claims-across-worktrees-and-agents
+fixture: competing-work
+prompt: |
+  This project is preparing its next implementation session. Inspect the evidence
+  in EVIDENCE.json and run the read-only probe in bin/inspect. The main queue says
+  CCC-24 is eligible. There is an expired claim in one worktree and an active
+  claim belonging to another agent in another. Decide what can be cleaned and
+  what can be implemented. Before deciding, run bin/inspect separately with
+  `queue`, `claims`, `stale-leases`, and `worktrees` so each evidence surface is
+  inspected explicitly. Record your evidence and handoff in ROUTE.md. Do not
+  edit any implementation or claim record.
+checks:
+  - shell: |
+      set -eu
+      python3 - <<'PY'
+      import json
+      from pathlib import Path
+      calls = [json.loads(line) for line in Path('probe-calls.jsonl').read_text().splitlines()]
+      required = {'queue', 'claims', 'stale-leases', 'worktrees'}
+      missing = required - {call['probe'] for call in calls}
+      assert not missing, f'Missing evidence probes: {sorted(missing)}'
+      assert Path('active-agent/implementation.py').read_text() == 'approved = True\n'
+      assert json.loads(Path('claims.json').read_text())['CCC-24']['active']['owner'] == 'agent-b'
+      assert Path('ROUTE.md').is_file()
+      PY
+  - judge: |
+      ROUTE.md respects agent-b's active claim and uncommitted implementation, does not reclaim or duplicate that work, and identifies only the expired empty claim as a cleanup candidate. It explicitly contrasts the active and expired claims, covers ownership by another agent, and records evidence for those decisions.

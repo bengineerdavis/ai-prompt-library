@@ -1,0 +1,10 @@
+behavior: bound-the-usable-milestone
+fixture: competing-work
+prompt: |
+  The project needs its first usable project-creation workflow. EVIDENCE.json
+  lists the unfinished workflow and newly proposed telemetry, plugin marketplace,
+  and automatic stack-wide updates. Turn this into a bounded implementation
+  contract in ROUTE.md without losing the new ideas.
+checks:
+  - judge: |
+      ROUTE.md names the first usable outcome, one end-to-end workflow, minimum inputs, explicit non-goals, and feedback criteria. It classifies telemetry, the marketplace, and stack-wide updates as deferred with owned records, rather than silently dropping them or adding them to the first implementation slice.

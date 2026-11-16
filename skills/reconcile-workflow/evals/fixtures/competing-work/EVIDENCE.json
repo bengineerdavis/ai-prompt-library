@@ -1,0 +1,41 @@
+{
+  "tracker": "backlog-py",
+  "main_queue": {
+    "CCC-24": {
+      "category": "eligible",
+      "title": "Create the first usable project-creation workflow"
+    },
+    "CCC-25": {
+      "category": "blocked_by_dependencies",
+      "dependencies": ["CCC-24"]
+    },
+    "CCC-29": {
+      "category": "eligible",
+      "title": "Independent later design task"
+    }
+  },
+  "competing_branches": {
+    "older": {
+      "approved_criteria": ["render project", "preserve native update evidence"],
+      "aggregate_task_record": "Both approved criteria are present."
+    },
+    "descendant": {
+      "contains_older_commits": true,
+      "approved_criteria": ["render project"],
+      "aggregate_task_record": "The native-update-evidence criterion is missing."
+    }
+  },
+  "unpublished_artifacts": [
+    {
+      "path": "untracked-spec.md",
+      "complete": true,
+      "publication_owner": "design-owner"
+    }
+  ],
+  "proposed_scope": [
+    "hosted telemetry",
+    "plugin marketplace",
+    "automatic stack-wide updates"
+  ],
+  "implementation_instruction": "Choose only the first usable workflow; do not implement it during routing."
+}

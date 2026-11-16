@@ -1,0 +1,23 @@
+behavior: capture-findings-in-the-configured-tracker
+fixture: competing-work
+prompt: |
+  Inspect EVIDENCE.json. A completed specification exists only as an untracked
+  file and blocks implementation readiness. Capture that finding through the
+  project's configured tracker using bin/tracker. This synthetic adapter supports
+  `task_create TITLE` for new findings and `record_run TASK_ID NOTE` for updates
+  to existing tasks; no other operations are available. Leave an auditable result
+  in ROUTE.md. Do not create an implementation queue of your own.
+checks:
+  - shell: |
+      set -eu
+      test -f ROUTE.md
+      test ! -e .scratch/issues
+      python3 - <<'PY'
+      import json
+      from pathlib import Path
+      calls = [json.loads(line) for line in Path('tracker-calls.jsonl').read_text().splitlines()]
+      assert any(call['native'] and call['operation'] in {'task_create', 'create-task', 'record-publication-obligation'} for call in calls), 'No native Backlog task captured the publication obligation'
+      assert not any(call.get('path', '').startswith('.scratch') for call in calls), 'A parallel scratch queue was created'
+      PY
+  - judge: |
+      ROUTE.md treats the untracked specification as a preservation and publication obligation that blocks dependent implementation until its owner publishes it. The tracker interaction uses the configured native Backlog adapter rather than a second queue.

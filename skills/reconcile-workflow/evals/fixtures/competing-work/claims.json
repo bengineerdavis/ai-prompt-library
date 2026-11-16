@@ -1,0 +1,16 @@
+{
+  "CCC-24": {
+    "expired": {
+      "worktree": "expired-empty",
+      "owner": "agent-a",
+      "lease_expires_at": "2026-01-01T00:00:00Z",
+      "unique_changes": false
+    },
+    "active": {
+      "worktree": "active-agent",
+      "owner": "agent-b",
+      "lease_expires_at": "2099-01-01T00:00:00Z",
+      "unique_changes": true
+    }
+  }
+}

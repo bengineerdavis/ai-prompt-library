@@ -14,6 +14,7 @@ from the research workflow skill under `skills/research/`.
 | [Diagnostic summarization](diagnostic-summarization/README.md) | Summarization as competing/complementary arms against the evidence ledger; task conditioning, provenance, and latency measured.  |
 | [Escalation writing](escalation-writing/README.md)             | Public evidence and design decisions for a new spec-only skill; private voice-policy integration pending.                        |
 | [GitHub CLI read permissions](gh-read-permissions/README.md)   | Global configuration proposal only; no permissions applied.                                                                      |
+| [Reconcile workflow](reconcile-workflow/README.md)             | Native Backlog routing with worktree evidence, semantic preservation, and a bounded implementation handoff.                      |
 
 ## Preserve the reasoning
 

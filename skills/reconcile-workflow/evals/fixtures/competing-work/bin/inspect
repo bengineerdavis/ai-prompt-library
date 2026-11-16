@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+"""Read-only evidence probe for the synthetic reconciliation project."""
+
+import json
+import sys
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+probe = sys.argv[1] if len(sys.argv) > 1 else "all"
+with (root / "probe-calls.jsonl").open("a") as stream:
+    stream.write(json.dumps({"probe": probe}) + "\n")
+
+if probe == "all":
+    print((root / "EVIDENCE.json").read_text(), end="")
+    print((root / "claims.json").read_text(), end="")
+elif probe in {"queue", "eligible"}:
+    print(json.dumps(json.loads((root / "EVIDENCE.json").read_text())["main_queue"]))
+elif probe == "claims":
+    print((root / "claims.json").read_text(), end="")
+elif probe == "stale-leases":
+    print(json.dumps(json.loads((root / "claims.json").read_text())["CCC-24"]["expired"]))
+elif probe == "worktrees":
+    for path in sorted(root.glob("*-agent")):
+        print(path.name, [(str(file.relative_to(root)), file.read_text()) for file in path.rglob("*") if file.is_file()])
+    print("expired-empty: no unique changes")
+else:
+    raise SystemExit(f"unknown probe: {probe}")

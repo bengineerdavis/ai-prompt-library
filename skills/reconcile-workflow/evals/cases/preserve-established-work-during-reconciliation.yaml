@@ -1,0 +1,11 @@
+behavior: preserve-established-work-during-reconciliation
+fixture: competing-work
+prompt: |
+  Reconcile the competing task branches described in EVIDENCE.json. One branch
+  contains the other's commits, but its aggregate task record drops an approved
+  acceptance criterion. An untracked specification is the only copy of another
+  required design. Record the correct semantic reconciliation and preservation
+  requirements in ROUTE.md without modifying the evidence.
+checks:
+  - judge: |
+      ROUTE.md does not select a canonical record merely from branch ancestry. It identifies the dropped approved criterion in the aggregate diff, preserves that requirement and the untracked specification, and records the semantic conflict or supersession and its owner rather than silently choosing a winner.
